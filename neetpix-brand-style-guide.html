@@ -1,0 +1,290 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neetpix — Brand Visual Identity Guide</title>
+<style>
+  :root {
+    --teal: #00897B;
+    --teal-light: #4DB6AC;
+    --teal-dark: #00695C;
+    --teal-bg: #E0F2F1;
+    --coral: #FF6B35;
+    --coral-light: #FF8F65;
+    --bg: #FFFFFF;
+    --bg-warm: #F8F9FA;
+    --bg-article: #F5F5F7;
+    --border: #E8E8ED;
+    --text: #1D1D1F;
+    --text-secondary: #6E6E73;
+    --success: #30D158;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'PingFang SC', sans-serif;
+    color: var(--text); background: var(--bg);
+    line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+  section { padding: 80px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+  .section-label { font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--teal); font-weight: 600; margin-bottom: 12px; }
+  h2 { font-size: 36px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 8px; }
+  h3 { font-size: 20px; font-weight: 600; margin-top: 40px; margin-bottom: 16px; }
+  .subtitle { font-size: 18px; color: var(--text-secondary); margin-bottom: 40px; font-weight: 400; max-width: 600px; }
+
+  .hero { padding: 100px 0 80px; background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 50%, var(--teal-light) 100%); color: white; }
+  .hero h1 { font-size: 56px; font-weight: 800; letter-spacing: -1px; line-height: 1.1; }
+  .hero .tagline { font-size: 20px; opacity: 0.85; margin-top: 16px; max-width: 500px; }
+  .hero .meta { margin-top: 32px; font-size: 14px; opacity: 0.6; letter-spacing: 0.5px; }
+
+  .name-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 24px; }
+  .name-card { border: 1px solid var(--border); border-radius: 12px; padding: 24px; transition: all 0.2s; }
+  .name-card:hover { border-color: var(--teal-light); box-shadow: 0 4px 20px rgba(0,137,123,0.08); }
+  .name-card .cn { font-size: 28px; font-weight: 700; }
+  .name-card .py { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+  .name-card .meaning { font-size: 14px; margin-top: 8px; line-height: 1.5; }
+  .badge { display: inline-block; font-size: 11px; font-weight: 600; letter-spacing: 1px; padding: 2px 10px; border-radius: 20px; margin-top: 10px; }
+  .badge-primary { background: var(--teal); color: white; }
+  .badge-alt { background: var(--bg-article); color: var(--text-secondary); }
+
+  .color-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; margin-top: 24px; }
+  .swatch { border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+  .swatch-color { height: 100px; display: flex; align-items: flex-end; padding: 12px; }
+  .swatch-color .hex { font-size: 12px; font-weight: 600; font-family: "SF Mono","Menlo",monospace; color: white; text-shadow: 0 1px 4px rgba(0,0,0,0.2); }
+  .swatch-color.dark-text .hex { color: var(--text); text-shadow: none; }
+  .swatch-label { padding: 10px 12px; font-size: 13px; font-weight: 500; background: white; }
+
+  .type-sample { margin: 24px 0; }
+  .type-sample .label { font-size: 12px; font-weight: 600; color: var(--text-secondary); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+  .display-hero { font-size: 48px; font-weight: 800; letter-spacing: -1px; line-height: 1.1; }
+  .display-h1 { font-size: 36px; font-weight: 700; letter-spacing: -0.5px; }
+  .display-h2 { font-size: 24px; font-weight: 600; letter-spacing: -0.2px; }
+  .display-h3 { font-size: 18px; font-weight: 600; }
+  .display-body { font-size: 16px; line-height: 1.6; max-width: 500px; }
+  .display-caption { font-size: 13px; color: var(--text-secondary); }
+  .display-mono { font-family: "SF Mono","Menlo","Consolas",monospace; font-size: 14px; }
+  .type-sample .spec { font-size: 13px; color: var(--text-secondary); margin-top: 4px; font-family: "SF Mono","Menlo",monospace; }
+
+  .logo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; margin-top: 24px; }
+  .logo-card { border: 1px solid var(--border); border-radius: 16px; padding: 40px 32px 32px; text-align: center; transition: all 0.2s; }
+  .logo-card:hover { border-color: var(--teal-light); box-shadow: 0 4px 20px rgba(0,137,123,0.08); }
+  .logo-preview { height: 120px; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; }
+  .logo-card h4 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .logo-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+
+  .principles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 24px; }
+  .principle { padding: 24px; background: var(--bg-warm); border-radius: 12px; }
+  .principle .num { font-family: "SF Mono",monospace; font-size: 12px; font-weight: 700; color: var(--teal); letter-spacing: 1px; margin-bottom: 8px; }
+  .principle h4 { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+  .principle p { font-size: 14px; color: var(--text-secondary); line-height: 1.5; }
+
+  .ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 24px; }
+  .ref-card { border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-align: center; }
+  .ref-card .icon { font-size: 36px; margin-bottom: 8px; }
+  .ref-card .name { font-weight: 600; font-size: 15px; }
+  .ref-card .desc { font-size: 13px; color: var(--text-secondary); margin-top: 4px; line-height: 1.4; }
+  .ref-card .tag { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 4px; background: var(--teal-bg); color: var(--teal-dark); margin-top: 8px; }
+
+  .callout { margin-top: 32px; padding: 20px; background: var(--teal-bg); border-radius: 12px; font-size: 14px; line-height: 1.6; }
+
+  @media (max-width: 640px) {
+    .hero h1 { font-size: 36px; }
+    h2 { font-size: 28px; }
+    .display-hero { font-size: 32px; }
+    .name-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="container">
+    <h1>Neetpix</h1>
+    <div class="tagline">Brand Visual Identity Guide</div>
+    <div class="meta">2026-07-09 · 品牌视觉系统 v0.2 · 中文名已确认</div>
+  </div>
+</div>
+
+<!-- Chapter 01: 中文品牌名 -->
+<section>
+  <div class="container">
+    <div class="section-label">Chapter 01</div>
+    <h2>中文品牌名</h2>
+    <div class="subtitle">让 Neetpix 在中国用户口中也能自然流传</div>
+    <div class="name-grid">
+      <div class="name-card" style="border-color:var(--teal);border-width:2px;">
+        <div class="cn">尼特派</div>
+        <div class="py">ní tè pài</div>
+        <div class="meaning"><strong>✓ 已确认</strong><br>全音节音译 "Neetpix"（尼特 + 派）。3 字，和英文名对应关系最强。传统外文品牌音译风格。品牌叙事："尼特派出品"。</div>
+        <div class="badge badge-primary">已确认</div>
+      </div>
+      <div class="name-card">
+        <div class="cn">尼图</div>
+        <div class="py">ní tú</div>
+        <div class="meaning">"尼"音译 Neet 首音节 + "图"（图像/工具）。2 字极短。</div>
+        <div class="badge badge-alt">备选</div>
+      </div>
+      <div class="name-card">
+        <div class="cn">净派</div>
+        <div class="py">jìng pài</div>
+        <div class="meaning">"净"（干净）+ "派"（风格/流派）。语义传达"整洁、干净"品牌理念。</div>
+        <div class="badge badge-alt">备选</div>
+      </div>
+      <div class="name-card">
+        <div class="cn">锐图</div>
+        <div class="py">ruì tú</div>
+        <div class="meaning">"锐"（精准）+ "图"（图像）。突出工具品质感。</div>
+        <div class="badge badge-alt">备选</div>
+      </div>
+    </div>
+    <div class="callout"><strong>✓ 已确认：尼特派</strong> — 英文 Neetpix 和中文 尼特派 是全音节音译关系，品牌叙事统一："Neetpix 尼特派，解付工具"。</div>
+  </div>
+</section>
+
+<!-- Chapter 02: 色彩系统 -->
+<section>
+  <div class="container">
+    <div class="section-label">Chapter 02</div>
+    <h2>色彩系统</h2>
+    <div class="subtitle">干净、清新、可信赖——一个让用户觉得"这个工具有品位"的调色板</div>
+
+    <h3>主色调 Primary</h3>
+    <div class="color-grid">
+      <div class="swatch"><div class="swatch-color" style="background:#00897B"><span class="hex">#00897B</span></div><div class="swatch-label">Teal — 深海鸭绿</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#4DB6AC"><span class="hex">#4DB6AC</span></div><div class="swatch-label">Teal Light — 浅海绿</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#00695C"><span class="hex">#00695C</span></div><div class="swatch-label">Teal Dark — 深海绿</div></div>
+      <div class="swatch"><div class="swatch-color dark-text" style="background:#E0F2F1"><span class="hex">#E0F2F1</span></div><div class="swatch-label">Teal BG — 极浅青底</div></div>
+    </div>
+    <h3>强调色 Accent</h3>
+    <div class="color-grid">
+      <div class="swatch"><div class="swatch-color" style="background:#FF6B35"><span class="hex">#FF6B35</span></div><div class="swatch-label">Coral — 活力珊瑚（CTA）</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#FF8F65"><span class="hex">#FF8F65</span></div><div class="swatch-label">Coral Light — 柔珊瑚</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#30D158"><span class="hex">#30D158</span></div><div class="swatch-label">Success — 成功绿</div></div>
+      <div class="swatch"><div class="swatch-color dark-text" style="background:#FFD60A"><span class="hex">#FFD60A</span></div><div class="swatch-label">Star — 星芒黄</div></div>
+    </div>
+    <h3>中性色 Neutrals</h3>
+    <div class="color-grid">
+      <div class="swatch"><div class="swatch-color dark-text" style="background:#FFFFFF"><span class="hex">#FFFFFF</span></div><div class="swatch-label">White — 纯白</div></div>
+      <div class="swatch"><div class="swatch-color dark-text" style="background:#F8F9FA"><span class="hex">#F8F9FA</span></div><div class="swatch-label">Warm BG — 暖白底</div></div>
+      <div class="swatch"><div class="swatch-color dark-text" style="background:#F5F5F7"><span class="hex">#F5F5F7</span></div><div class="swatch-label">Article BG — Apple 底色</div></div>
+      <div class="swatch"><div class="swatch-color dark-text" style="background:#E8E8ED"><span class="hex">#E8E8ED</span></div><div class="swatch-label">Border — 分割线</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#6E6E73"><span class="hex">#6E6E73</span></div><div class="swatch-label">Secondary Text</div></div>
+      <div class="swatch"><div class="swatch-color" style="background:#1D1D1F"><span class="hex">#1D1D1F</span></div><div class="swatch-label">Primary Text — Apple 主色</div></div>
+    </div>
+    <div class="callout"><strong>配色逻辑：</strong> 主色 Teal（深海鸭绿），在"干净、清新、专业"三个维度得分高，且不容易跟竞品撞色。强调色 Coral（#FF6B35）作 CTA，冷+暖平衡。中性色对齐 Apple 灰度体系。</div>
+  </div>
+</section>
+
+<!-- Chapter 03: 字体系统 -->
+<section>
+  <div class="container">
+    <div class="section-label">Chapter 03</div>
+    <h2>字体系统</h2>
+    <div class="subtitle">向 Apple 看齐的字体体系——干净、现代、全球一致</div>
+
+    <h3>字体栈</h3>
+    <div class="display-mono" style="background:var(--bg-article);padding:16px 20px;border-radius:8px;word-break:break-all;margin-bottom:24px;line-height:1.6;">
+/* 英文 & 西文 */<br>
+font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif;<br><br>
+/* 中文 */<br>
+font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+    </div>
+
+    <h3>字号层级</h3>
+    <div class="type-sample"><div class="label">Hero</div><div class="display-hero">The tools you need, unpaywalled.</div><div class="spec">48px ExtraBold 800 -1px</div></div>
+    <div class="type-sample"><div class="label">H1</div><div class="display-h1">工具就该好用、好看、免费</div><div class="spec">36px Bold 700 -0.5px</div></div>
+    <div class="type-sample"><div class="label">H2</div><div class="display-h2">Remove Background in One Click</div><div class="spec">24px Semibold 600 -0.2px</div></div>
+    <div class="type-sample"><div class="label">H3</div><div class="display-h3">截图翻译 · Screenshot Translate</div><div class="spec">18px Semibold 600</div></div>
+    <div class="type-sample"><div class="label">Body</div><div class="display-body">Neetpix 尼特派的理念很简单——那些被 WPS、Office、Adobe 放在付费墙后面的功能，我们做成免费、好看、好用的工具。</div><div class="spec">16px Regular 400 1.6lh</div></div>
+    <div class="type-sample"><div class="label">Caption</div><div class="display-caption">支持 JPG、PNG、WebP、HEIC · 最大 20MB · 不上传服务器</div><div class="spec">13px #6E6E73</div></div>
+
+    <div class="callout"><strong>字体策略：</strong> 使用系统原生字体栈，不加载第三方字体。macOS 用 SF Pro + PingFang SC，Windows 用 Segoe UI + Microsoft YaHei。Logo 可使用定制字距处理。</div>
+  </div>
+</section>
+
+<!-- Chapter 04: Logo -->
+<section>
+  <div class="container">
+    <div class="section-label">Chapter 04</div>
+    <h2>Logo 方向探索</h2>
+    <div class="subtitle">三个不同方向，都遵循"极简、几何、有意味"的原则</div>
+
+    <div class="logo-grid">
+      <div class="logo-card">
+        <div class="logo-preview">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <rect x="10" y="10" width="80" height="80" rx="16" fill="none" stroke="#00897B" stroke-width="4"/>
+            <rect x="25" y="25" width="50" height="50" rx="8" fill="#00897B" opacity="0.15"/>
+            <rect x="35" y="35" width="12" height="12" rx="2" fill="#00897B"/>
+            <rect x="51" y="35" width="12" height="12" rx="2" fill="#00897B"/>
+            <rect x="35" y="51" width="12" height="12" rx="2" fill="#00897B"/>
+            <rect x="51" y="51" width="12" height="12" rx="2" fill="#00897B"/>
+          </svg>
+        </div>
+        <h4>方向 A：「像素画框」</h4>
+        <p>圆角方框 + 内部 4 个像素方块。象征"数字媒体的基本单元"，呼应 Pix 品牌基因。可做 App 图标。</p>
+      </div>
+      <div class="logo-card">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <rect x="10" y="10" width="80" height="80" rx="16" fill="#00897B"/>
+            <text x="50" y="68" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="48" font-weight="800" fill="white">N</text>
+            <rect x="68" y="16" width="16" height="16" rx="3" fill="#FF6B35" opacity="0.9"/>
+          </svg>
+        </div>
+          <div class="badge badge-primary" style="margin-bottom:12px">✓ 已确认</div>
+        <h4>方向 B：「N+方块」</h4>
+        <p>Teal 底 + 白色 N（Neetpix 首字母），右下角珊瑚色方块打破规则。象征"打破付费墙"。</p>
+      </div>
+      <div class="logo-card">
+        <div class="logo-preview">
+          <svg width="100" height="100" viewBox="0 0 100 100">
+            <path d="M15,50 L50,15 L85,50 L50,85 Z" fill="none" stroke="#00897B" stroke-width="3.5" stroke-linejoin="round"/>
+            <rect x="42" y="35" width="16" height="30" rx="2" fill="#00897B" opacity="0.2"/>
+            <circle cx="50" cy="50" r="12" fill="none" stroke="#FF6B35" stroke-width="3"/>
+            <circle cx="50" cy="50" r="4" fill="#FF6B35"/>
+          </svg>
+        </div>
+        <h4>方向 C：「聚焦/转换」</h4>
+        <p>菱形外框（处理/转换）+ 圆形（聚焦/精准）。传达专业与愉悦的平衡。</p>
+      </div>
+    </div>
+    <div class="callout"><strong>Logo 原则：</strong> 极简（3 个以内几何形）、可缩放（16px 到 512px）、无文字版本可识别、纯黑版本正常工作、给文字留余地。</div>
+  </div>
+</section>
+
+<!-- Chapter 05: 设计原则 -->
+<section>
+  <div class="container">
+    <div class="section-label">Chapter 05</div>
+    <h2>设计原则</h2>
+    <div class="subtitle">这些原则将指导 Neetpix 的每一个像素决策</div>
+    <div class="principles-grid">
+      <div class="principle"><div class="num">01</div><h4>Clean by Default</h4><p>每个像素都有目的。减少界面到核心功能所需。留白不是浪费，是呼吸。</p></div>
+      <div class="principle"><div class="num">02</div><h4>Results Speak First</h4><p>工具输出是页面主角。上传 + 对比预览 + 下载，UI 让位于内容。</p></div>
+      <div class="principle"><div class="num">03</div><h4>Delight in the Process</h4><p>等待不是无聊的——去背景时背景渐隐，压缩时数字缩小。微交互让过程愉悦。</p></div>
+      <div class="principle"><div class="num">04</div><h4>Privacy by Design</h4><p>"不上传服务器"不是文字声明，而是通过界面让用户感受到文件不出浏览器。</p></div>
+      <div class="principle"><div class="num">05</div><h4>Bilingual by Nature</h4><p>中英文不是两个设计，而是一个设计。字体栈、行高、间距同时照顾两种语言。</p></div>
+      <div class="principle"><div class="num">06</div><h4>One Brand, Many Tools</h4><p>去背景和 PDF 转 Word 看起来像一家人：统一的设计语言、交互模式、品牌语气。</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- Chapter 06: UI 参考 -->
+<section style="border-bottom:none;">
+  <div class="container">
+    <div class="section-label">Chapter 06</div>
+    <h2>UI 风格参考</h2>
+    <div class="subtitle">感受这些产品的设计语言——然后内化成 Neetpix 自己的</div>
+    <div class="ref-grid">
+      <div class="ref-card"><div class="icon">🍎</div><div class="name">Apple.com</div><div class="desc">大留白、产品主导、克制动效。中英文排版标杆。</div><div class="tag">排版 / 留白</div></div>
+      <div class="ref-card"><div class="icon">📐</div><div class="name">Linear</div><div class="desc">极致几何感、暗色模式标杆、微交互如艺术品。</div><div class="tag">动效 / 暗色</div></div>
+      <div class="ref-card"><div class="icon">🗒️</div><div class="name">Notion</div><div class="desc">中性色高级用法、界面安静但功能强大。</div><div class="tag">中性色</div></div>
+      <div class="ref-card"><div class="icon">💳</div><div class="name">Stripe</div><div class="desc">渐变色分寸感、品牌色与中性色完美平衡。</div><div class="tag">色彩 / 品牌</div></div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+{
+  "nav": {
+    "home": "Home",
+    "tools": "Tools",
+    "privacy": "Privacy"
+  },
+  "hero": {
+    "title": "The tools you need, unpaywalled.",
+    "subtitle": "Neetpix gives you premium office & media tools — for free. No subscriptions. No paywalls.",
+    "cta": "Try Remove Background"
+  },
+  "tools": {
+    "title": "Our Tools",
+    "removeBackground": {
+      "name": "Remove Background",
+      "desc": "Remove image backgrounds instantly with AI — 100% free, no upload needed"
+    },
+    "screenshotTranslate": {
+      "name": "Screenshot Translate",
+      "desc": "Translate text from screenshots instantly — perfect for reading foreign content"
+    },
+    "pdfToWord": {
+      "name": "PDF to Word",
+      "desc": "Convert PDF files to editable Word documents — free and fast"
+    },
+    "imageCompress": {
+      "name": "Image Compress",
+      "desc": "Compress images without losing quality — reduce file size in seconds"
+    }
+  },
+  "removeBackground": {
+    "title": "Remove Background",
+    "description": "Upload an image and remove its background instantly. Powered by AI, processed entirely in your browser.",
+    "upload": "Drop an image here or click to browse",
+    "uploadHint": "Supports JPG, PNG, WebP — up to 20MB",
+    "processing": "Removing background...",
+    "download": "Download Result",
+    "original": "Original",
+    "result": "Result",
+    "privacy": "🔒 100% private — your image never leaves your device",
+    "watermark": "Free version includes watermark. Upgrade to Pro for unlimited downloads.",
+    "errorFormat": "Please upload a valid image file.",
+    "errorSize": "Image must be under 20MB.",
+    "errorProcessing": "Failed to process the image. Please try again.",
+    "errorLoad": "Failed to load the image. Please try another file.",
+    "retry": "Try Again",
+    "step": "Processing..."
+  },
+  "footer": {
+    "brand": "Neetpix — Unpay the tools.",
+    "privacy": "Privacy Policy",
+    "contact": "Contact"
+  },
+  "locale": {
+    "en": "English",
+    "zh": "中文"
+  }
+}

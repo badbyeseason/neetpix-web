@@ -1,0 +1,58 @@
+{
+  "nav": {
+    "home": "首页",
+    "tools": "工具",
+    "privacy": "隐私"
+  },
+  "hero": {
+    "title": "解付工具，免费使用。",
+    "subtitle": "Neetpix 提供优质的办公与多媒体工具——免费。无需订阅，没有付费墙。",
+    "cta": "试试移除背景"
+  },
+  "tools": {
+    "title": "我们的工具",
+    "removeBackground": {
+      "name": "移除背景",
+      "desc": "AI 一键移除图片背景——完全免费，无需上传到服务器"
+    },
+    "screenshotTranslate": {
+      "name": "截图翻译",
+      "desc": "截屏即译，秒懂外文内容——阅读无障碍"
+    },
+    "pdfToWord": {
+      "name": "PDF 转 Word",
+      "desc": "将 PDF 转为可编辑的 Word 文档——免费快捷"
+    },
+    "imageCompress": {
+      "name": "图片压缩",
+      "desc": "无损压缩图片——秒级缩小文件体积"
+    }
+  },
+  "removeBackground": {
+    "title": "移除背景",
+    "description": "上传图片，一键移除背景。AI 驱动，全程在浏览器本地处理。",
+    "upload": "拖拽图片到此处，或点击选择文件",
+    "uploadHint": "支持 JPG、PNG、WebP 格式，最大 20MB",
+    "processing": "正在移除背景...",
+    "download": "下载结果",
+    "original": "原图",
+    "result": "结果",
+    "privacy": "🔒 100% 隐私保护——你的图片不会离开你的设备",
+    "watermark": "免费版含品牌水印。升级 Pro 可获取无水印、无限下载。",
+    "errorFormat": "???????????",
+    "errorSize": "?????? 20MB?",
+    "errorProcessing": "?????????",
+    "errorLoad": "???????????????",
+    "retry": "????",
+    "step": "???..."
+  },
+  "footer": {
+    "brand": "Neetpix 尼特派——解付工具。",
+    "privacy": "隐私政策",
+    "contact": "联系我们"
+  },
+  "locale": {
+    "en": "English",
+    "zh": "中文"
+  }
+}

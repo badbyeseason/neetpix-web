@@ -1,0 +1,31 @@
+# Neetpix - root .gitignore
+
+# Dependencies
+web/node_modules/
+web/.pnp
+web/.pnp.*
+
+# Next.js
+web/.next/
+web/out/
+
+# Production
+web/build/
+web/.vercel
+
+# Misc
+.DS_Store
+*.pem
+web/*.tsbuildinfo
+web/next-env.d.ts
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
