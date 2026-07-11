@@ -10,8 +10,8 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "hero" });
+  // 标题继承根 layout 的 title.default，避免与模板叠加产生双重后缀
   return {
-    title: "Neetpix - Unpay the tools",
     description: t("subtitle"),
   };
 }
@@ -20,11 +20,13 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale });
 
-  const tools = [
+  // comingSoon 为可选字段，用于标记即将上线的工具
+  const tools: { key: string; href: string; gradient: string; comingSoon?: boolean }[] = [
     { key: "removeBackground", href: "/tools/remove-background", gradient: "from-teal/10 to-teal-bg" },
-    { key: "screenshotTranslate", href: "#", gradient: "from-coral/10 to-teal-bg", comingSoon: true },
-    { key: "pdfToWord", href: "#", gradient: "from-teal/10 to-bg-article", comingSoon: true },
-    { key: "imageCompress", href: "#", gradient: "from-teal-bg to-bg-article", comingSoon: true },
+    { key: "imageToPdf", href: "/tools/image-to-pdf", gradient: "from-coral/10 to-teal-bg" },
+    { key: "pdfToWord", href: "/tools/pdf-to-word", gradient: "from-teal/10 to-bg-article" },
+    { key: "screenshotTranslate", href: "/tools/screenshot-translate", gradient: "from-coral/10 to-teal-bg" },
+    { key: "imageCompress", href: "/tools/image-compress", gradient: "from-teal-bg to-bg-article" },
   ];
 
   return (
@@ -66,14 +68,23 @@ export default async function HomePage({ params }: Props) {
                 href={tool.href}
                 className={"group relative rounded-2xl p-6 sm:p-8 bg-gradient-to-br " + tool.gradient + " border border-border hover:border-teal-light transition-all hover:shadow-md"}
               >
-                <h3 className="text-lg font-semibold text-text">
-                  {t("tools." + tool.key + ".name")}
-                  {tool.comingSoon && (
-                    <span className="ml-2 text-xs font-medium text-text-secondary bg-bg-article px-2 py-0.5 rounded-full">
-                      Soon
-                    </span>
-                  )}
-                </h3>
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-text">
+                    {t("tools." + tool.key + ".name")}
+                    {tool.comingSoon && (
+                      <span className="ml-2 text-xs font-medium text-text-secondary bg-bg-article px-2 py-0.5 rounded-full">
+                        Soon
+                      </span>
+                    )}
+                  </h3>
+                  <span
+                    className="inline-flex items-center gap-1 text-xs font-medium text-teal bg-teal/10 px-2 py-1 rounded-full"
+                    title={t("badge.localProcessingDesc")}
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-teal" aria-hidden="true" />
+                    {t("badge.localProcessing")}
+                  </span>
+                </div>
                 <p className="mt-1 text-sm text-text-secondary leading-relaxed">
                   {t("tools." + tool.key + ".desc")}
                 </p>
@@ -85,9 +96,9 @@ export default async function HomePage({ params }: Props) {
 
       <section className="py-16 px-4">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-2xl font-bold text-text">Your Privacy Matters</h2>
+          <h2 className="text-2xl font-bold text-text">{t("hero.privacyTitle")}</h2>
           <p className="mt-2 text-text-secondary max-w-lg mx-auto">
-            All image processing happens directly in your browser. Your files never touch our servers.
+            {t("hero.privacyDesc")}
           </p>
         </div>
       </section>

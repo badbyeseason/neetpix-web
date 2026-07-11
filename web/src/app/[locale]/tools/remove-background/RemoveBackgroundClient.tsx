@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Logo from "@/components/ui/Logo";
 import { removeBackgroundAI } from "@/lib/remove-background";
@@ -16,6 +16,18 @@ export default function RemoveBackgroundClient() {
   const [progress, setProgress] = useState(0);
   const [dragOver, setDragOver] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  // 用 ref 存储 image URL，便于在组件卸载或重新上传时 revoke
+  const imageUrlRef = useRef<string | null>(null);
+
+  // 组件卸载时 revoke image URL，避免内存泄漏
+  useEffect(() => {
+    return () => {
+      if (imageUrlRef.current) {
+        URL.revokeObjectURL(imageUrlRef.current);
+        imageUrlRef.current = null;
+      }
+    };
+  }, []);
 
   const handleFile = useCallback(async (file: File) => {
     if (!file.type.startsWith("image/")) {
@@ -31,12 +43,19 @@ export default function RemoveBackgroundClient() {
     setProgress(0);
     setStatus("loading");
 
+    // 重新上传时，先 revoke 旧的 image URL
+    if (imageUrlRef.current) {
+      URL.revokeObjectURL(imageUrlRef.current);
+      imageUrlRef.current = null;
+    }
+
     const url = URL.createObjectURL(file);
     setImage(url);
+    imageUrlRef.current = url;
 
     const img = new Image();
     img.onload = async () => {
-      URL.revokeObjectURL(url);
+      // 不在此处 revoke URL，因为 UI 中的 <img src={image}> 仍需要使用
       setStatus("processing");
       setProgress(0);
 
@@ -45,9 +64,7 @@ export default function RemoveBackgroundClient() {
           setProgress(pct);
         });
 
-        const watermarked = await applyWatermark(resultDataUrl);
-
-        setResult(watermarked);
+        setResult(resultDataUrl);
         setStatus("done");
       } catch (err) {
         console.error("Processing error:", err);
@@ -61,46 +78,6 @@ export default function RemoveBackgroundClient() {
     };
     img.src = url;
   }, [t]);
-
-  async function applyWatermark(dataUrl: string): Promise<string> {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        canvas.width = img.width;
-        canvas.height = img.height;
-        const ctx = canvas.getContext("2d")!;
-        ctx.drawImage(img, 0, 0);
-
-        const text = "Neetpix";
-        const pad = 12;
-        const pillHeight = 26;
-        const fontSize = 11;
-        ctx.font = "bold " + fontSize + "px -apple-system, 'Helvetica Neue', sans-serif";
-        const textWidth = ctx.measureText(text).width;
-        const pillWidth = textWidth + 16;
-
-        const bx = canvas.width - pad - pillWidth;
-        const by = canvas.height - pad - pillHeight;
-
-        ctx.globalAlpha = 0.55;
-        ctx.fillStyle = "#00897B";
-        ctx.beginPath();
-        ctx.roundRect(bx, by, pillWidth, pillHeight, 6);
-        ctx.fill();
-
-        ctx.globalAlpha = 0.9;
-        ctx.fillStyle = "#FFFFFF";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(text, bx + pillWidth / 2, by + pillHeight / 2);
-
-        ctx.globalAlpha = 1;
-        resolve(canvas.toDataURL("image/png"));
-      };
-      img.src = dataUrl;
-    });
-  }
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -243,8 +220,6 @@ export default function RemoveBackgroundClient() {
               {t("retry")}
             </button>
           </div>
-
-          <p className="text-center text-xs text-text-secondary">{t("watermark")}</p>
         </div>
       )}
 

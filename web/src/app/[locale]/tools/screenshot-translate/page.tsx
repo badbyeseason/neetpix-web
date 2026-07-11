@@ -1,6 +1,5 @@
-import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import RemoveBackgroundClient from "./RemoveBackgroundClient";
+import ScreenshotTranslateClient from "./ScreenshotTranslateClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
@@ -11,7 +10,7 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "removeBackground" });
+  const t = await getTranslations({ locale, namespace: "screenshotTranslate" });
   return {
     title: t("title"),
     description: t("description"),
@@ -29,19 +28,19 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function RemoveBackgroundPage({ params }: Props) {
+export default async function ScreenshotTranslatePage({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "removeBackground" });
+  const t = await getTranslations({ locale, namespace: "screenshotTranslate" });
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
       <JsonLd
         name={t("title") + " - Neetpix"}
         description={t("description")}
-        url="https://neetpix.com/tools/remove-background"
+        url="https://neetpix.com/tools/screenshot-translate"
       />
       <PrivacyBadge locale={locale} />
-      <RemoveBackgroundClient />
-      <Faq tool="removeBackground" locale={locale} />
+      <ScreenshotTranslateClient />
+      <Faq tool="screenshotTranslate" locale={locale} />
     </div>
   );
 }

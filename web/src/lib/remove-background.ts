@@ -59,33 +59,54 @@ function postprocess(
   const offsetX = (targetSize - w) / 2;
   const offsetY = (targetSize - h) / 2;
 
-  // Create result image data (RGBA)
+  // 创建结果 ImageData (RGBA)
   const result = new ImageData(originalW, originalH);
   const srcPixels = sourceData.data;
 
-  // Resize mask back to original dimensions
+  // 将 mask 缩放回原始尺寸，并应用软 alpha 渐变（避免硬阈值导致的锯齿）
   for (let y = 0; y < originalH; y++) {
     for (let x = 0; x < originalW; x++) {
       const srcIdx = (y * originalW + x) * 4;
       const dstIdx = (y * originalW + x) * 4;
 
-      // Map back to 1024x1024 coordinate space
+      // 映射回 1024x1024 坐标空间
       const mx = Math.round(x * scale + offsetX);
       const my = Math.round(y * scale + offsetY);
       const maskIdx = my * targetSize + mx;
 
-      // Apply sigmoid + threshold
+      // sigmoid + 软 alpha 渐变
       const maskVal = 1 / (1 + Math.exp(-maskOutput[maskIdx]));
-      const alpha = maskVal > 0.5 ? 255 : 0;
+      let alpha: number;
+      if (maskVal < 0.1) {
+        alpha = 0;                                       // 完全透明
+      } else if (maskVal > 0.9) {
+        alpha = 255;                                     // 完全不透明
+      } else {
+        alpha = Math.round(((maskVal - 0.1) / 0.8) * 255); // 线性渐变
+      }
 
-      result.data[dstIdx] = srcPixels[srcIdx];     // R
+      result.data[dstIdx] = srcPixels[srcIdx];         // R
       result.data[dstIdx + 1] = srcPixels[srcIdx + 1]; // G
       result.data[dstIdx + 2] = srcPixels[srcIdx + 2]; // B
-      result.data[dstIdx + 3] = alpha;               // A
+      result.data[dstIdx + 3] = alpha;                 // A
     }
   }
 
-  return result;
+  // 边缘羽化：用 Canvas filter 对 alpha 通道做轻度模糊，平滑边缘
+  const blurCanvas = document.createElement("canvas");
+  blurCanvas.width = originalW;
+  blurCanvas.height = originalH;
+  const blurCtx = blurCanvas.getContext("2d")!;
+  blurCtx.putImageData(result, 0, 0);
+
+  const featherCanvas = document.createElement("canvas");
+  featherCanvas.width = originalW;
+  featherCanvas.height = originalH;
+  const featherCtx = featherCanvas.getContext("2d")!;
+  featherCtx.filter = "blur(1px)";
+  featherCtx.drawImage(blurCanvas, 0, 0);
+
+  return featherCtx.getImageData(0, 0, originalW, originalH);
 }
 
 // Fallback: simple canvas-based background removal using edge/color detection
@@ -159,6 +180,24 @@ function fallbackRemoveBackground(
   return canvas;
 }
 
+// 模型 URL（HuggingFace CDN）
+const modelUrl = "https://huggingface.co/briaai/RMBG-1.4/resolve/main/onnx/model.onnx";
+
+// 通过 Cache API 缓存模型，避免重复下载 178MB 的模型文件
+async function loadModel(): Promise<ArrayBuffer> {
+  const cache = await caches.open("neetpix-models");
+  const cached = await cache.match(modelUrl);
+  if (cached) {
+    return await cached.arrayBuffer();
+  }
+  // 从网络加载
+  const res = await fetch(modelUrl);
+  const buffer = await res.arrayBuffer();
+  // 存入缓存，下次直接读取
+  await cache.put(modelUrl, new Response(buffer));
+  return buffer;
+}
+
 export async function removeBackgroundAI(
   file: File,
   onProgress?: (progress: number) => void
@@ -176,12 +215,15 @@ export async function removeBackgroundAI(
 
           try {
             const ort = await import("onnxruntime-web");
-            onProgress?.(20);
+            onProgress?.(5); // 开始加载模型
 
-            // Load model from Hugging Face CDN
-            const modelUrl = "https://huggingface.co/briaai/RMBG-1.4/resolve/main/onnx/model.onnx";
-            const session = await ort.InferenceSession.create(modelUrl, {
-              executionProviders: ["webgl", "wasm"],
+            // 通过 Cache API 加载模型（优先使用缓存，避免重复下载）
+            const modelBuffer = await loadModel();
+            onProgress?.(15); // 模型加载完成
+
+            // 优先使用 WebGPU，其次 WebGL，最后回退到 WASM
+            const session = await ort.InferenceSession.create(modelBuffer, {
+              executionProviders: ["webgpu", "webgl", "wasm"],
             });
             onProgress?.(40);
 
