@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import Analytics from "@/components/Analytics";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -25,6 +26,13 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     images: ["/og-image.png"],
   },
+  verification: {
+    google: process.env.NEXT_PUBLIC_GSC_VERIFICATION,
+    other: {
+      "msvalidate.01": process.env.NEXT_PUBLIC_BING_VERIFICATION || "",
+      "baidu-site-verification": process.env.NEXT_PUBLIC_BAIDU_VERIFICATION || "",
+    },
+  },
 };
 
 // theme-color 通过 viewport 导出（Next.js 16 规范）
@@ -40,8 +48,9 @@ export default function RootLayout({
   return (
     <>
       {children}
-      <Analytics />
+      <VercelAnalytics />
       <SpeedInsights />
+      <Analytics />
     </>
   );
 }
