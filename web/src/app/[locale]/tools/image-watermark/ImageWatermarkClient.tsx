@@ -48,6 +48,11 @@ export default function ImageWatermarkClient() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [dragOver, setDragOver] = useState(false);
+  // 大图预览相关状态
+  const [previewItem, setPreviewItem] = useState<ImageItem | null>(null);
+  const [previewMode, setPreviewMode] = useState<"watermarked" | "original">(
+    "watermarked"
+  );
 
   const inputRef = useRef<HTMLInputElement>(null);
   // 记录所有需清理的 object URL（原图预览）
@@ -67,6 +72,16 @@ export default function ImageWatermarkClient() {
       });
     };
   }, []);
+
+  // 大图预览时按 ESC 关闭
+  useEffect(() => {
+    if (!previewItem) return;
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setPreviewItem(null);
+    };
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, [previewItem]);
 
   // 校验并追加多张图片
   const handleFiles = useCallback(
@@ -513,11 +528,24 @@ export default function ImageWatermarkClient() {
                   key={item.id}
                   className="flex items-center gap-4 rounded-xl border border-border bg-bg-article p-3"
                 >
-                  {/* 缩略图 */}
+                  {/* 缩略图，点击打开大图预览（仅水印生成后可点击） */}
                   <img
                     src={item.result?.url ?? item.previewUrl}
                     alt={item.file.name}
-                    className="w-16 h-16 shrink-0 rounded-lg object-cover bg-bg-warm"
+                    onClick={
+                      item.result
+                        ? () => {
+                            setPreviewItem(item);
+                            setPreviewMode("watermarked");
+                          }
+                        : undefined
+                    }
+                    className={[
+                      "w-16 h-16 shrink-0 rounded-lg object-cover bg-bg-warm",
+                      item.result
+                        ? "cursor-pointer hover:opacity-80 transition-opacity"
+                        : "",
+                    ].join(" ")}
                   />
                   {/* 详情 */}
                   <div className="min-w-0 flex-1">
@@ -664,6 +692,78 @@ export default function ImageWatermarkClient() {
         </svg>
         {t("privacy")}
       </div>
+
+      {/* 大图预览 modal：支持原图/水印后对比切换 */}
+      {previewItem && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          onClick={() => setPreviewItem(null)}
+        >
+          <div
+            className="relative max-w-[90vw] max-h-[80vh] flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* 顶部切换按钮 */}
+            <div className="mb-3 flex gap-2">
+              <button
+                type="button"
+                onClick={() => setPreviewMode("original")}
+                className={[
+                  "px-4 py-1.5 rounded-full text-sm font-medium transition-colors border",
+                  previewMode === "original"
+                    ? "bg-teal text-white border-teal"
+                    : "bg-white/10 text-white border-white/30 hover:bg-white/20",
+                ].join(" ")}
+              >
+                {t("previewOriginal")}
+              </button>
+              <button
+                type="button"
+                onClick={() => setPreviewMode("watermarked")}
+                className={[
+                  "px-4 py-1.5 rounded-full text-sm font-medium transition-colors border",
+                  previewMode === "watermarked"
+                    ? "bg-teal text-white border-teal"
+                    : "bg-white/10 text-white border-white/30 hover:bg-white/20",
+                ].join(" ")}
+              >
+                {t("previewWatermarked")}
+              </button>
+            </div>
+            {/* 大图 */}
+            <img
+              src={
+                previewMode === "watermarked"
+                  ? previewItem.result?.url ?? previewItem.previewUrl
+                  : previewItem.previewUrl
+              }
+              alt={previewItem.file.name}
+              className="max-w-[90vw] max-h-[70vh] object-contain rounded-lg"
+            />
+            {/* 关闭按钮 */}
+            <button
+              type="button"
+              onClick={() => setPreviewItem(null)}
+              aria-label={t("close")}
+              className="absolute -top-2 -right-2 w-8 h-8 rounded-full bg-white text-black flex items-center justify-center hover:bg-bg-warm transition-colors shadow-lg"
+            >
+              <svg
+                className="w-4 h-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

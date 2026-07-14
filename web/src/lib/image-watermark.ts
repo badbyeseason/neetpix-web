@@ -63,15 +63,17 @@ function drawWatermark(
     // 平铺：整体旋转画布后，按网格重复绘制水印
     ctx.translate(width / 2, height / 2);
     ctx.rotate(rad);
-    const stepX = fontSize * 4;
-    const stepY = fontSize * 4;
+    // 测量文字实际宽度，确保长文本（如中文多字）相邻水印不重叠
+    const textWidth = ctx.measureText(text).width;
+    const stepX = textWidth + fontSize * 2; // 水平间距 = 文字宽度 + 2 倍字号间隔
+    const stepY = fontSize * 3; // 垂直间距
     // 旋转后需要覆盖的范围（用画布对角线的一半留足余量）
     const diag = Math.sqrt(width * width + height * height) / 2 + stepX;
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     let rowIdx = 0;
     for (let row = -diag; row <= diag; row += stepY) {
-      // 每行交错偏移 fontSize * 2
+      // 每行交错偏移 stepX / 2
       const offsetX = rowIdx % 2 === 1 ? stepX / 2 : 0;
       for (let col = -diag; col <= diag; col += stepX) {
         ctx.fillText(text, col + offsetX, row);

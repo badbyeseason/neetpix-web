@@ -218,7 +218,11 @@
     "watermarked": "Watermarked",
     "success": "Watermark applied!",
     "remove": "Remove",
-    "addMore": "Add more"
+    "addMore": "Add more",
+    "preview": "Preview",
+    "previewOriginal": "Original",
+    "previewWatermarked": "Watermarked",
+    "close": "Close"
   },
   "pdfMerge": {
     "title": "PDF Merge",

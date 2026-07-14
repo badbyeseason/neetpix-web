@@ -218,7 +218,11 @@
     "watermarked": "水印后",
     "success": "水印添加成功！",
     "remove": "移除",
-    "addMore": "继续添加"
+    "addMore": "继续添加",
+    "preview": "预览",
+    "previewOriginal": "原图",
+    "previewWatermarked": "水印后",
+    "close": "关闭"
   },
   "pdfMerge": {
     "title": "PDF 合并",
