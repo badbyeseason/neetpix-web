@@ -11,6 +11,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/pdf-to-word",
     "/tools/screenshot-translate",
     "/tools/image-compress",
+    "/tools/pdf-merge",
+    "/tools/pdf-split",
+    "/tools/pdf-compress",
+    "/tools/pdf-watermark",
+    "/tools/pdf-page-numbers",
     "/privacy",
   ];
 

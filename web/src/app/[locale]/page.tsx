@@ -27,6 +27,11 @@ export default async function HomePage({ params }: Props) {
     { key: "pdfToWord", href: "/tools/pdf-to-word", gradient: "from-teal/10 to-bg-article" },
     { key: "screenshotTranslate", href: "/tools/screenshot-translate", gradient: "from-coral/10 to-teal-bg" },
     { key: "imageCompress", href: "/tools/image-compress", gradient: "from-teal-bg to-bg-article" },
+    { key: "pdfMerge", href: "/tools/pdf-merge", gradient: "from-teal/10 to-bg-article" },
+    { key: "pdfSplit", href: "/tools/pdf-split", gradient: "from-coral/10 to-teal-bg" },
+    { key: "pdfCompress", href: "/tools/pdf-compress", gradient: "from-teal-bg to-bg-article" },
+    { key: "pdfWatermark", href: "/tools/pdf-watermark", gradient: "from-teal/10 to-teal-bg" },
+    { key: "pdfPageNumbers", href: "/tools/pdf-page-numbers", gradient: "from-coral/10 to-bg-article" },
   ];
 
   return (
