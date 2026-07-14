@@ -31,6 +31,7 @@ export default function Header() {
       tools: [
         { name: tTools("removeBackground.name"), desc: tTools("removeBackground.desc"), href: "/tools/remove-background" },
         { name: tTools("imageCompress.name"), desc: tTools("imageCompress.desc"), href: "/tools/image-compress" },
+        { name: tTools("imageWatermark.name"), desc: tTools("imageWatermark.desc"), href: "/tools/image-watermark" },
       ],
     },
     {

@@ -40,6 +40,10 @@
       "name": "Image to PDF",
       "desc": "Combine multiple images into a single PDF — fast, free, and private"
     },
+    "imageWatermark": {
+      "name": "Image Watermark",
+      "desc": "Add text watermarks to images—for identity protection, copyright, or branding. 100% local processing."
+    },
     "pdfMerge": {
       "name": "PDF Merge",
       "desc": "Combine multiple PDF files into one — reorder, merge, and download"
@@ -178,6 +182,43 @@
     "errorSize": "Image must be under 20MB.",
     "success": "Compression complete!",
     "remove": "Remove"
+  },
+  "imageWatermark": {
+    "title": "Image Watermark",
+    "description": "Add text watermarks to images. Protect identity documents, claim copyright, or brand your photos. 100% processed in your browser.",
+    "upload": "Drag images here, or click to select",
+    "uploadHint": "Supports JPG, PNG, WebP, up to 20MB each",
+    "text": "Watermark text",
+    "textPlaceholder": "e.g. For identity verification only",
+    "position": "Position",
+    "positionCenter": "Center",
+    "positionTiled": "Tiled",
+    "positionBottomLeft": "Bottom Left",
+    "positionBottomRight": "Bottom Right",
+    "fontSize": "Font size",
+    "opacity": "Opacity",
+    "angle": "Rotation",
+    "color": "Color",
+    "colorWhite": "White",
+    "colorBlack": "Black",
+    "colorGray": "Gray",
+    "colorRed": "Red",
+    "templates": "Templates",
+    "templateVerify": "For identity verification only",
+    "templateUse": "For internal use only",
+    "templateConfidential": "CONFIDENTIAL",
+    "templateDraft": "DRAFT",
+    "download": "Download",
+    "downloadAll": "Download All (ZIP)",
+    "processing": "Processing...",
+    "privacy": "🔒 100% privacy—your images never leave your device",
+    "errorFormat": "Please upload a valid image file.",
+    "errorSize": "Image size cannot exceed 20MB.",
+    "original": "Original",
+    "watermarked": "Watermarked",
+    "success": "Watermark applied!",
+    "remove": "Remove",
+    "addMore": "Add more"
   },
   "pdfMerge": {
     "title": "PDF Merge",
@@ -369,7 +410,13 @@
     "pdfPageNumbers2": "Can I start from a different number?",
     "pdfPageNumbers2a": "Yes, set any start number. The first page will use that number.",
     "pdfPageNumbers3": "What formats are available?",
-    "pdfPageNumbers3a": "Plain number (1), Page X, or Page X / Y. All use the Helvetica font."
+    "pdfPageNumbers3a": "Plain number (1), Page X, or Page X / Y. All use the Helvetica font.",
+    "imageWatermark1": "Is image watermarking really free?",
+    "imageWatermark1a": "Completely free. All processing happens in your browser, no server costs.",
+    "imageWatermark2": "Does it support Chinese watermark text?",
+    "imageWatermark2a": "Yes. We use a system font stack including PingFang SC and Microsoft YaHei, so Chinese renders cleanly without garbled characters.",
+    "imageWatermark3": "Are my images uploaded to a server?",
+    "imageWatermark3a": "No. All images are processed locally in your browser and never leave your device—ideal for sensitive documents like ID cards."
   },
   "error": {
     "notFound": "Page Not Found",
