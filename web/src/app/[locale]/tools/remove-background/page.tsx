@@ -4,6 +4,7 @@ import RemoveBackgroundClient from "./RemoveBackgroundClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -15,6 +16,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: t("title"),
     description: t("description"),
+    alternates: buildI18nMetadata("/tools/remove-background", locale),
     openGraph: {
       title: t("title") + " - Neetpix",
       description: t("description"),
@@ -37,7 +39,8 @@ export default async function RemoveBackgroundPage({ params }: Props) {
       <JsonLd
         name={t("title") + " - Neetpix"}
         description={t("description")}
-        url="https://neetpix.com/tools/remove-background"
+        url={locale === "en" ? "https://neetpix.com/tools/remove-background" : "https://neetpix.com/zh/tools/remove-background"}
+        locale={locale}
       />
       <PrivacyBadge locale={locale} />
       <RemoveBackgroundClient />

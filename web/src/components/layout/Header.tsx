@@ -12,13 +12,33 @@ export default function Header() {
   const [toolsOpen, setToolsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // 工具导航列表：name 使用字面量 key 访问，保证类型安全
-  const tools = [
-    { name: tTools("removeBackground.name"), href: "/tools/remove-background" },
-    { name: tTools("imageToPdf.name"), href: "/tools/image-to-pdf" },
-    { name: tTools("pdfToWord.name"), href: "/tools/pdf-to-word" },
-    { name: tTools("screenshotTranslate.name"), href: "/tools/screenshot-translate" },
-    { name: tTools("imageCompress.name"), href: "/tools/image-compress" },
+  // 工具按二级分类组织：name 使用字面量 key 访问，保证类型安全
+  const toolCategories = [
+    {
+      category: t("categoryPdf"),
+      tools: [
+        { name: tTools("pdfToWord.name"), desc: tTools("pdfToWord.desc"), href: "/tools/pdf-to-word" },
+        { name: tTools("imageToPdf.name"), desc: tTools("imageToPdf.desc"), href: "/tools/image-to-pdf" },
+        { name: tTools("pdfMerge.name"), desc: tTools("pdfMerge.desc"), href: "/tools/pdf-merge" },
+        { name: tTools("pdfSplit.name"), desc: tTools("pdfSplit.desc"), href: "/tools/pdf-split" },
+        { name: tTools("pdfCompress.name"), desc: tTools("pdfCompress.desc"), href: "/tools/pdf-compress" },
+        { name: tTools("pdfWatermark.name"), desc: tTools("pdfWatermark.desc"), href: "/tools/pdf-watermark" },
+        { name: tTools("pdfPageNumbers.name"), desc: tTools("pdfPageNumbers.desc"), href: "/tools/pdf-page-numbers" },
+      ],
+    },
+    {
+      category: t("categoryImage"),
+      tools: [
+        { name: tTools("removeBackground.name"), desc: tTools("removeBackground.desc"), href: "/tools/remove-background" },
+        { name: tTools("imageCompress.name"), desc: tTools("imageCompress.desc"), href: "/tools/image-compress" },
+      ],
+    },
+    {
+      category: t("categoryTranslate"),
+      tools: [
+        { name: tTools("screenshotTranslate.name"), desc: tTools("screenshotTranslate.desc"), href: "/tools/screenshot-translate" },
+      ],
+    },
   ];
 
   return (
@@ -48,15 +68,23 @@ export default function Header() {
               </svg>
             </button>
             {toolsOpen && (
-              <div className="absolute top-full left-0 w-56 py-2 bg-white border border-border rounded-lg shadow-lg">
-                {tools.map((tool) => (
-                  <Link
-                    key={tool.href}
-                    href={tool.href}
-                    className="block px-4 py-2 text-sm text-text-secondary hover:bg-bg-warm hover:text-text transition-colors"
-                  >
-                    {tool.name}
-                  </Link>
+              <div className="absolute top-full left-0 w-80 py-2 bg-white border border-border rounded-lg shadow-lg">
+                {toolCategories.map((group) => (
+                  <div key={group.category} className="px-2 py-1">
+                    <p className="px-3 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide text-text-secondary">
+                      {group.category}
+                    </p>
+                    {group.tools.map((tool) => (
+                      <Link
+                        key={tool.href}
+                        href={tool.href}
+                        className="block px-3 py-2 rounded-md hover:bg-bg-warm transition-colors"
+                      >
+                        <span className="block text-sm font-medium text-text">{tool.name}</span>
+                        <span className="block text-xs text-text-secondary mt-0.5">{tool.desc}</span>
+                      </Link>
+                    ))}
+                  </div>
                 ))}
               </div>
             )}
@@ -80,15 +108,22 @@ export default function Header() {
       {mobileOpen && (
         <div className="sm:hidden border-t border-border bg-white">
           <div className="px-4 py-2">
-            {tools.map((tool) => (
-              <Link
-                key={tool.href}
-                href={tool.href}
-                className="block py-3 text-sm text-text-secondary hover:text-text border-b border-border last:border-0"
-                onClick={() => setMobileOpen(false)}
-              >
-                {tool.name}
-              </Link>
+            {toolCategories.map((group) => (
+              <div key={group.category} className="py-2">
+                <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-1">
+                  {group.category}
+                </p>
+                {group.tools.map((tool) => (
+                  <Link
+                    key={tool.href}
+                    href={tool.href}
+                    className="block py-2 text-sm text-text-secondary hover:text-text border-b border-border last:border-0"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {tool.name}
+                  </Link>
+                ))}
+              </div>
             ))}
           </div>
         </div>

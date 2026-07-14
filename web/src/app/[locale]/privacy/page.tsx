@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -10,6 +11,19 @@ export async function generateMetadata({ params }: Props) {
   const t = await getTranslations({ locale, namespace: "privacy" });
   return {
     title: t("title"),
+    description: t("intro"),
+    alternates: buildI18nMetadata("/privacy", locale),
+    openGraph: {
+      title: t("title") + " - Neetpix",
+      description: t("intro"),
+      images: ["/og-image.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title") + " - Neetpix",
+      description: t("intro"),
+      images: ["/og-image.png"],
+    },
   };
 }
 

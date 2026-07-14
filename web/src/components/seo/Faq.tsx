@@ -16,8 +16,22 @@ export default async function Faq({ tool, locale }: FaqProps) {
     a: t(`${tool}${n}a`),
   }));
 
+  const faqLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: questions.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: item.a },
+    })),
+  };
+
   return (
     <section className="mt-16 border-t border-border pt-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqLd) }}
+      />
       <h2 className="text-2xl font-bold text-text mb-6">{t("title")}</h2>
       <div className="space-y-6">
         {questions.map((item, i) => (

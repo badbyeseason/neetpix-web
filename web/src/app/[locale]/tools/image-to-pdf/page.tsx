@@ -3,6 +3,7 @@ import ImageToPdfClient from "./ImageToPdfClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -14,6 +15,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: t("title"),
     description: t("description"),
+    alternates: buildI18nMetadata("/tools/image-to-pdf", locale),
     openGraph: {
       title: t("title") + " - Neetpix",
       description: t("description"),
@@ -36,7 +38,8 @@ export default async function ImageToPdfPage({ params }: Props) {
       <JsonLd
         name={t("title") + " - Neetpix"}
         description={t("description")}
-        url="https://neetpix.com/tools/image-to-pdf"
+        url={locale === "en" ? "https://neetpix.com/tools/image-to-pdf" : "https://neetpix.com/zh/tools/image-to-pdf"}
+        locale={locale}
       />
       <PrivacyBadge locale={locale} />
       <ImageToPdfClient />

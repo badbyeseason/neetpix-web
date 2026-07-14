@@ -2,6 +2,7 @@ import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
+import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -13,6 +14,18 @@ export async function generateMetadata({ params }: Props) {
   // 标题继承根 layout 的 title.default，避免与模板叠加产生双重后缀
   return {
     description: t("subtitle"),
+    alternates: buildI18nMetadata("", locale),
+    openGraph: {
+      title: t("title"),
+      description: t("subtitle"),
+      images: ["/og-image.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("subtitle"),
+      images: ["/og-image.png"],
+    },
   };
 }
 

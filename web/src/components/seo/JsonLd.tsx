@@ -2,11 +2,12 @@ interface JsonLdProps {
   name: string;
   description: string;
   url: string;
+  locale?: string;
 }
 
 // WebApplication 结构化数据组件，用于 SEO 富结果
-export default function JsonLd({ name, description, url }: JsonLdProps) {
-  const jsonLd = {
+export default function JsonLd({ name, description, url, locale }: JsonLdProps) {
+  const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     name,
@@ -24,6 +25,9 @@ export default function JsonLd({ name, description, url }: JsonLdProps) {
       name: "Neetpix",
     },
   };
+  if (locale) {
+    jsonLd.inLanguage = locale;
+  }
 
   return (
     <script

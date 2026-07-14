@@ -19,6 +19,8 @@ function formatFileSize(bytes: number): string {
   return (bytes / (1024 * 1024)).toFixed(1) + " MB";
 }
 
+const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
+
 export default function PdfMergeClient() {
   const t = useTranslations("pdfMerge");
   const [items, setItems] = useState<PdfItem[]>([]);
@@ -52,8 +54,20 @@ export default function PdfMergeClient() {
         setErrorMsg(t("errorFormat"));
         return;
       }
-      setErrorMsg("");
-      const newItems: PdfItem[] = files.map((file) => ({
+      let firstError = "";
+      const validFiles: File[] = [];
+      for (const file of files) {
+        if (file.size > MAX_FILE_SIZE) {
+          firstError = firstError || t("errorSize");
+          continue;
+        }
+        validFiles.push(file);
+      }
+      setErrorMsg(firstError);
+      if (validFiles.length === 0) {
+        return;
+      }
+      const newItems: PdfItem[] = validFiles.map((file) => ({
         id: `${file.name}-${file.size}-${Date.now()}-${Math.random()
           .toString(36)
           .slice(2)}`,

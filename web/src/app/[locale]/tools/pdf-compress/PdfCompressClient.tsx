@@ -46,7 +46,7 @@ export default function PdfCompressClient() {
         return;
       }
       if (selected.size > MAX_SIZE) {
-        setErrorMsg(t("errorFormat"));
+        setErrorMsg(t("errorSize"));
         setStatus("error");
         return;
       }

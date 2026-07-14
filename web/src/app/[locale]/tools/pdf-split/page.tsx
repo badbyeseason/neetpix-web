@@ -3,6 +3,7 @@ import PdfSplitClient from "./PdfSplitClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -14,6 +15,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: t("title"),
     description: t("description"),
+    alternates: buildI18nMetadata("/tools/pdf-split", locale),
     openGraph: {
       title: t("title") + " - Neetpix",
       description: t("description"),
@@ -36,7 +38,8 @@ export default async function PdfSplitPage({ params }: Props) {
       <JsonLd
         name={t("title") + " - Neetpix"}
         description={t("description")}
-        url="https://neetpix.com/tools/pdf-split"
+        url={locale === "en" ? "https://neetpix.com/tools/pdf-split" : "https://neetpix.com/zh/tools/pdf-split"}
+        locale={locale}
       />
       <PrivacyBadge locale={locale} />
       <PdfSplitClient />

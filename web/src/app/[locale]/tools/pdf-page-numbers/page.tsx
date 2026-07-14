@@ -3,6 +3,7 @@ import PdfPageNumbersClient from "./PdfPageNumbersClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -14,6 +15,7 @@ export async function generateMetadata({ params }: Props) {
   return {
     title: t("title"),
     description: t("description"),
+    alternates: buildI18nMetadata("/tools/pdf-page-numbers", locale),
     openGraph: {
       title: t("title") + " - Neetpix",
       description: t("description"),
@@ -36,7 +38,8 @@ export default async function PdfPageNumbersPage({ params }: Props) {
       <JsonLd
         name={t("title") + " - Neetpix"}
         description={t("description")}
-        url="https://neetpix.com/tools/pdf-page-numbers"
+        url={locale === "en" ? "https://neetpix.com/tools/pdf-page-numbers" : "https://neetpix.com/zh/tools/pdf-page-numbers"}
+        locale={locale}
       />
       <PrivacyBadge locale={locale} />
       <PdfPageNumbersClient />

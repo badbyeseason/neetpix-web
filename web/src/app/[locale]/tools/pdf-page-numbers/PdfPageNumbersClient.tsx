@@ -47,7 +47,7 @@ export default function PdfPageNumbersClient() {
         return;
       }
       if (selected.size > MAX_SIZE) {
-        setErrorMsg(t("errorFormat"));
+        setErrorMsg(t("errorSize"));
         setStatus("error");
         return;
       }
