@@ -1,8 +1,8 @@
-import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import RemoveBackgroundClient from "./RemoveBackgroundClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { buildI18nMetadata } from "@/lib/seo";
 
@@ -45,6 +45,7 @@ export default async function RemoveBackgroundPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <RemoveBackgroundClient />
       <Faq tool="removeBackground" locale={locale} />
+      <RelatedTools tools={["imageCompress", "imageWatermark", "imageToPdf", "screenshotTranslate"]} locale={locale} />
     </div>
   );
 }

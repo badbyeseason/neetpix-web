@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import PdfToWordClient from "./PdfToWordClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { buildI18nMetadata } from "@/lib/seo";
 
@@ -44,6 +45,7 @@ export default async function PdfToWordPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <PdfToWordClient />
       <Faq tool="pdfToWord" locale={locale} />
+      <RelatedTools tools={["wordToPdf", "pdfMerge", "pdfSplit", "pdfCompress"]} locale={locale} />
     </div>
   );
 }

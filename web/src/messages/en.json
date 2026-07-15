@@ -18,6 +18,9 @@
     "privacyTitle": "Privacy First",
     "privacyDesc": "By default, all processing happens directly in your browser. Your files never leave your device."
   },
+  "homepage": {
+    "title": "Neetpix – Free Online PDF & Image Tools | No Signup"
+  },
   "tools": {
     "title": "Our Tools",
     "removeBackground": {
@@ -69,8 +72,11 @@
       "desc": "Add page numbers to your PDF — choose position, format, and start number"
     }
   },
+  "relatedTools": {
+    "title": "Related Tools"
+  },
   "removeBackground": {
-    "title": "Remove Background",
+    "title": "Remove Background – Free Online Image Tool | Neetpix",
     "description": "Upload an image and remove its background instantly. Powered by AI, processed entirely in your browser.",
     "upload": "Drop an image here or click to browse",
     "uploadHint": "Supports JPG, PNG, WebP — up to 20MB",
@@ -88,7 +94,7 @@
     "step": "Processing..."
   },
   "imageToPdf": {
-    "title": "Image to PDF",
+    "title": "Image to PDF – Free Online Converter | Neetpix",
     "description": "Upload multiple images and combine them into a single PDF file. Processed entirely in your browser.",
     "upload": "Drop images here or click to browse",
     "uploadHint": "Supports JPG, PNG, WebP — up to 20MB each",
@@ -110,7 +116,7 @@
     "remove": "Remove"
   },
   "pdfToWord": {
-    "title": "PDF to Word",
+    "title": "PDF to Word – Free Online PDF Converter | Neetpix",
     "description": "Convert PDF files to editable Word documents. Text is extracted locally in your browser.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF — up to 50MB",
@@ -149,12 +155,20 @@
     "privacy": "Privacy Policy",
     "contact": "Contact"
   },
+  "feedback": {
+    "button": "Feedback",
+    "title": "Send us feedback",
+    "email": "Email Feedback",
+    "emailHint": "Open your email app to send us a message",
+    "github": "GitHub Issues",
+    "githubHint": "Report bugs or request features on GitHub"
+  },
   "locale": {
     "en": "English",
     "zh": "中文"
   },
   "screenshotTranslate": {
-    "title": "Screenshot Translate",
+    "title": "Screenshot Translate – Free Online OCR Translation | Neetpix",
     "description": "Extract text from screenshots and translate it instantly. OCR runs locally in your browser.",
     "upload": "Drop a screenshot here or click to browse",
     "uploadHint": "Supports JPG, PNG, WebP — up to 20MB",
@@ -180,7 +194,7 @@
     "retry": "Retry"
   },
   "imageCompress": {
-    "title": "Image Compress",
+    "title": "Image Compress – Free Online Image Optimizer | Neetpix",
     "description": "Compress images to reduce file size without losing quality. Processed entirely in your browser.",
     "upload": "Drop images here or click to browse",
     "uploadHint": "Supports JPG, PNG, WebP — up to 20MB each",
@@ -205,7 +219,7 @@
     "remove": "Remove"
   },
   "imageWatermark": {
-    "title": "Image Watermark",
+    "title": "Image Watermark – Free Online Tool | Neetpix",
     "description": "Add text watermarks to images. Protect identity documents, claim copyright, or brand your photos. 100% processed in your browser.",
     "upload": "Drag images here, or click to select",
     "uploadHint": "Supports JPG, PNG, WebP, up to 20MB each",
@@ -246,7 +260,7 @@
     "close": "Close"
   },
   "pdfMerge": {
-    "title": "PDF Merge",
+    "title": "PDF Merge – Free Online PDF Combiner | Neetpix",
     "description": "Upload multiple PDF files and combine them into a single document. Processed entirely in your browser.",
     "upload": "Drop PDF files here or click to browse",
     "uploadHint": "Supports PDF files",
@@ -266,7 +280,7 @@
     "minHint": "At least 2 PDF files are required to merge."
   },
   "pdfSplit": {
-    "title": "PDF Split",
+    "title": "PDF Split – Free Online PDF Separator | Neetpix",
     "description": "Extract specific pages from a PDF by entering page ranges. Processed entirely in your browser.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF files",
@@ -288,7 +302,7 @@
     "resultItem": "Range {range} ({count} pages)"
   },
   "pdfCompress": {
-    "title": "PDF Compress",
+    "title": "PDF Compress – Free Online PDF Optimizer | Neetpix",
     "description": "Compress PDF files in your browser. Choose lossless structural compression for text PDFs or strong rasterization for image-based PDFs. 100% local processing.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF files",
@@ -317,7 +331,7 @@
     "analyzing": "Analyzing PDF..."
   },
   "pdfWatermark": {
-    "title": "PDF Watermark",
+    "title": "PDF Watermark – Free Online Tool | Neetpix",
     "description": "Add text watermarks to your PDF. Choose center or tiled layout with opacity control. Processed in your browser.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF files",
@@ -341,7 +355,7 @@
     "fileLabel": "File"
   },
   "pdfPageNumbers": {
-    "title": "PDF Page Numbers",
+    "title": "PDF Page Numbers – Free Online Tool | Neetpix",
     "description": "Add page numbers to your PDF. Choose position, format, and start number. Processed in your browser.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF files",

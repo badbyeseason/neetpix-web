@@ -11,8 +11,10 @@ type Props = {
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "hero" });
-  // 标题继承根 layout 的 title.default，避免与模板叠加产生双重后缀
+  const tHome = await getTranslations({ locale, namespace: "homepage" });
+  // 使用 absolute 覆盖根 layout 的 title template，避免 "Neetpix - Neetpix" 重复
   return {
+    title: { absolute: tHome("title") },
     description: t("subtitle"),
     alternates: buildI18nMetadata("", locale),
     openGraph: {

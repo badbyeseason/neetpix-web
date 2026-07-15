@@ -18,6 +18,9 @@
     "privacyTitle": "隐私优先",
     "privacyDesc": "默认所有处理都在你的浏览器中完成，文件不离开你的设备。"
   },
+  "homepage": {
+    "title": "Neetpix – 免费在线 PDF 与图片工具 | 无需注册"
+  },
   "tools": {
     "title": "我们的工具",
     "removeBackground": {
@@ -69,8 +72,11 @@
       "desc": "为 PDF 添加页码——可选位置、格式和起始页码"
     }
   },
+  "relatedTools": {
+    "title": "相关工具"
+  },
   "removeBackground": {
-    "title": "移除背景",
+    "title": "抠图 – 免费在线图片工具 | Neetpix",
     "description": "上传图片，一键移除背景。AI 驱动，全程在浏览器本地处理。",
     "upload": "拖拽图片到此处，或点击选择文件",
     "uploadHint": "支持 JPG、PNG、WebP 格式，最大 20MB",
@@ -88,7 +94,7 @@
     "step": "处理中..."
   },
   "imageToPdf": {
-    "title": "图片转 PDF",
+    "title": "图片转 PDF – 免费在线转换器 | Neetpix",
     "description": "上传多张图片，合成为一个 PDF 文件。全程在浏览器本地处理。",
     "upload": "拖拽图片到此处，或点击选择文件",
     "uploadHint": "支持 JPG、PNG、WebP 格式，单张最大 20MB",
@@ -110,7 +116,7 @@
     "remove": "移除"
   },
   "pdfToWord": {
-    "title": "PDF 转 Word",
+    "title": "PDF 转 Word – 免费在线 PDF 转换器 | Neetpix",
     "description": "将 PDF 文件转为可编辑的 Word 文档。文字在浏览器本地提取。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 PDF 格式，最大 50MB",
@@ -149,12 +155,20 @@
     "privacy": "隐私政策",
     "contact": "联系我们"
   },
+  "feedback": {
+    "button": "反馈",
+    "title": "给我们反馈",
+    "email": "邮件反馈",
+    "emailHint": "打开邮件应用给我们发送消息",
+    "github": "GitHub Issues",
+    "githubHint": "在 GitHub 上报告问题或建议功能"
+  },
   "locale": {
     "en": "English",
     "zh": "中文"
   },
   "screenshotTranslate": {
-    "title": "截图翻译",
+    "title": "截图翻译 – 免费在线 OCR 翻译 | Neetpix",
     "description": "从截图中提取文字并即时翻译。OCR 在浏览器本地运行。",
     "upload": "拖拽截图到此处，或点击选择文件",
     "uploadHint": "支持 JPG、PNG、WebP 格式，最大 20MB",
@@ -180,7 +194,7 @@
     "retry": "重试"
   },
   "imageCompress": {
-    "title": "图片压缩",
+    "title": "图片压缩 – 免费在线图片优化 | Neetpix",
     "description": "压缩图片以减小文件体积，几乎不损失画质。全程在浏览器本地处理。",
     "upload": "拖拽图片到此处，或点击选择文件",
     "uploadHint": "支持 JPG、PNG、WebP 格式，单张最大 20MB",
@@ -205,7 +219,7 @@
     "remove": "移除"
   },
   "imageWatermark": {
-    "title": "图片加水印",
+    "title": "图片加水印 – 免费在线工具 | Neetpix",
     "description": "为图片添加文字水印。保护证件照、声明版权或品牌宣传。全程在浏览器本地处理。",
     "upload": "拖拽图片到此处，或点击选择文件",
     "uploadHint": "支持 JPG、PNG、WebP 格式，单张最大 20MB",
@@ -246,7 +260,7 @@
     "close": "关闭"
   },
   "pdfMerge": {
-    "title": "PDF 合并",
+    "title": "PDF 合并 – 免费在线 PDF 合并工具 | Neetpix",
     "description": "上传多个 PDF 文件，合并为一个文档。全程在浏览器本地处理。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 PDF 文件",
@@ -266,7 +280,7 @@
     "minHint": "至少需要 2 个 PDF 文件才能合并。"
   },
   "pdfSplit": {
-    "title": "PDF 拆分",
+    "title": "PDF 拆分 – 免费在线 PDF 分割工具 | Neetpix",
     "description": "输入页码范围，从 PDF 中提取指定页面。全程在浏览器本地处理。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 PDF 文件",
@@ -288,7 +302,7 @@
     "resultItem": "范围 {range}（{count} 页）"
   },
   "pdfCompress": {
-    "title": "PDF 压缩",
+    "title": "PDF 压缩 – 免费在线 PDF 优化器 | Neetpix",
     "description": "在浏览器中压缩 PDF 文件。文本型 PDF 用轻量无损压缩，图片型 PDF 用强力栅格化压缩。100% 本地处理。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 PDF 文件",
@@ -317,7 +331,7 @@
     "analyzing": "正在分析 PDF..."
   },
   "pdfWatermark": {
-    "title": "PDF 加水印",
+    "title": "PDF 加水印 – 免费在线工具 | Neetpix",
     "description": "为 PDF 添加文字水印。可选居中或平铺布局，可调透明度。全程在浏览器本地处理。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 PDF 文件",
@@ -341,7 +355,7 @@
     "fileLabel": "文件"
   },
   "pdfPageNumbers": {
-    "title": "PDF 加页码",
+    "title": "PDF 页码 – 免费在线工具 | Neetpix",
     "description": "为 PDF 添加页码。可选位置、格式和起始页码。全程在浏览器本地处理。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 PDF 文件",

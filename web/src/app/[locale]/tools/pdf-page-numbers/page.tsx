@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import PdfPageNumbersClient from "./PdfPageNumbersClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { buildI18nMetadata } from "@/lib/seo";
 
@@ -44,6 +45,7 @@ export default async function PdfPageNumbersPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <PdfPageNumbersClient />
       <Faq tool="pdfPageNumbers" locale={locale} />
+      <RelatedTools tools={["pdfWatermark", "pdfMerge", "pdfSplit", "pdfCompress"]} locale={locale} />
     </div>
   );
 }

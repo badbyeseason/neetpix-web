@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import ScreenshotTranslateClient from "./ScreenshotTranslateClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { buildI18nMetadata } from "@/lib/seo";
 
@@ -44,6 +45,7 @@ export default async function ScreenshotTranslatePage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ScreenshotTranslateClient />
       <Faq tool="screenshotTranslate" locale={locale} />
+      <RelatedTools tools={["removeBackground", "imageCompress", "imageToPdf", "pdfToWord"]} locale={locale} />
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import ImageWatermarkClient from "./ImageWatermarkClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { buildI18nMetadata } from "@/lib/seo";
 
@@ -44,6 +45,7 @@ export default async function ImageWatermarkPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ImageWatermarkClient />
       <Faq tool="imageWatermark" locale={locale} />
+      <RelatedTools tools={["imageCompress", "imageToPdf", "pdfWatermark", "removeBackground"]} locale={locale} />
     </div>
   );
 }

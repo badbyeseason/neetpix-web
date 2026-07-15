@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import PdfCompressClient from "./PdfCompressClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { buildI18nMetadata } from "@/lib/seo";
 
@@ -44,6 +45,7 @@ export default async function PdfCompressPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <PdfCompressClient />
       <Faq tool="pdfCompress" locale={locale} />
+      <RelatedTools tools={["pdfMerge", "pdfSplit", "pdfToWord", "wordToPdf"]} locale={locale} />
     </div>
   );
 }

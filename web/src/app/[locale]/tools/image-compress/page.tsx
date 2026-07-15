@@ -2,6 +2,7 @@ import { getTranslations } from "next-intl/server";
 import ImageCompressClient from "./ImageCompressClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import { buildI18nMetadata } from "@/lib/seo";
 
@@ -44,6 +45,7 @@ export default async function ImageCompressPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ImageCompressClient />
       <Faq tool="imageCompress" locale={locale} />
+      <RelatedTools tools={["imageToPdf", "imageWatermark", "removeBackground", "pdfCompress"]} locale={locale} />
     </div>
   );
 }
