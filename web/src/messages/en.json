@@ -32,6 +32,10 @@
       "name": "PDF to Word",
       "desc": "Convert PDF files to editable Word documents — free and fast"
     },
+    "wordToPdf": {
+      "name": "Word to PDF",
+      "desc": "Convert .docx documents to PDF in your browser."
+    },
     "imageCompress": {
       "name": "Image Compress",
       "desc": "Compress images without losing quality — reduce file size in seconds"
@@ -122,6 +126,23 @@
     "success": "Converted successfully!",
     "fileLabel": "File",
     "pageProgress": "Processing page {current} of {total}..."
+  },
+  "wordToPdf": {
+    "title": "Word to PDF – Free Online Converter | Neetpix",
+    "description": "Convert Word documents (.docx) to PDF directly in your browser. 100% local processing, no uploads, no watermark, no signup. Free and unlimited.",
+    "upload": "Upload .docx File",
+    "uploadHint": "Click to select or drag and drop · Max 50MB · .docx only",
+    "convert": "Convert to PDF",
+    "converting": "Converting...",
+    "privacy": "Files never leave your device. 100% browser-local processing.",
+    "download": "Download PDF",
+    "errorFormat": "Please upload a .docx file.",
+    "errorSize": "File size cannot exceed 50MB.",
+    "errorParse": "Failed to parse the document. Please ensure it's a valid .docx file.",
+    "retry": "Convert Another File",
+    "success": "Conversion complete! Your PDF is ready to download.",
+    "fileLabel": "Selected File",
+    "qualityNote": "Preserves text content and basic formatting (headings, paragraphs, lists)."
   },
   "footer": {
     "brand": "Neetpix — Unpay the tools.",
@@ -373,6 +394,12 @@
     "pdfToWord2a": "50MB. Processing happens in your browser, so very large files may be slow.",
     "pdfToWord3": "Are scanned PDFs supported?",
     "pdfToWord3a": "Scanned PDFs without a text layer cannot be extracted. The tool requires selectable text in the PDF.",
+    "wordToPdf1": "Is the Word to PDF converter free?",
+    "wordToPdf1a": "Yes, completely free with no limits on file count or size (up to 50MB per file). No signup, no watermark, no hidden fees.",
+    "wordToPdf2": "Are my documents uploaded to a server?",
+    "wordToPdf2a": "No. All processing happens in your browser. Your documents never leave your device, ensuring complete privacy.",
+    "wordToPdf3": "What formatting is preserved?",
+    "wordToPdf3a": "We preserve text content with basic formatting including headings, paragraphs, and lists. Complex layouts, images, and tables may be simplified.",
     "screenshotTranslate1": "What languages are supported?",
     "screenshotTranslate1a": "English and Chinese, in both directions (EN→ZH and ZH→EN), plus auto-detect.",
     "screenshotTranslate2": "Can I paste a screenshot directly?",

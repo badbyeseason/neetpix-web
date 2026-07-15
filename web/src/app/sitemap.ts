@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/remove-background",
     "/tools/image-to-pdf",
     "/tools/pdf-to-word",
+    "/tools/word-to-pdf",
     "/tools/screenshot-translate",
     "/tools/image-compress",
     "/tools/image-watermark",

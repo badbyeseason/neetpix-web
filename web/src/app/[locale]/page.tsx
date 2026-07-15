@@ -38,6 +38,7 @@ export default async function HomePage({ params }: Props) {
     { key: "removeBackground", href: "/tools/remove-background", gradient: "from-teal/10 to-teal-bg" },
     { key: "imageToPdf", href: "/tools/image-to-pdf", gradient: "from-coral/10 to-teal-bg" },
     { key: "pdfToWord", href: "/tools/pdf-to-word", gradient: "from-teal/10 to-bg-article" },
+    { key: "wordToPdf", href: "/tools/word-to-pdf", gradient: "from-coral/10 to-bg-article" },
     { key: "screenshotTranslate", href: "/tools/screenshot-translate", gradient: "from-coral/10 to-teal-bg" },
     { key: "imageCompress", href: "/tools/image-compress", gradient: "from-teal-bg to-bg-article" },
     { key: "imageWatermark", href: "/tools/image-watermark", gradient: "from-coral/10 to-bg-article" },

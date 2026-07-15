@@ -18,6 +18,7 @@ export default function Header() {
       category: t("categoryPdf"),
       tools: [
         { name: tTools("pdfToWord.name"), desc: tTools("pdfToWord.desc"), href: "/tools/pdf-to-word" },
+        { name: tTools("wordToPdf.name"), desc: tTools("wordToPdf.desc"), href: "/tools/word-to-pdf" },
         { name: tTools("imageToPdf.name"), desc: tTools("imageToPdf.desc"), href: "/tools/image-to-pdf" },
         { name: tTools("pdfMerge.name"), desc: tTools("pdfMerge.desc"), href: "/tools/pdf-merge" },
         { name: tTools("pdfSplit.name"), desc: tTools("pdfSplit.desc"), href: "/tools/pdf-split" },

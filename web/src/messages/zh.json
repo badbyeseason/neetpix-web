@@ -32,6 +32,10 @@
       "name": "PDF 转 Word",
       "desc": "将 PDF 转为可编辑的 Word 文档——免费快捷"
     },
+    "wordToPdf": {
+      "name": "Word 转 PDF",
+      "desc": "在浏览器中将 .docx 文档转换为 PDF。"
+    },
     "imageCompress": {
       "name": "图片压缩",
       "desc": "无损压缩图片——秒级缩小文件体积"
@@ -122,6 +126,23 @@
     "success": "转换成功！",
     "fileLabel": "文件",
     "pageProgress": "正在处理第 {current}/{total} 页..."
+  },
+  "wordToPdf": {
+    "title": "Word 转 PDF – 免费在线转换器 | Neetpix",
+    "description": "在浏览器中直接将 Word 文档（.docx）转换为 PDF。100% 本地处理，不上传服务器，无水印，无需注册，免费且不限次数。",
+    "upload": "上传 .docx 文件",
+    "uploadHint": "点击选择或拖拽文件 · 最大 50MB · 仅支持 .docx",
+    "convert": "转换为 PDF",
+    "converting": "正在转换...",
+    "privacy": "文件不离开你的设备，100% 浏览器端本地处理。",
+    "download": "下载 PDF",
+    "errorFormat": "请上传 .docx 文件。",
+    "errorSize": "文件大小不能超过 50MB。",
+    "errorParse": "文档解析失败，请确保是有效的 .docx 文件。",
+    "retry": "转换另一个文件",
+    "success": "转换完成！你的 PDF 已准备好下载。",
+    "fileLabel": "已选文件",
+    "qualityNote": "保留文本内容与基本排版（标题、段落、列表）。"
   },
   "footer": {
     "brand": "Neetpix 尼特派——解付工具。",
@@ -373,6 +394,12 @@
     "pdfToWord2a": "50MB。处理在浏览器中进行，过大的文件可能较慢。",
     "pdfToWord3": "支持扫描版 PDF 吗？",
     "pdfToWord3a": "不支持。扫描版 PDF 没有文字层，本工具需要 PDF 中有可选中的文字。",
+    "wordToPdf1": "Word 转 PDF 是免费的吗？",
+    "wordToPdf1a": "完全免费，不限文件数量和大小（单个文件最大 50MB）。无需注册，无水印，无任何隐藏费用。",
+    "wordToPdf2": "我的文档会被上传到服务器吗？",
+    "wordToPdf2a": "不会。所有处理都在你的浏览器中完成，文档不会离开你的设备，确保完全的隐私保护。",
+    "wordToPdf3": "会保留哪些排版格式？",
+    "wordToPdf3a": "我们会保留文本内容和基本排版，包括标题、段落和列表。复杂布局、图片和表格可能会被简化。",
     "screenshotTranslate1": "支持哪些语言？",
     "screenshotTranslate1a": "英语和中文，双向翻译（英→中、中→英），还支持自动检测。",
     "screenshotTranslate2": "可以直接粘贴截图吗？",
