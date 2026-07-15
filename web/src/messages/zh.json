@@ -159,9 +159,7 @@
     "button": "反馈",
     "title": "给我们反馈",
     "email": "邮件反馈",
-    "emailHint": "打开邮件应用给我们发送消息",
-    "github": "GitHub Issues",
-    "githubHint": "在 GitHub 上报告问题或建议功能"
+    "emailHint": "打开邮件应用给我们发送消息"
   },
   "locale": {
     "en": "English",

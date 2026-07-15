@@ -159,9 +159,7 @@
     "button": "Feedback",
     "title": "Send us feedback",
     "email": "Email Feedback",
-    "emailHint": "Open your email app to send us a message",
-    "github": "GitHub Issues",
-    "githubHint": "Report bugs or request features on GitHub"
+    "emailHint": "Open your email app to send us a message"
   },
   "locale": {
     "en": "English",
