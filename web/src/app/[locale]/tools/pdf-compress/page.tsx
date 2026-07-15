@@ -45,7 +45,7 @@ export default async function PdfCompressPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <PdfCompressClient />
       <Faq tool="pdfCompress" locale={locale} />
-      <RelatedTools tools={["pdfMerge", "pdfSplit", "pdfToWord", "wordToPdf"]} locale={locale} />
+      <RelatedTools tools={["pdfMerge", "pdfSplit", "pdfEncrypt", "pdfDecrypt"]} locale={locale} />
     </div>
   );
 }

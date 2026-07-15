@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // public/ 中的 qpdf.js 是 Emscripten 生成的压缩代码，不应 lint
+    "public/**",
   ]),
 ]);
 

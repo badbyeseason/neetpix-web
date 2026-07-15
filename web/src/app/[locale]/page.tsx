@@ -49,6 +49,8 @@ export default async function HomePage({ params }: Props) {
     { key: "pdfCompress", href: "/tools/pdf-compress", gradient: "from-teal-bg to-bg-article" },
     { key: "pdfWatermark", href: "/tools/pdf-watermark", gradient: "from-teal/10 to-teal-bg" },
     { key: "pdfPageNumbers", href: "/tools/pdf-page-numbers", gradient: "from-coral/10 to-bg-article" },
+    { key: "pdfEncrypt", href: "/tools/pdf-encrypt", gradient: "from-teal/10 to-bg-article" },
+    { key: "pdfDecrypt", href: "/tools/pdf-decrypt", gradient: "from-coral/10 to-bg-article" },
   ];
 
   return (

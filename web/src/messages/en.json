@@ -70,7 +70,9 @@
     "pdfPageNumbers": {
       "name": "PDF Page Numbers",
       "desc": "Add page numbers to your PDF — choose position, format, and start number"
-    }
+    },
+    "pdfEncrypt": { "name": "PDF Encrypt", "desc": "Add password protection to PDF files." },
+    "pdfDecrypt": { "name": "PDF Decrypt", "desc": "Remove password from PDF files." }
   },
   "relatedTools": {
     "title": "Related Tools"
@@ -377,6 +379,51 @@
     "success": "Page numbers added successfully!",
     "fileLabel": "File"
   },
+  "pdfEncrypt": {
+    "title": "PDF Encrypt – Free Online PDF Password Protection | Neetpix",
+    "description": "Add password protection to your PDF files with AES-256 encryption. 100% local browser processing, no uploads. Free and unlimited.",
+    "upload": "Upload PDF File",
+    "uploadHint": "Click to select or drag and drop · Max 50MB · PDF only",
+    "password": "Password",
+    "passwordPlaceholder": "Enter password (min 4 characters)",
+    "passwordConfirm": "Confirm Password",
+    "passwordConfirmPlaceholder": "Re-enter password",
+    "passwordHint": "Password must be at least 4 characters. Remember your password — it cannot be recovered.",
+    "encrypt": "Encrypt PDF",
+    "encrypting": "Encrypting...",
+    "privacy": "Files never leave your device. 100% browser-local processing.",
+    "download": "Download Encrypted PDF",
+    "errorFormat": "Please upload a PDF file.",
+    "errorSize": "File size cannot exceed 50MB.",
+    "errorParse": "Failed to process the PDF. Please ensure it's a valid file.",
+    "errorPassword": "Password must be at least 4 characters.",
+    "errorPasswordMismatch": "Passwords do not match.",
+    "retry": "Encrypt Another File",
+    "success": "Encryption complete! Your password-protected PDF is ready.",
+    "fileLabel": "Selected File"
+  },
+  "pdfDecrypt": {
+    "title": "PDF Decrypt – Free Online PDF Password Remover | Neetpix",
+    "description": "Remove password protection from PDF files you own. 100% local browser processing, no uploads. Free and unlimited.",
+    "upload": "Upload Encrypted PDF",
+    "uploadHint": "Click to select or drag and drop · Max 50MB · PDF only",
+    "password": "Password",
+    "passwordPlaceholder": "Enter the PDF password",
+    "passwordHint": "Enter the password used to encrypt this PDF.",
+    "decrypt": "Decrypt PDF",
+    "decrypting": "Decrypting...",
+    "detecting": "Checking encryption status...",
+    "privacy": "Files never leave your device. 100% browser-local processing.",
+    "download": "Download Decrypted PDF",
+    "errorFormat": "Please upload a PDF file.",
+    "errorSize": "File size cannot exceed 50MB.",
+    "errorParse": "Failed to process the PDF. Please ensure it's a valid file.",
+    "errorPassword": "Incorrect password. Please try again.",
+    "errorNotEncrypted": "This PDF is not encrypted. No decryption needed.",
+    "retry": "Decrypt Another File",
+    "success": "Decryption complete! Your PDF is ready to download.",
+    "fileLabel": "Selected File"
+  },
   "privacy": {
     "title": "Privacy Policy",
     "updated": "Last updated: July 2026",
@@ -466,7 +513,19 @@
     "imageWatermark2": "Does it support Chinese watermark text?",
     "imageWatermark2a": "Yes. We use a system font stack including PingFang SC and Microsoft YaHei, so Chinese renders cleanly without garbled characters.",
     "imageWatermark3": "Are my images uploaded to a server?",
-    "imageWatermark3a": "No. All images are processed locally in your browser and never leave your device—ideal for sensitive documents like ID cards."
+    "imageWatermark3a": "No. All images are processed locally in your browser and never leave your device—ideal for sensitive documents like ID cards.",
+    "pdfEncrypt1": "Is the PDF encryption secure?",
+    "pdfEncrypt1a": "Yes. We use AES-256 encryption, the industry standard for PDF protection. All processing happens in your browser.",
+    "pdfEncrypt2": "Can I recover a forgotten password?",
+    "pdfEncrypt2a": "No. PDF encryption is one-way. If you forget the password, the PDF cannot be recovered. Please store your password safely.",
+    "pdfEncrypt3": "Is there a file size limit?",
+    "pdfEncrypt3a": "Yes, 50MB per file. Processing happens in your browser, so very large files may be slow.",
+    "pdfDecrypt1": "Can I decrypt a PDF without knowing the password?",
+    "pdfDecrypt1a": "No. You must know the password to remove it. This tool is for removing passwords from PDFs you own, not for cracking.",
+    "pdfDecrypt2": "Is decrypting PDFs legal?",
+    "pdfDecrypt2a": "Yes, as long as you own the PDF or have permission. This tool is for removing passwords from your own documents.",
+    "pdfDecrypt3": "What if I enter the wrong password?",
+    "pdfDecrypt3a": "You'll see an error message. Simply re-enter the correct password and try again."
   },
   "error": {
     "notFound": "Page Not Found",

@@ -25,6 +25,8 @@ export default function Header() {
         { name: tTools("pdfCompress.name"), desc: tTools("pdfCompress.desc"), href: "/tools/pdf-compress" },
         { name: tTools("pdfWatermark.name"), desc: tTools("pdfWatermark.desc"), href: "/tools/pdf-watermark" },
         { name: tTools("pdfPageNumbers.name"), desc: tTools("pdfPageNumbers.desc"), href: "/tools/pdf-page-numbers" },
+        { name: tTools("pdfEncrypt.name"), desc: tTools("pdfEncrypt.desc"), href: "/tools/pdf-encrypt" },
+        { name: tTools("pdfDecrypt.name"), desc: tTools("pdfDecrypt.desc"), href: "/tools/pdf-decrypt" },
       ],
     },
     {

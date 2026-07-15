@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import PdfWatermarkClient from "./PdfWatermarkClient";
+import PdfEncryptClient from "./PdfEncryptClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
@@ -12,11 +12,11 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "pdfWatermark" });
+  const t = await getTranslations({ locale, namespace: "pdfEncrypt" });
   return {
-    title: t("title"),
+    title: { absolute: t("title") },
     description: t("description"),
-    alternates: buildI18nMetadata("/tools/pdf-watermark", locale),
+    alternates: buildI18nMetadata("/tools/pdf-encrypt", locale),
     openGraph: {
       title: t("title") + " - Neetpix",
       description: t("description"),
@@ -31,21 +31,21 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function PdfWatermarkPage({ params }: Props) {
+export default async function PdfEncryptPage({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "pdfWatermark" });
+  const t = await getTranslations({ locale, namespace: "pdfEncrypt" });
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
       <JsonLd
         name={t("title") + " - Neetpix"}
         description={t("description")}
-        url={locale === "en" ? "https://neetpix.com/tools/pdf-watermark" : "https://neetpix.com/zh/tools/pdf-watermark"}
+        url={locale === "en" ? "https://neetpix.com/tools/pdf-encrypt" : "https://neetpix.com/zh/tools/pdf-encrypt"}
         locale={locale}
       />
       <PrivacyBadge locale={locale} />
-      <PdfWatermarkClient />
-      <Faq tool="pdfWatermark" locale={locale} />
-      <RelatedTools tools={["pdfEncrypt", "pdfPageNumbers", "pdfDecrypt", "imageWatermark"]} locale={locale} />
+      <PdfEncryptClient />
+      <Faq tool="pdfEncrypt" locale={locale} />
+      <RelatedTools tools={["pdfDecrypt", "pdfWatermark", "pdfMerge", "pdfCompress"]} locale={locale} />
     </div>
   );
 }

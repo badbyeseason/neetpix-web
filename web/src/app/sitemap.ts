@@ -18,6 +18,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/pdf-compress",
     "/tools/pdf-watermark",
     "/tools/pdf-page-numbers",
+    "/tools/pdf-encrypt",
+    "/tools/pdf-decrypt",
     "/privacy",
   ];
 
