@@ -289,7 +289,7 @@
   },
   "pdfCompress": {
     "title": "PDF 压缩",
-    "description": "通过结构化压缩减小 PDF 文件体积。全程在浏览器本地处理。",
+    "description": "在浏览器中压缩 PDF 文件。文本型 PDF 用轻量无损压缩，图片型 PDF 用强力栅格化压缩。100% 本地处理。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 PDF 文件",
     "level": "压缩级别",
@@ -307,7 +307,14 @@
     "errorParse": "PDF 解析失败，文件可能已损坏或已加密。",
     "retry": "重试",
     "success": "压缩成功！",
-    "fileLabel": "文件"
+    "fileLabel": "文件",
+    "imageDetected": "检测到图片型 PDF",
+    "imageDetectedHint": "此 PDF 看起来是扫描件/图片型，建议使用强力模式以获得显著更好的压缩效果。",
+    "textDetected": "检测到文本型 PDF",
+    "textDetectedHint": "此 PDF 含有文本层，建议使用轻量模式（无损）。",
+    "pageProgress": "正在处理第 {current} / {total} 页...",
+    "strongWarning": "强力模式会将文档栅格化为图片，压缩后文字将不可搜索或选中。",
+    "analyzing": "正在分析 PDF..."
   },
   "pdfWatermark": {
     "title": "PDF 加水印",
@@ -428,8 +435,8 @@
     "pdfCompress1a": "本工具使用无损结构化压缩，通过重新序列化 PDF 来减小体积，不会降低内容质量。",
     "pdfCompress2": "能压缩多少？",
     "pdfCompress2a": "效果因文件而异。已优化的 PDF 可能压缩有限，而冗余较多的 PDF 可以显著减小。",
-    "pdfCompress3": "会重新压缩图片吗？",
-    "pdfCompress3a": "不会。本工具优化 PDF 结构，不会重新压缩内嵌图片以避免质量损失。",
+    "pdfCompress3": "轻量模式和强力模式有什么区别？",
+    "pdfCompress3a": "轻量模式使用无损结构压缩（适合文本型 PDF，减小 5-20%）。强力模式将每页栅格化为压缩 JPEG 图片（适合扫描/图片型 PDF，最多减小 80%，但文字将不可搜索）。",
     "pdfWatermark1": "可以自定义水印文字吗？",
     "pdfWatermark1a": "可以，输入任意文字，默认为 CONFIDENTIAL。",
     "pdfWatermark2": "支持哪些位置？",

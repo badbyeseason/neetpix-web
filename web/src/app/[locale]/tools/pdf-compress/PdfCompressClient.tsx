@@ -2,7 +2,11 @@
 
 import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { PDFDocument } from "pdf-lib";
+import {
+  compressPdfLight,
+  compressPdfStrong,
+  detectImageOnlyPdf,
+} from "@/lib/pdf-compress";
 import Logo from "@/components/ui/Logo";
 
 type Status = "idle" | "processing" | "done" | "error";
@@ -26,6 +30,9 @@ export default function PdfCompressClient() {
   const [originalSize, setOriginalSize] = useState(0);
   const [compressedSize, setCompressedSize] = useState(0);
   const [dragOver, setDragOver] = useState(false);
+  const [analyzing, setAnalyzing] = useState(false);
+  const [detectedImageOnly, setDetectedImageOnly] = useState<boolean | null>(null);
+  const [progress, setProgress] = useState<{ current: number; total: number } | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const urlsRef = useRef<string[]>([]);
 
@@ -60,6 +67,24 @@ export default function PdfCompressClient() {
       }
       setOriginalSize(0);
       setCompressedSize(0);
+      setProgress(null);
+
+      // 智能检测：图片型 / 文本型
+      setDetectedImageOnly(null);
+      setAnalyzing(true);
+      detectImageOnlyPdf(selected)
+        .then((isImage) => {
+          setDetectedImageOnly(isImage);
+          setLevel(isImage ? "strong" : "light");
+        })
+        .catch((err) => {
+          console.error("Detect error:", err);
+          setDetectedImageOnly(false);
+          setLevel("light");
+        })
+        .finally(() => {
+          setAnalyzing(false);
+        });
     },
     [downloadUrl, t]
   );
@@ -87,6 +112,9 @@ export default function PdfCompressClient() {
     setStatus("idle");
     setOriginalSize(0);
     setCompressedSize(0);
+    setAnalyzing(false);
+    setDetectedImageOnly(null);
+    setProgress(null);
     if (inputRef.current) inputRef.current.value = "";
   }, []);
 
@@ -94,23 +122,14 @@ export default function PdfCompressClient() {
     if (!file) return;
     setStatus("processing");
     setErrorMsg("");
+    setProgress(null);
     try {
-      const buf = await file.arrayBuffer();
-      const doc = await PDFDocument.load(buf, { ignoreEncryption: true });
-      // 重新序列化，使用对象流压缩结构（lossless structural compression）
-      // 强力模式额外清理文档元数据
-      if (level === "strong") {
-        doc.setTitle("");
-        doc.setAuthor("");
-        doc.setSubject("");
-        doc.setKeywords([]);
-        doc.setProducer("Neetpix");
-        doc.setCreator("Neetpix");
-      }
-      const bytes = await doc.save({ useObjectStreams: true });
-      const out = new Uint8Array(bytes.byteLength);
-      out.set(bytes);
-      const blob = new Blob([out], { type: "application/pdf" });
+      const blob =
+        level === "light"
+          ? await compressPdfLight(file)
+          : await compressPdfStrong(file, (current, total) => {
+              setProgress({ current, total });
+            });
       const url = URL.createObjectURL(blob);
       urlsRef.current.push(url);
       setDownloadUrl((prev) => {
@@ -134,6 +153,8 @@ export default function PdfCompressClient() {
       console.error("Compress error:", err);
       setErrorMsg(t("errorParse"));
       setStatus("error");
+    } finally {
+      setProgress(null);
     }
   }, [file, level, t]);
 
@@ -148,12 +169,20 @@ export default function PdfCompressClient() {
     setErrorMsg("");
     setOriginalSize(0);
     setCompressedSize(0);
+    setAnalyzing(false);
+    setDetectedImageOnly(null);
+    setProgress(null);
     if (inputRef.current) inputRef.current.value = "";
   }, [downloadUrl]);
 
   const savedRatio =
     originalSize > 0 && compressedSize > 0
       ? Math.max(0, Math.round((1 - compressedSize / originalSize) * 100))
+      : 0;
+
+  const progressPct =
+    progress && progress.total > 0
+      ? Math.min(100, Math.round((progress.current / progress.total) * 100))
       : 0;
 
   const optionBtn = (active: boolean) =>
@@ -240,6 +269,28 @@ export default function PdfCompressClient() {
                 </button>
               </div>
 
+              {/* 智能检测中提示 */}
+              {analyzing && (
+                <div className="flex items-center gap-2 text-xs text-text-secondary">
+                  <span className="w-3.5 h-3.5 border-2 border-teal-light border-t-transparent rounded-full animate-spin" />
+                  {t("analyzing")}
+                </div>
+              )}
+
+              {/* 检测结果提示 */}
+              {!analyzing && detectedImageOnly === true && (
+                <div className="rounded-2xl border border-teal-light bg-teal-bg p-4">
+                  <p className="text-sm font-semibold text-teal-dark">{t("imageDetected")}</p>
+                  <p className="mt-1 text-xs text-text-secondary">{t("imageDetectedHint")}</p>
+                </div>
+              )}
+              {!analyzing && detectedImageOnly === false && (
+                <div className="rounded-2xl border border-border bg-bg-warm p-4">
+                  <p className="text-sm font-semibold text-text">{t("textDetected")}</p>
+                  <p className="mt-1 text-xs text-text-secondary">{t("textDetectedHint")}</p>
+                </div>
+              )}
+
               {/* 压缩级别选择 */}
               <div>
                 <p className="mb-2 text-sm font-medium text-text">{t("level")}</p>
@@ -261,12 +312,19 @@ export default function PdfCompressClient() {
                 </div>
               </div>
 
+              {/* 强力模式警告 */}
+              {level === "strong" && (
+                <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4">
+                  <p className="text-sm text-amber-800">{t("strongWarning")}</p>
+                </div>
+              )}
+
               <div className="flex justify-center">
                 <button
                   type="button"
                   onClick={compress}
                   disabled={status === "processing"}
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors disabled:opacity-70"
                 >
                   {status === "processing" ? (
                     <>
@@ -283,6 +341,27 @@ export default function PdfCompressClient() {
                   )}
                 </button>
               </div>
+
+              {/* 逐页进度反馈（强力模式） */}
+              {status === "processing" && progress && (
+                <div className="max-w-md mx-auto">
+                  <div className="flex items-center justify-between text-xs text-text-secondary mb-1.5">
+                    <span>
+                      {t("pageProgress", {
+                        current: progress.current,
+                        total: progress.total,
+                      })}
+                    </span>
+                    <span>{progressPct}%</span>
+                  </div>
+                  <div className="h-2 rounded-full bg-border overflow-hidden">
+                    <div
+                      className="h-full bg-teal rounded-full transition-all"
+                      style={{ width: `${progressPct}%` }}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

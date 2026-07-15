@@ -289,7 +289,7 @@
   },
   "pdfCompress": {
     "title": "PDF Compress",
-    "description": "Reduce PDF file size with structural compression. Processed entirely in your browser.",
+    "description": "Compress PDF files in your browser. Choose lossless structural compression for text PDFs or strong rasterization for image-based PDFs. 100% local processing.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF files",
     "level": "Compression Level",
@@ -307,7 +307,14 @@
     "errorParse": "Failed to parse PDF. The file may be corrupted or encrypted.",
     "retry": "Try Again",
     "success": "Compressed successfully!",
-    "fileLabel": "File"
+    "fileLabel": "File",
+    "imageDetected": "Image-based PDF detected",
+    "imageDetectedHint": "This PDF appears to be scanned/image-based. Strong mode is recommended for significantly better compression.",
+    "textDetected": "Text-based PDF detected",
+    "textDetectedHint": "This PDF has a text layer. Light mode (lossless) is recommended.",
+    "pageProgress": "Processing page {current} of {total}...",
+    "strongWarning": "Strong mode rasterizes the document into images. Text will not be searchable or selectable after compression.",
+    "analyzing": "Analyzing PDF..."
   },
   "pdfWatermark": {
     "title": "PDF Watermark",
@@ -428,8 +435,8 @@
     "pdfCompress1a": "This tool uses lossless structural compression. It re-serializes the PDF to reduce size without degrading content.",
     "pdfCompress2": "How much can I reduce the file size?",
     "pdfCompress2a": "Results vary. Already-optimized PDFs may see little reduction, while verbose PDFs can shrink significantly.",
-    "pdfCompress3": "Does it recompress images?",
-    "pdfCompress3a": "No. This tool optimizes the PDF structure. Embedded images are not recompressed to avoid quality loss.",
+    "pdfCompress3": "What's the difference between Light and Strong mode?",
+    "pdfCompress3a": "Light mode uses lossless structural compression (best for text PDFs, 5-20% smaller). Strong mode rasterizes each page as a compressed JPEG image (best for scanned/image PDFs, up to 80% smaller, but text becomes non-searchable).",
     "pdfWatermark1": "Can I customize the watermark text?",
     "pdfWatermark1a": "Yes, enter any text. The default is CONFIDENTIAL.",
     "pdfWatermark2": "What positions are supported?",
