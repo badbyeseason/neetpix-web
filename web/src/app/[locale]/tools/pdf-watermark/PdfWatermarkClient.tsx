@@ -2,7 +2,7 @@
 
 import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { PDFDocument, StandardFonts, rgb, degrees } from "pdf-lib";
+import { PDFDocument, degrees } from "pdf-lib";
 import Logo from "@/components/ui/Logo";
 
 type Status = "idle" | "processing" | "done" | "error";
@@ -94,40 +94,62 @@ export default function PdfWatermarkClient() {
     try {
       const buf = await file.arrayBuffer();
       const doc = await PDFDocument.load(buf, { ignoreEncryption: true });
-      const font = await doc.embedFont(StandardFonts.HelveticaBold);
       const pages = doc.getPages();
-      const watermarkColor = rgb(0.5, 0.5, 0.5);
-      const rotation = degrees(45);
+
+      // 用 Canvas 渲染水印文字为 PNG（浏览器原生支持中文）
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d")!;
+      const fontStack = `-apple-system, "PingFang SC", "Microsoft YaHei", "Helvetica Neue", sans-serif`;
+      ctx.font = `bold ${fontSize}px ${fontStack}`;
+      const textMetrics = ctx.measureText(text);
+      const textWidth = textMetrics.width;
+      // Canvas 尺寸：文字宽度 + padding，高度 = 字号 * 1.5
+      const padding = fontSize * 0.5;
+      canvas.width = Math.ceil(textWidth + padding * 2);
+      canvas.height = Math.ceil(fontSize * 1.5);
+      // 重新设置 font（canvas resize 后需重新设置）
+      ctx.font = `bold ${fontSize}px ${fontStack}`;
+      ctx.fillStyle = "rgb(128, 128, 128)"; // 灰色水印
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+      // 转为 PNG bytes
+      const pngBlob = await new Promise<Blob>((resolve) =>
+        canvas.toBlob((b) => resolve(b!), "image/png")
+      );
+      const pngBytes = await pngBlob.arrayBuffer();
+      const embeddedImage = await doc.embedPng(pngBytes);
 
       for (const page of pages) {
         const { width, height } = page.getSize();
-        const textWidth = font.widthOfTextAtSize(text, fontSize);
 
         if (position === "center") {
-          // 居中放置一个水印，旋转 45 度
-          page.drawText(text, {
-            x: width / 2 - textWidth / 2,
-            y: height / 2 - fontSize / 2,
-            size: fontSize,
-            font,
-            color: watermarkColor,
+          // 居中放置，旋转 45 度
+          const imgWidth = embeddedImage.width;
+          const imgHeight = embeddedImage.height;
+          page.drawImage(embeddedImage, {
+            x: width / 2 - imgWidth / 2,
+            y: height / 2 - imgHeight / 2,
+            width: imgWidth,
+            height: imgHeight,
             opacity,
-            rotate: rotation,
+            rotate: degrees(45),
           });
         } else {
           // 平铺模式：在页面上以网格形式重复绘制水印
-          const stepX = Math.max(textWidth + fontSize * 2, fontSize * 6);
-          const stepY = Math.max(fontSize * 3, fontSize * 4);
+          const imgWidth = embeddedImage.width;
+          const imgHeight = embeddedImage.height;
+          const stepX = Math.max(imgWidth + fontSize * 2, fontSize * 6);
+          const stepY = Math.max(imgHeight + fontSize * 2, fontSize * 4);
           for (let y = -stepY; y < height + stepY; y += stepY) {
             for (let x = -stepX; x < width + stepX; x += stepX) {
-              page.drawText(text, {
+              page.drawImage(embeddedImage, {
                 x,
                 y,
-                size: fontSize,
-                font,
-                color: watermarkColor,
+                width: imgWidth,
+                height: imgHeight,
                 opacity,
-                rotate: rotation,
+                rotate: degrees(45),
               });
             }
           }

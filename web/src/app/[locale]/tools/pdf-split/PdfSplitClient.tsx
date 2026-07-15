@@ -69,6 +69,14 @@ export default function PdfSplitClient() {
     };
   }, []);
 
+  // 清理所有旧结果的 object URLs（使用函数式更新避免依赖 results）
+  const clearResults = useCallback(() => {
+    setResults((prev) => {
+      prev.forEach((r) => URL.revokeObjectURL(r.url));
+      return [];
+    });
+  }, []);
+
   const handleFile = useCallback(
     async (selected: File) => {
       const isPdf =
@@ -87,7 +95,7 @@ export default function PdfSplitClient() {
       setErrorMsg("");
       setFile(selected);
       setStatus("idle");
-      setResults([]);
+      clearResults();
       try {
         const buf = await selected.arrayBuffer();
         const doc = await PDFDocument.load(buf, { ignoreEncryption: true });
@@ -97,7 +105,7 @@ export default function PdfSplitClient() {
         setStatus("error");
       }
     },
-    [t]
+    [t, clearResults]
   );
 
   const handleDrop = useCallback(
@@ -123,15 +131,15 @@ export default function PdfSplitClient() {
     setRanges("");
     setErrorMsg("");
     setStatus("idle");
-    setResults([]);
+    clearResults();
     if (inputRef.current) inputRef.current.value = "";
-  }, []);
+  }, [clearResults]);
 
   const split = useCallback(async () => {
     if (!file || !pageCount) return;
     setStatus("processing");
     setErrorMsg("");
-    setResults([]);
+    clearResults();
     try {
       const parsed = parseRanges(ranges, pageCount);
       const srcBuf = await file.arrayBuffer();
@@ -154,7 +162,11 @@ export default function PdfSplitClient() {
             : `${indices[0] + 1}-${indices[indices.length - 1] + 1}`;
         newResults.push({ range: rangeLabel, url, pageCount: indices.length });
       }
-      setResults(newResults);
+      // 替换为新结果前，先 revoke 旧结果的 object URLs
+      setResults((prev) => {
+        prev.forEach((r) => URL.revokeObjectURL(r.url));
+        return newResults;
+      });
       setStatus("done");
     } catch (err) {
       console.error("Split error:", err);
@@ -166,7 +178,7 @@ export default function PdfSplitClient() {
       }
       setStatus("error");
     }
-  }, [file, pageCount, ranges, t]);
+  }, [file, pageCount, ranges, t, clearResults]);
 
   const reset = useCallback(() => {
     results.forEach((r) => {
