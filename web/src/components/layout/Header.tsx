@@ -27,6 +27,8 @@ export default function Header() {
         { name: tTools("pdfPageNumbers.name"), desc: tTools("pdfPageNumbers.desc"), href: "/tools/pdf-page-numbers" },
         { name: tTools("pdfEncrypt.name"), desc: tTools("pdfEncrypt.desc"), href: "/tools/pdf-encrypt" },
         { name: tTools("pdfDecrypt.name"), desc: tTools("pdfDecrypt.desc"), href: "/tools/pdf-decrypt" },
+        { name: tTools("pdfCrop.name"), desc: tTools("pdfCrop.desc"), href: "/tools/pdf-crop" },
+        { name: tTools("pdfRotate.name"), desc: tTools("pdfRotate.desc"), href: "/tools/pdf-rotate" },
       ],
     },
     {

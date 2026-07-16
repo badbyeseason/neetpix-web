@@ -45,7 +45,7 @@ export default async function PdfMergePage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <PdfMergeClient />
       <Faq tool="pdfMerge" locale={locale} />
-      <RelatedTools tools={["pdfSplit", "pdfCompress", "pdfToWord", "wordToPdf"]} locale={locale} />
+      <RelatedTools tools={["pdfSplit", "pdfCompress", "pdfToWord", "pdfCrop", "pdfRotate"]} locale={locale} />
     </div>
   );
 }

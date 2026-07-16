@@ -51,6 +51,8 @@ export default async function HomePage({ params }: Props) {
     { key: "pdfPageNumbers", href: "/tools/pdf-page-numbers", gradient: "from-coral/10 to-bg-article" },
     { key: "pdfEncrypt", href: "/tools/pdf-encrypt", gradient: "from-teal/10 to-bg-article" },
     { key: "pdfDecrypt", href: "/tools/pdf-decrypt", gradient: "from-coral/10 to-bg-article" },
+    { key: "pdfCrop", href: "/tools/pdf-crop", gradient: "from-coral/10 to-bg-article" },
+    { key: "pdfRotate", href: "/tools/pdf-rotate", gradient: "from-teal/10 to-bg-article" },
   ];
 
   return (

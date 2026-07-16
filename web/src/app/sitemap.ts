@@ -20,6 +20,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/pdf-page-numbers",
     "/tools/pdf-encrypt",
     "/tools/pdf-decrypt",
+    "/tools/pdf-crop",
+    "/tools/pdf-rotate",
     "/privacy",
   ];
 

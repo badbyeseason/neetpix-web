@@ -45,7 +45,7 @@ export default async function PdfPageNumbersPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <PdfPageNumbersClient />
       <Faq tool="pdfPageNumbers" locale={locale} />
-      <RelatedTools tools={["pdfWatermark", "pdfMerge", "pdfSplit", "pdfCompress"]} locale={locale} />
+      <RelatedTools tools={["pdfWatermark", "pdfMerge", "pdfSplit", "pdfCrop", "pdfRotate"]} locale={locale} />
     </div>
   );
 }

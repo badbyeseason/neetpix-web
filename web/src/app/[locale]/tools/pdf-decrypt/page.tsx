@@ -45,7 +45,7 @@ export default async function PdfDecryptPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <PdfDecryptClient />
       <Faq tool="pdfDecrypt" locale={locale} />
-      <RelatedTools tools={["pdfEncrypt", "pdfMerge", "pdfSplit", "pdfCompress"]} locale={locale} />
+      <RelatedTools tools={["pdfEncrypt", "pdfMerge", "pdfSplit", "pdfCrop"]} locale={locale} />
     </div>
   );
 }

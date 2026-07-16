@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import PdfEncryptClient from "./PdfEncryptClient";
+import PdfRotateClient from "./PdfRotateClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
@@ -12,11 +12,11 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "pdfEncrypt" });
+  const t = await getTranslations({ locale, namespace: "pdfRotate" });
   return {
     title: { absolute: t("title") },
     description: t("description"),
-    alternates: buildI18nMetadata("/tools/pdf-encrypt", locale),
+    alternates: buildI18nMetadata("/tools/pdf-rotate", locale),
     openGraph: {
       title: t("title") + " - Neetpix",
       description: t("description"),
@@ -31,21 +31,21 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function PdfEncryptPage({ params }: Props) {
+export default async function PdfRotatePage({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "pdfEncrypt" });
+  const t = await getTranslations({ locale, namespace: "pdfRotate" });
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
       <JsonLd
         name={t("title") + " - Neetpix"}
         description={t("description")}
-        url={locale === "en" ? "https://neetpix.com/tools/pdf-encrypt" : "https://neetpix.com/zh/tools/pdf-encrypt"}
+        url={locale === "en" ? "https://neetpix.com/tools/pdf-rotate" : "https://neetpix.com/zh/tools/pdf-rotate"}
         locale={locale}
       />
       <PrivacyBadge locale={locale} />
-      <PdfEncryptClient />
-      <Faq tool="pdfEncrypt" locale={locale} />
-      <RelatedTools tools={["pdfDecrypt", "pdfWatermark", "pdfMerge", "pdfRotate"]} locale={locale} />
+      <PdfRotateClient />
+      <Faq tool="pdfRotate" locale={locale} />
+      <RelatedTools tools={["pdfCrop", "pdfSplit", "pdfMerge", "pdfCompress"]} locale={locale} />
     </div>
   );
 }

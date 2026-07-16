@@ -45,7 +45,7 @@ export default async function PdfSplitPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <PdfSplitClient />
       <Faq tool="pdfSplit" locale={locale} />
-      <RelatedTools tools={["pdfMerge", "pdfCompress", "pdfToWord", "pdfWatermark"]} locale={locale} />
+      <RelatedTools tools={["pdfMerge", "pdfCompress", "pdfWatermark", "pdfCrop", "pdfRotate"]} locale={locale} />
     </div>
   );
 }

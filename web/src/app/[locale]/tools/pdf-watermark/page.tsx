@@ -45,7 +45,7 @@ export default async function PdfWatermarkPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <PdfWatermarkClient />
       <Faq tool="pdfWatermark" locale={locale} />
-      <RelatedTools tools={["pdfEncrypt", "pdfPageNumbers", "pdfDecrypt", "imageWatermark"]} locale={locale} />
+      <RelatedTools tools={["pdfEncrypt", "pdfPageNumbers", "pdfDecrypt", "pdfCrop", "pdfRotate"]} locale={locale} />
     </div>
   );
 }
