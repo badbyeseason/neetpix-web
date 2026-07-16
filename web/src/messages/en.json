@@ -3,6 +3,7 @@
     "home": "Home",
     "tools": "Tools",
     "privacy": "Privacy",
+    "about": "About",
     "categoryPdf": "PDF Tools",
     "categoryImage": "Image Tools",
     "categoryTranslate": "Translate Tools"
@@ -497,6 +498,19 @@
     "thirdPartyDesc": "We use the following third-party services: Vercel (hosting and analytics), MyMemory Translation API (for screenshot translation). These services have their own privacy policies.",
     "contact": "Contact",
     "contactDesc": "If you have questions about this privacy policy, please contact us at privacy@neetpix.com"
+  },
+  "about": {
+    "title": "About Neetpix",
+    "description": "Neetpix is a free online tool platform built on a privacy-first principle. All processing happens in your browser - your files never leave your device.",
+    "intro": "Neetpix was born from a simple frustration: most online tool sites are bloated with ads, require signups, upload your files to unknown servers, or lock core features behind paywalls. We wanted to build something different - a clean, fast, and genuinely free tool platform that respects your privacy.",
+    "privacyTitle": "Privacy First, Always",
+    "privacyDesc": "Every tool on Neetpix processes your files directly in your browser using WebAssembly and modern web APIs. Your files are never uploaded to any server. This isn't just a marketing claim - it's a technical architecture decision.",
+    "toolsTitle": "What We Offer",
+    "toolsPdf": "12 PDF tools - convert, merge, split, compress, watermark, encrypt, crop, rotate and more",
+    "toolsImage": "3 image tools - remove background, compress, and add watermarks",
+    "toolsTranslate": "1 translation tool - screenshot OCR translation with auto-detect",
+    "contactTitle": "Get in Touch",
+    "contactEmail": "im.badbye@gmail.com"
   },
   "faq": {
     "title": "FAQ",

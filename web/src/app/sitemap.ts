@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/pdf-crop",
     "/tools/pdf-rotate",
     "/privacy",
+    "/about",
   ];
 
   const entries: MetadataRoute.Sitemap = [];

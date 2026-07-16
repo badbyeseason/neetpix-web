@@ -17,6 +17,11 @@ export const metadata: Metadata = {
     apple: "/icon.png",
   },
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Neetpix",
+  },
   openGraph: {
     type: "website",
     siteName: "Neetpix",

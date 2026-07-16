@@ -5,6 +5,7 @@ import Link from "next/link";
 
 export default function Footer() {
   const t = useTranslations("footer");
+  const tNav = useTranslations("nav");
 
   return (
     <footer className="border-t border-border bg-bg-warm">
@@ -12,6 +13,7 @@ export default function Footer() {
         <p className="text-sm text-text-secondary">{t("brand")}</p>
         <div className="flex items-center gap-4 text-sm text-text-secondary">
           <Link href="/privacy" className="hover:text-text transition-colors">{t("privacy")}</Link>
+          <Link href="/about" className="hover:text-text transition-colors">{tNav("about")}</Link>
           <a href="mailto:im.badbye@gmail.com" className="hover:text-text transition-colors">{t("contact")}</a>
         </div>
       </div>

@@ -3,6 +3,7 @@
     "home": "首页",
     "tools": "工具",
     "privacy": "隐私",
+    "about": "关于",
     "categoryPdf": "PDF 工具",
     "categoryImage": "图片工具",
     "categoryTranslate": "翻译工具"
@@ -497,6 +498,19 @@
     "thirdPartyDesc": "我们使用以下第三方服务：Vercel（托管与分析）、MyMemory 翻译 API（用于截图翻译）。这些服务有各自的隐私政策。",
     "contact": "联系我们",
     "contactDesc": "如果你对本隐私政策有疑问，请通过 privacy@neetpix.com 联系我们"
+  },
+  "about": {
+    "title": "关于 Neetpix",
+    "description": "Neetpix 是一个以隐私为先的免费在线工具平台。所有处理都在你的浏览器中完成，文件不会离开你的设备。",
+    "intro": "Neetpix 诞生于一个简单的痛点：大多数在线工具网站充斥广告、需要注册、将文件上传到未知服务器，或者把核心功能锁在付费墙后。我们想做一些不同的事——一个干净、快速、真正免费且尊重隐私的工具平台。",
+    "privacyTitle": "隐私优先，始终如一",
+    "privacyDesc": "Neetpix 上的每个工具都通过 WebAssembly 和现代 Web API 在你的浏览器中直接处理文件。你的文件不会被上传到任何服务器。这不是营销话术，而是技术架构层面的决定。",
+    "toolsTitle": "我们提供的工具",
+    "toolsPdf": "12 个 PDF 工具——转换、合并、拆分、压缩、加水印、加密、裁剪、旋转等",
+    "toolsImage": "3 个图片工具——去除背景、压缩、加水印",
+    "toolsTranslate": "1 个翻译工具——截图 OCR 翻译，支持自动检测",
+    "contactTitle": "联系我们",
+    "contactEmail": "im.badbye@gmail.com"
   },
   "faq": {
     "title": "常见问题",
