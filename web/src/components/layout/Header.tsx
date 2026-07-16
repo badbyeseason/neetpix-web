@@ -74,7 +74,7 @@ export default function Header() {
               </svg>
             </button>
             {toolsOpen && (
-              <div className="absolute top-full left-0 w-80 py-2 bg-white border border-border rounded-lg shadow-lg">
+              <div className="absolute top-full left-0 w-80 py-2 bg-white border border-border rounded-lg shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto">
                 {toolCategories.map((group) => (
                   <div key={group.category} className="px-2 py-1">
                     <p className="px-3 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide text-text-secondary">
