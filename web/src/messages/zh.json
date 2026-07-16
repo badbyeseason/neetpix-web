@@ -11,6 +11,10 @@
     "localProcessing": "本地处理",
     "localProcessingDesc": "100% 在浏览器中完成"
   },
+  "badges": {
+    "new": "新",
+    "hot": "热门"
+  },
   "hero": {
     "title": "解付工具，免费使用。",
     "subtitle": "Neetpix 提供优质的办公与多媒体工具——免费。无需订阅，没有付费墙。",
@@ -424,7 +428,8 @@
     "errorNotEncrypted": "此 PDF 未加密，无需解密。",
     "retry": "解密另一个文件",
     "success": "解密完成！你的 PDF 已准备好下载。",
-    "fileLabel": "已选文件"
+    "fileLabel": "已选文件",
+    "legalNote": "请确保你拥有该 PDF 的合法解密权限（如忘记自己设置的密码）。本工具不应用于破解他人加密的文档。"
   },
   "pdfCrop": {
     "title": "PDF 裁剪 – 免费在线 PDF 页面裁剪工具 | Neetpix",

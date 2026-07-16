@@ -36,11 +36,11 @@ export default async function HomePage({ params }: Props) {
   const t = await getTranslations({ locale });
 
   // comingSoon 为可选字段，用于标记即将上线的工具
-  const tools: { key: string; href: string; gradient: string; comingSoon?: boolean }[] = [
-    { key: "removeBackground", href: "/tools/remove-background", gradient: "from-teal/10 to-teal-bg" },
+  const tools: { key: string; href: string; gradient: string; comingSoon?: boolean; badge?: "new" | "hot" }[] = [
+    { key: "removeBackground", href: "/tools/remove-background", gradient: "from-teal/10 to-teal-bg", badge: "hot" },
     { key: "imageToPdf", href: "/tools/image-to-pdf", gradient: "from-coral/10 to-teal-bg" },
-    { key: "pdfToWord", href: "/tools/pdf-to-word", gradient: "from-teal/10 to-bg-article" },
-    { key: "wordToPdf", href: "/tools/word-to-pdf", gradient: "from-coral/10 to-bg-article" },
+    { key: "pdfToWord", href: "/tools/pdf-to-word", gradient: "from-teal/10 to-bg-article", badge: "hot" },
+    { key: "wordToPdf", href: "/tools/word-to-pdf", gradient: "from-coral/10 to-bg-article", badge: "hot" },
     { key: "screenshotTranslate", href: "/tools/screenshot-translate", gradient: "from-coral/10 to-teal-bg" },
     { key: "imageCompress", href: "/tools/image-compress", gradient: "from-teal-bg to-bg-article" },
     { key: "imageWatermark", href: "/tools/image-watermark", gradient: "from-coral/10 to-bg-article" },
@@ -51,8 +51,8 @@ export default async function HomePage({ params }: Props) {
     { key: "pdfPageNumbers", href: "/tools/pdf-page-numbers", gradient: "from-coral/10 to-bg-article" },
     { key: "pdfEncrypt", href: "/tools/pdf-encrypt", gradient: "from-teal/10 to-bg-article" },
     { key: "pdfDecrypt", href: "/tools/pdf-decrypt", gradient: "from-coral/10 to-bg-article" },
-    { key: "pdfCrop", href: "/tools/pdf-crop", gradient: "from-coral/10 to-bg-article" },
-    { key: "pdfRotate", href: "/tools/pdf-rotate", gradient: "from-teal/10 to-bg-article" },
+    { key: "pdfCrop", href: "/tools/pdf-crop", gradient: "from-coral/10 to-bg-article", badge: "new" },
+    { key: "pdfRotate", href: "/tools/pdf-rotate", gradient: "from-teal/10 to-bg-article", badge: "new" },
   ];
 
   return (
@@ -100,6 +100,18 @@ export default async function HomePage({ params }: Props) {
                     {tool.comingSoon && (
                       <span className="ml-2 text-xs font-medium text-text-secondary bg-bg-article px-2 py-0.5 rounded-full">
                         Soon
+                      </span>
+                    )}
+                    {tool.badge && (
+                      <span
+                        className={
+                          "ml-2 text-xs font-medium px-1.5 py-0.5 rounded-full " +
+                          (tool.badge === "new"
+                            ? "bg-teal/10 text-teal"
+                            : "bg-coral/10 text-coral")
+                        }
+                      >
+                        {t("badges." + tool.badge)}
                       </span>
                     )}
                   </h3>

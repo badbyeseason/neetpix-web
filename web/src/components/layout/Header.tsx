@@ -9,16 +9,17 @@ import Logo from "../ui/Logo";
 export default function Header() {
   const t = useTranslations("nav");
   const tTools = useTranslations("tools");
+  const tBadges = useTranslations("badges");
   const [toolsOpen, setToolsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // 工具按二级分类组织：name 使用字面量 key 访问，保证类型安全
-  const toolCategories = [
+  const toolCategories: { category: string; tools: { name: string; desc: string; href: string; badge?: "new" | "hot" }[] }[] = [
     {
       category: t("categoryPdf"),
       tools: [
-        { name: tTools("pdfToWord.name"), desc: tTools("pdfToWord.desc"), href: "/tools/pdf-to-word" },
-        { name: tTools("wordToPdf.name"), desc: tTools("wordToPdf.desc"), href: "/tools/word-to-pdf" },
+        { name: tTools("pdfToWord.name"), desc: tTools("pdfToWord.desc"), href: "/tools/pdf-to-word", badge: "hot" },
+        { name: tTools("wordToPdf.name"), desc: tTools("wordToPdf.desc"), href: "/tools/word-to-pdf", badge: "hot" },
         { name: tTools("imageToPdf.name"), desc: tTools("imageToPdf.desc"), href: "/tools/image-to-pdf" },
         { name: tTools("pdfMerge.name"), desc: tTools("pdfMerge.desc"), href: "/tools/pdf-merge" },
         { name: tTools("pdfSplit.name"), desc: tTools("pdfSplit.desc"), href: "/tools/pdf-split" },
@@ -27,14 +28,14 @@ export default function Header() {
         { name: tTools("pdfPageNumbers.name"), desc: tTools("pdfPageNumbers.desc"), href: "/tools/pdf-page-numbers" },
         { name: tTools("pdfEncrypt.name"), desc: tTools("pdfEncrypt.desc"), href: "/tools/pdf-encrypt" },
         { name: tTools("pdfDecrypt.name"), desc: tTools("pdfDecrypt.desc"), href: "/tools/pdf-decrypt" },
-        { name: tTools("pdfCrop.name"), desc: tTools("pdfCrop.desc"), href: "/tools/pdf-crop" },
-        { name: tTools("pdfRotate.name"), desc: tTools("pdfRotate.desc"), href: "/tools/pdf-rotate" },
+        { name: tTools("pdfCrop.name"), desc: tTools("pdfCrop.desc"), href: "/tools/pdf-crop", badge: "new" },
+        { name: tTools("pdfRotate.name"), desc: tTools("pdfRotate.desc"), href: "/tools/pdf-rotate", badge: "new" },
       ],
     },
     {
       category: t("categoryImage"),
       tools: [
-        { name: tTools("removeBackground.name"), desc: tTools("removeBackground.desc"), href: "/tools/remove-background" },
+        { name: tTools("removeBackground.name"), desc: tTools("removeBackground.desc"), href: "/tools/remove-background", badge: "hot" },
         { name: tTools("imageCompress.name"), desc: tTools("imageCompress.desc"), href: "/tools/image-compress" },
         { name: tTools("imageWatermark.name"), desc: tTools("imageWatermark.desc"), href: "/tools/image-watermark" },
       ],
@@ -87,7 +88,21 @@ export default function Header() {
                           href={tool.href}
                           className="block px-3 py-2 rounded-md hover:bg-bg-warm transition-colors"
                         >
-                          <span className="block text-sm font-medium text-text">{tool.name}</span>
+                          <span className="block text-sm font-medium text-text">
+                            {tool.name}
+                            {tool.badge && (
+                              <span
+                                className={
+                                  "ml-1.5 inline-block text-[10px] font-medium px-1 py-0.5 rounded-full align-middle " +
+                                  (tool.badge === "new"
+                                    ? "bg-teal/10 text-teal"
+                                    : "bg-coral/10 text-coral")
+                                }
+                              >
+                                {tBadges(tool.badge)}
+                              </span>
+                            )}
+                          </span>
                           <span className="block text-xs text-text-secondary mt-0.5">{tool.desc}</span>
                         </Link>
                       ))}

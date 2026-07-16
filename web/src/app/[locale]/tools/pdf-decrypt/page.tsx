@@ -44,6 +44,10 @@ export default async function PdfDecryptPage({ params }: Props) {
       />
       <PrivacyBadge locale={locale} />
       <PdfDecryptClient />
+      {/* 法律声明：合规自保，小字灰色 */}
+      <p className="mt-6 text-xs text-text-secondary/60 leading-relaxed max-w-2xl mx-auto text-center">
+        {t("legalNote")}
+      </p>
       <Faq tool="pdfDecrypt" locale={locale} />
       <RelatedTools tools={["pdfEncrypt", "pdfMerge", "pdfSplit", "pdfCrop"]} locale={locale} />
     </div>

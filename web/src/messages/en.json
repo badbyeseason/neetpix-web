@@ -11,6 +11,10 @@
     "localProcessing": "Local Processing",
     "localProcessingDesc": "100% in your browser"
   },
+  "badges": {
+    "new": "NEW",
+    "hot": "Hot"
+  },
   "hero": {
     "title": "The tools you need, unpaywalled.",
     "subtitle": "Neetpix gives you premium office & media tools — for free. No subscriptions. No paywalls.",
@@ -424,7 +428,8 @@
     "errorNotEncrypted": "This PDF is not encrypted. No decryption needed.",
     "retry": "Decrypt Another File",
     "success": "Decryption complete! Your PDF is ready to download.",
-    "fileLabel": "Selected File"
+    "fileLabel": "Selected File",
+    "legalNote": "Please ensure you have the legal right to decrypt this PDF (e.g., you forgot your own password). This tool must not be used to crack documents encrypted by others."
   },
   "pdfCrop": {
     "title": "PDF Crop – Free Online PDF Trimmer | Neetpix",
