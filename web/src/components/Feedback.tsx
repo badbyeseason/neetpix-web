@@ -21,7 +21,7 @@ export default function Feedback() {
     }
   }, [open]);
 
-  const mailtoHref = `mailto:feedback@neetpix.com?subject=${encodeURIComponent("Neetpix Feedback")}`;
+  const mailtoHref = `mailto:im.badbye@gmail.com?subject=${encodeURIComponent("Neetpix Feedback")}`;
 
   return (
     <div ref={ref} className="fixed bottom-6 right-6 z-50">

@@ -12,7 +12,7 @@ export default function Footer() {
         <p className="text-sm text-text-secondary">{t("brand")}</p>
         <div className="flex items-center gap-4 text-sm text-text-secondary">
           <Link href="/privacy" className="hover:text-text transition-colors">{t("privacy")}</Link>
-          <a href="mailto:feedback@neetpix.com" className="hover:text-text transition-colors">{t("contact")}</a>
+          <a href="mailto:im.badbye@gmail.com" className="hover:text-text transition-colors">{t("contact")}</a>
         </div>
       </div>
     </footer>
