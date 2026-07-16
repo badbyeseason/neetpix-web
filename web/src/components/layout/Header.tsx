@@ -57,7 +57,7 @@ export default function Header() {
           </Link>
           {/* 桌面端工具下拉菜单（hover 展开） */}
           <div
-            className="hidden sm:block relative"
+            className="hidden md:block relative"
             onMouseEnter={() => setToolsOpen(true)}
             onMouseLeave={() => setToolsOpen(false)}
           >
@@ -74,24 +74,26 @@ export default function Header() {
               </svg>
             </button>
             {toolsOpen && (
-              <div className="absolute top-full left-0 w-80 py-2 bg-white border border-border rounded-lg shadow-lg max-h-[calc(100vh-4rem)] overflow-y-auto">
-                {toolCategories.map((group) => (
-                  <div key={group.category} className="px-2 py-1">
-                    <p className="px-3 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide text-text-secondary">
-                      {group.category}
-                    </p>
-                    {group.tools.map((tool) => (
-                      <Link
-                        key={tool.href}
-                        href={tool.href}
-                        className="block px-3 py-2 rounded-md hover:bg-bg-warm transition-colors"
-                      >
-                        <span className="block text-sm font-medium text-text">{tool.name}</span>
-                        <span className="block text-xs text-text-secondary mt-0.5">{tool.desc}</span>
-                      </Link>
-                    ))}
-                  </div>
-                ))}
+              <div className="absolute top-full left-0 w-[min(680px,calc(100vw-2rem))] py-2 bg-white border border-border rounded-lg shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto">
+                <div className="grid grid-cols-3 gap-1 px-2">
+                  {toolCategories.map((group) => (
+                    <div key={group.category} className="px-1">
+                      <p className="px-3 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide text-text-secondary">
+                        {group.category}
+                      </p>
+                      {group.tools.map((tool) => (
+                        <Link
+                          key={tool.href}
+                          href={tool.href}
+                          className="block px-3 py-2 rounded-md hover:bg-bg-warm transition-colors"
+                        >
+                          <span className="block text-sm font-medium text-text">{tool.name}</span>
+                          <span className="block text-xs text-text-secondary mt-0.5">{tool.desc}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -100,7 +102,7 @@ export default function Header() {
           <LocaleSwitcher />
           {/* 移动端汉堡按钮 */}
           <button
-            className="sm:hidden text-text"
+            className="md:hidden text-text"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label="Toggle menu"
           >
@@ -112,7 +114,7 @@ export default function Header() {
       </nav>
       {/* 移动端展开菜单 */}
       {mobileOpen && (
-        <div className="sm:hidden border-t border-border bg-white">
+        <div className="md:hidden border-t border-border bg-white">
           <div className="px-4 py-2">
             {toolCategories.map((group) => (
               <div key={group.category} className="py-2">
