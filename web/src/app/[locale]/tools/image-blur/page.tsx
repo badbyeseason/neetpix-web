@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import ImageExifClient from "./ImageExifClient";
+import ImageBlurClient from "./ImageBlurClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
@@ -12,11 +12,11 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "imageExif" });
+  const t = await getTranslations({ locale, namespace: "imageBlur" });
   return {
     title: { absolute: t("title") },
     description: t("description"),
-    alternates: buildI18nMetadata("/tools/image-exif", locale),
+    alternates: buildI18nMetadata("/tools/image-blur", locale),
     openGraph: {
       title: t("title") + " - Neetpix",
       description: t("description"),
@@ -31,21 +31,28 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function ImageExifPage({ params }: Props) {
+export default async function ImageBlurPage({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "imageExif" });
+  const t = await getTranslations({ locale, namespace: "imageBlur" });
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
       <JsonLd
         name={t("title") + " - Neetpix"}
         description={t("description")}
-        url={locale === "en" ? "https://neetpix.com/tools/image-exif" : "https://neetpix.com/zh/tools/image-exif"}
+        url={
+          locale === "en"
+            ? "https://neetpix.com/tools/image-blur"
+            : "https://neetpix.com/zh/tools/image-blur"
+        }
         locale={locale}
       />
       <PrivacyBadge locale={locale} />
-      <ImageExifClient />
-      <Faq tool="imageExif" locale={locale} />
-      <RelatedTools tools={["imageCompress", "imageWatermark", "imageToPdf", "removeBackground", "imageIdPhoto", "imageOcr", "imageBlur"]} locale={locale} />
+      <ImageBlurClient />
+      <Faq tool="imageBlur" locale={locale} />
+      <RelatedTools
+        tools={["imageResize", "imageCompress", "imageWatermark", "removeBackground"]}
+        locale={locale}
+      />
     </div>
   );
 }

@@ -45,7 +45,7 @@ export default async function ImageCompressPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ImageCompressClient />
       <Faq tool="imageCompress" locale={locale} />
-      <RelatedTools tools={["imageToPdf", "imageWatermark", "removeBackground", "imageConvert", "imageExif", "imageResize"]} locale={locale} />
+      <RelatedTools tools={["imageToPdf", "imageWatermark", "removeBackground", "imageConvert", "imageExif", "imageResize", "imageIdPhoto", "imageOcr", "imageBlur"]} locale={locale} />
     </div>
   );
 }

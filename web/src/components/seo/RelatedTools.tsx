@@ -27,6 +27,9 @@ const TOOL_ROUTES: Record<string, string> = {
   imageConvert: "image-convert",
   imageExif: "image-exif",
   imageResize: "image-resize",
+  imageIdPhoto: "image-id-photo",
+  imageOcr: "image-ocr",
+  imageBlur: "image-blur",
   removeBackground: "remove-background",
   screenshotTranslate: "screenshot-translate",
 };
@@ -50,6 +53,9 @@ const TOOL_ICONS: Record<string, { emoji: string; gradient: string }> = {
   imageConvert: { emoji: "🔄", gradient: "from-coral-light/10 to-teal-bg" },
   imageExif: { emoji: "📍", gradient: "from-coral-light/10 to-bg-article" },
   imageResize: { emoji: "📏", gradient: "from-coral/10 to-bg-warm" },
+  imageIdPhoto: { emoji: "🪪", gradient: "from-teal/10 to-bg-warm" },
+  imageOcr: { emoji: "📝", gradient: "from-coral-light/10 to-bg-warm" },
+  imageBlur: { emoji: "🔐", gradient: "from-teal-bg to-bg-warm" },
   removeBackground: { emoji: "✨", gradient: "from-teal/10 to-bg-article" },
   screenshotTranslate: { emoji: "📸", gradient: "from-coral/10 to-bg-article" },
 };

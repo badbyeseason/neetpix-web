@@ -41,6 +41,9 @@ export default function Header() {
         { name: tTools("imageConvert.name"), desc: tTools("imageConvert.desc"), href: "/tools/image-convert", badge: "new" },
         { name: tTools("imageExif.name"), desc: tTools("imageExif.desc"), href: "/tools/image-exif", badge: "new" },
         { name: tTools("imageResize.name"), desc: tTools("imageResize.desc"), href: "/tools/image-resize", badge: "new" },
+        { name: tTools("imageIdPhoto.name"), desc: tTools("imageIdPhoto.desc"), href: "/tools/image-id-photo", badge: "new" },
+        { name: tTools("imageOcr.name"), desc: tTools("imageOcr.desc"), href: "/tools/image-ocr", badge: "new" },
+        { name: tTools("imageBlur.name"), desc: tTools("imageBlur.desc"), href: "/tools/image-blur", badge: "new" },
       ],
     },
     {

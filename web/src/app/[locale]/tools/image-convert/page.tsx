@@ -51,7 +51,7 @@ export default async function ImageConvertPage({ params }: Props) {
       <ImageConvertClient />
       <Faq tool="imageConvert" locale={locale} />
       <RelatedTools
-        tools={["imageToPdf", "imageCompress", "imageWatermark", "removeBackground"]}
+        tools={["imageToPdf", "imageCompress", "imageWatermark", "removeBackground", "imageIdPhoto", "imageOcr", "imageBlur"]}
         locale={locale}
       />
     </div>

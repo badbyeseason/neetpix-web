@@ -36,26 +36,45 @@ export default async function HomePage({ params }: Props) {
   const t = await getTranslations({ locale });
 
   // comingSoon 为可选字段，用于标记即将上线的工具
-  const tools: { key: string; href: string; gradient: string; comingSoon?: boolean; badge?: "new" | "hot" }[] = [
-    { key: "removeBackground", href: "/tools/remove-background", gradient: "from-teal/10 to-teal-bg", badge: "hot" },
-    { key: "imageToPdf", href: "/tools/image-to-pdf", gradient: "from-coral/10 to-teal-bg" },
-    { key: "pdfToWord", href: "/tools/pdf-to-word", gradient: "from-teal/10 to-bg-article", badge: "hot" },
-    { key: "wordToPdf", href: "/tools/word-to-pdf", gradient: "from-coral/10 to-bg-article", badge: "hot" },
-    { key: "screenshotTranslate", href: "/tools/screenshot-translate", gradient: "from-coral/10 to-teal-bg" },
-    { key: "imageCompress", href: "/tools/image-compress", gradient: "from-teal-bg to-bg-article" },
-    { key: "imageWatermark", href: "/tools/image-watermark", gradient: "from-coral/10 to-bg-article" },
-    { key: "imageConvert", href: "/tools/image-convert", gradient: "from-coral-light/10 to-teal-bg", badge: "new" },
-    { key: "imageExif", href: "/tools/image-exif", gradient: "from-coral-light/10 to-bg-article", badge: "new" },
-    { key: "imageResize", href: "/tools/image-resize", gradient: "from-coral/10 to-bg-warm", badge: "new" },
-    { key: "pdfMerge", href: "/tools/pdf-merge", gradient: "from-teal/10 to-bg-article" },
-    { key: "pdfSplit", href: "/tools/pdf-split", gradient: "from-coral/10 to-teal-bg" },
-    { key: "pdfCompress", href: "/tools/pdf-compress", gradient: "from-teal-bg to-bg-article" },
-    { key: "pdfWatermark", href: "/tools/pdf-watermark", gradient: "from-teal/10 to-teal-bg" },
-    { key: "pdfPageNumbers", href: "/tools/pdf-page-numbers", gradient: "from-coral/10 to-bg-article" },
-    { key: "pdfEncrypt", href: "/tools/pdf-encrypt", gradient: "from-teal/10 to-bg-article" },
-    { key: "pdfDecrypt", href: "/tools/pdf-decrypt", gradient: "from-coral/10 to-bg-article" },
-    { key: "pdfCrop", href: "/tools/pdf-crop", gradient: "from-coral/10 to-bg-article", badge: "new" },
-    { key: "pdfRotate", href: "/tools/pdf-rotate", gradient: "from-teal/10 to-bg-article", badge: "new" },
+  type Tool = { key: string; href: string; gradient: string; comingSoon?: boolean; badge?: "new" | "hot" };
+  const toolGroups: { category: string; tools: Tool[] }[] = [
+    {
+      category: t("nav.categoryPdf"),
+      tools: [
+        { key: "pdfToWord", href: "/tools/pdf-to-word", gradient: "from-teal/10 to-bg-article", badge: "hot" },
+        { key: "wordToPdf", href: "/tools/word-to-pdf", gradient: "from-coral/10 to-bg-article", badge: "hot" },
+        { key: "imageToPdf", href: "/tools/image-to-pdf", gradient: "from-coral/10 to-teal-bg" },
+        { key: "pdfMerge", href: "/tools/pdf-merge", gradient: "from-teal/10 to-bg-article" },
+        { key: "pdfSplit", href: "/tools/pdf-split", gradient: "from-coral/10 to-teal-bg" },
+        { key: "pdfCompress", href: "/tools/pdf-compress", gradient: "from-teal-bg to-bg-article" },
+        { key: "pdfWatermark", href: "/tools/pdf-watermark", gradient: "from-teal/10 to-teal-bg" },
+        { key: "pdfPageNumbers", href: "/tools/pdf-page-numbers", gradient: "from-coral/10 to-bg-article" },
+        { key: "pdfEncrypt", href: "/tools/pdf-encrypt", gradient: "from-teal/10 to-bg-article" },
+        { key: "pdfDecrypt", href: "/tools/pdf-decrypt", gradient: "from-coral/10 to-bg-article" },
+        { key: "pdfCrop", href: "/tools/pdf-crop", gradient: "from-coral/10 to-bg-article", badge: "new" },
+        { key: "pdfRotate", href: "/tools/pdf-rotate", gradient: "from-teal/10 to-bg-article", badge: "new" },
+      ],
+    },
+    {
+      category: t("nav.categoryImage"),
+      tools: [
+        { key: "removeBackground", href: "/tools/remove-background", gradient: "from-teal/10 to-teal-bg", badge: "hot" },
+        { key: "imageCompress", href: "/tools/image-compress", gradient: "from-teal-bg to-bg-article" },
+        { key: "imageWatermark", href: "/tools/image-watermark", gradient: "from-coral/10 to-bg-article" },
+        { key: "imageConvert", href: "/tools/image-convert", gradient: "from-coral-light/10 to-teal-bg", badge: "new" },
+        { key: "imageExif", href: "/tools/image-exif", gradient: "from-coral-light/10 to-bg-article", badge: "new" },
+        { key: "imageResize", href: "/tools/image-resize", gradient: "from-coral/10 to-bg-warm", badge: "new" },
+        { key: "imageIdPhoto", href: "/tools/image-id-photo", gradient: "from-teal/10 to-bg-warm", badge: "new" },
+        { key: "imageOcr", href: "/tools/image-ocr", gradient: "from-coral-light/10 to-bg-warm", badge: "new" },
+        { key: "imageBlur", href: "/tools/image-blur", gradient: "from-teal-bg to-bg-warm", badge: "new" },
+      ],
+    },
+    {
+      category: t("nav.categoryTranslate"),
+      tools: [
+        { key: "screenshotTranslate", href: "/tools/screenshot-translate", gradient: "from-coral/10 to-teal-bg" },
+      ],
+    },
   ];
 
   return (
@@ -90,46 +109,55 @@ export default async function HomePage({ params }: Props) {
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-text mb-12">
             {t("tools.title")}
           </h2>
-          <div className="grid sm:grid-cols-2 gap-4">
-            {tools.map((tool) => (
-              <Link
-                key={tool.key}
-                href={tool.href}
-                className={"group relative rounded-2xl p-6 sm:p-8 bg-gradient-to-br " + tool.gradient + " border border-border hover:border-teal-light transition-all hover:shadow-md"}
-              >
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-text">
-                    {t("tools." + tool.key + ".name")}
-                    {tool.comingSoon && (
-                      <span className="ml-2 text-xs font-medium text-text-secondary bg-bg-article px-2 py-0.5 rounded-full">
-                        Soon
-                      </span>
-                    )}
-                    {tool.badge && (
-                      <span
-                        className={
-                          "ml-2 text-xs font-medium px-1.5 py-0.5 rounded-full " +
-                          (tool.badge === "new"
-                            ? "bg-teal/10 text-teal"
-                            : "bg-coral/10 text-coral")
-                        }
-                      >
-                        {t("badges." + tool.badge)}
-                      </span>
-                    )}
-                  </h3>
-                  <span
-                    className="inline-flex items-center gap-1 text-xs font-medium text-teal bg-teal/10 px-2 py-1 rounded-full"
-                    title={t("badge.localProcessingDesc")}
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-teal" aria-hidden="true" />
-                    {t("badge.localProcessing")}
-                  </span>
+          <div className="space-y-12">
+            {toolGroups.map((group) => (
+              <div key={group.category}>
+                <h3 className="text-xl font-bold text-text mb-6 text-center sm:text-left">
+                  {group.category}
+                </h3>
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {group.tools.map((tool) => (
+                    <Link
+                      key={tool.key}
+                      href={tool.href}
+                      className={"group relative rounded-2xl p-6 sm:p-8 bg-gradient-to-br " + tool.gradient + " border border-border hover:border-teal-light transition-all hover:shadow-md"}
+                    >
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-lg font-semibold text-text">
+                          {t("tools." + tool.key + ".name")}
+                          {tool.comingSoon && (
+                            <span className="ml-2 text-xs font-medium text-text-secondary bg-bg-article px-2 py-0.5 rounded-full">
+                              Soon
+                            </span>
+                          )}
+                          {tool.badge && (
+                            <span
+                              className={
+                                "ml-2 text-xs font-medium px-1.5 py-0.5 rounded-full " +
+                                (tool.badge === "new"
+                                  ? "bg-teal/10 text-teal"
+                                  : "bg-coral/10 text-coral")
+                              }
+                            >
+                              {t("badges." + tool.badge)}
+                            </span>
+                          )}
+                        </h3>
+                        <span
+                          className="inline-flex items-center gap-1 text-xs font-medium text-teal bg-teal/10 px-2 py-1 rounded-full"
+                          title={t("badge.localProcessingDesc")}
+                        >
+                          <span className="w-1.5 h-1.5 rounded-full bg-teal" aria-hidden="true" />
+                          {t("badge.localProcessing")}
+                        </span>
+                      </div>
+                      <p className="mt-1 text-sm text-text-secondary leading-relaxed">
+                        {t("tools." + tool.key + ".desc")}
+                      </p>
+                    </Link>
+                  ))}
                 </div>
-                <p className="mt-1 text-sm text-text-secondary leading-relaxed">
-                  {t("tools." + tool.key + ".desc")}
-                </p>
-              </Link>
+              </div>
             ))}
           </div>
         </div>

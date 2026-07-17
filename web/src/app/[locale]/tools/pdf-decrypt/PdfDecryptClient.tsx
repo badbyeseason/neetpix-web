@@ -125,10 +125,12 @@ export default function PdfDecryptClient() {
       console.error("Decrypt error:", err);
       if (err instanceof Error && err.message === "WRONG_PASSWORD") {
         setErrorMsg(t("errorPassword"));
+        setPassword("");  // 清空密码
+        setStatus("idle");  // 回到 idle，保留文件
       } else {
         setErrorMsg(t("errorParse"));
+        setStatus("error");  // 其他错误仍进入 error 分支
       }
-      setStatus("error");
     }
   }, [file, password, t]);
 

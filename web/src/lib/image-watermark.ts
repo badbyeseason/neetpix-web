@@ -144,6 +144,97 @@ export async function applyWatermark(
   return { blob, url };
 }
 
+export interface ImageWatermarkOptions {
+  position: WatermarkPosition;
+  logoSize?: number; // logo 宽度占图片宽度的百分比，默认 20
+  opacity?: number; // 0-1，默认 0.8
+}
+
+// 为单张图片添加图片水印（logo）
+// - 加载原图和 logo → 绘制原图到 Canvas → 按位置绘制 logo → toBlob 输出（保持原格式）
+export async function addImageWatermark(
+  file: File,
+  logoFile: File,
+  options: ImageWatermarkOptions
+): Promise<Blob> {
+  const { position, logoSize = 20, opacity = 0.8 } = options;
+  const img = await loadImage(file);
+  const logo = await loadImage(logoFile);
+
+  const canvas = document.createElement("canvas");
+  canvas.width = img.width;
+  canvas.height = img.height;
+  const ctx = canvas.getContext("2d")!;
+  ctx.drawImage(img, 0, 0);
+
+  // 计算 logo 缩放后尺寸（按 logoSize 百分比占图片宽度）
+  const scaledWidth = Math.max(1, (img.width * logoSize) / 100);
+  const scale = scaledWidth / logo.width;
+  const scaledHeight = Math.max(1, logo.height * scale);
+
+  ctx.save();
+  ctx.globalAlpha = Math.min(1, Math.max(0, opacity));
+
+  if (position === "tiled") {
+    // 平铺：网格平铺 logo，间隔约 logo 尺寸的 1.5 倍，交错偏移
+    const stepX = scaledWidth * 1.5;
+    const stepY = scaledHeight * 1.5;
+    let rowIdx = 0;
+    for (let y = -scaledHeight; y < canvas.height + scaledHeight; y += stepY) {
+      const offsetX = rowIdx % 2 === 1 ? stepX / 2 : 0;
+      for (let x = -scaledWidth; x < canvas.width + scaledWidth; x += stepX) {
+        ctx.drawImage(logo, x + offsetX, y, scaledWidth, scaledHeight);
+      }
+      rowIdx++;
+    }
+  } else if (position === "center") {
+    const x = (canvas.width - scaledWidth) / 2;
+    const y = (canvas.height - scaledHeight) / 2;
+    ctx.drawImage(logo, x, y, scaledWidth, scaledHeight);
+  } else if (position === "bottom-left") {
+    const margin = Math.max(8, scaledWidth * 0.1);
+    ctx.drawImage(
+      logo,
+      margin,
+      canvas.height - scaledHeight - margin,
+      scaledWidth,
+      scaledHeight
+    );
+  } else {
+    // bottom-right
+    const margin = Math.max(8, scaledWidth * 0.1);
+    ctx.drawImage(
+      logo,
+      canvas.width - scaledWidth - margin,
+      canvas.height - scaledHeight - margin,
+      scaledWidth,
+      scaledHeight
+    );
+  }
+
+  ctx.restore();
+
+  // 保持原格式输出
+  const outputType =
+    file.type === "image/jpeg"
+      ? "image/jpeg"
+      : file.type === "image/webp"
+      ? "image/webp"
+      : "image/png";
+
+  const blob = await new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob(
+      (outBlob) => {
+        if (outBlob) resolve(outBlob);
+        else reject(new Error("Failed to export image"));
+      },
+      outputType
+    );
+  });
+
+  return blob;
+}
+
 // 格式化字节数为 B/KB/MB
 export function formatBytes(bytes: number): string {
   if (bytes === 0) return "0 B";
