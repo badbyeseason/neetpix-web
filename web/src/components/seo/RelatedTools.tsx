@@ -24,6 +24,9 @@ const TOOL_ROUTES: Record<string, string> = {
   imageToPdf: "image-to-pdf",
   imageCompress: "image-compress",
   imageWatermark: "image-watermark",
+  imageConvert: "image-convert",
+  imageExif: "image-exif",
+  imageResize: "image-resize",
   removeBackground: "remove-background",
   screenshotTranslate: "screenshot-translate",
 };
@@ -44,6 +47,9 @@ const TOOL_ICONS: Record<string, { emoji: string; gradient: string }> = {
   imageToPdf: { emoji: "🖼️", gradient: "from-coral/10 to-bg-article" },
   imageCompress: { emoji: "📉", gradient: "from-teal/10 to-bg-article" },
   imageWatermark: { emoji: "🎨", gradient: "from-coral/10 to-bg-article" },
+  imageConvert: { emoji: "🔄", gradient: "from-coral-light/10 to-teal-bg" },
+  imageExif: { emoji: "📍", gradient: "from-coral-light/10 to-bg-article" },
+  imageResize: { emoji: "📏", gradient: "from-coral/10 to-bg-warm" },
   removeBackground: { emoji: "✨", gradient: "from-teal/10 to-bg-article" },
   screenshotTranslate: { emoji: "📸", gradient: "from-coral/10 to-bg-article" },
 };

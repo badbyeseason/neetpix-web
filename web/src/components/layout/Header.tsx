@@ -38,6 +38,9 @@ export default function Header() {
         { name: tTools("removeBackground.name"), desc: tTools("removeBackground.desc"), href: "/tools/remove-background", badge: "hot" },
         { name: tTools("imageCompress.name"), desc: tTools("imageCompress.desc"), href: "/tools/image-compress" },
         { name: tTools("imageWatermark.name"), desc: tTools("imageWatermark.desc"), href: "/tools/image-watermark" },
+        { name: tTools("imageConvert.name"), desc: tTools("imageConvert.desc"), href: "/tools/image-convert", badge: "new" },
+        { name: tTools("imageExif.name"), desc: tTools("imageExif.desc"), href: "/tools/image-exif", badge: "new" },
+        { name: tTools("imageResize.name"), desc: tTools("imageResize.desc"), href: "/tools/image-resize", badge: "new" },
       ],
     },
     {

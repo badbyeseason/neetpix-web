@@ -45,7 +45,7 @@ export default async function ImageWatermarkPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ImageWatermarkClient />
       <Faq tool="imageWatermark" locale={locale} />
-      <RelatedTools tools={["imageCompress", "imageToPdf", "pdfWatermark", "removeBackground"]} locale={locale} />
+      <RelatedTools tools={["imageCompress", "imageToPdf", "removeBackground", "imageConvert", "imageExif", "imageResize"]} locale={locale} />
     </div>
   );
 }
