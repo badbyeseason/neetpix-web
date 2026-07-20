@@ -74,6 +74,7 @@ export default async function AboutPage({ params }: Props) {
         <li>{t("toolsImage")}</li>
         <li>{t("toolsGenerator")}</li>
         <li>{t("toolsTranslate")}</li>
+        <li>{t("toolsNetwork")}</li>
         <li className="mt-2 font-medium text-text">{t("toolsTotal")}</li>
       </ul>
 

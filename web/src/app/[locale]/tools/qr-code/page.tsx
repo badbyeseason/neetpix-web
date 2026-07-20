@@ -62,7 +62,7 @@ export default async function QrCodePage({ params }: Props) {
       <QrCodeClient />
       {hasFaq && <Faq tool="qrCode" locale={locale} />}
       <RelatedTools
-        tools={["imageWatermark", "imageGridSplit", "chartGenerator"]}
+        tools={["imageWatermark", "imageGridSplit", "chartGenerator", "fileTransfer"]}
         locale={locale}
       />
     </div>

@@ -35,6 +35,7 @@ const TOOL_ROUTES: Record<string, string> = {
   imageGridSplit: "image-grid-split",
   qrCode: "qr-code",
   chartGenerator: "chart-generator",
+  fileTransfer: "file-transfer",
 };
 
 // 工具 key → 图标 emoji/渐变（参考首页卡片的图标配置）
@@ -64,6 +65,7 @@ const TOOL_ICONS: Record<string, { emoji: string; gradient: string }> = {
   imageGridSplit: { emoji: "🔲", gradient: "from-coral/10 to-bg-warm" },
   qrCode: { emoji: "📱", gradient: "from-teal/10 to-bg-warm" },
   chartGenerator: { emoji: "📊", gradient: "from-coral-light/10 to-bg-warm" },
+  fileTransfer: { emoji: "🌐", gradient: "from-teal/10 to-bg-warm" },
 };
 
 export default function RelatedTools({ tools, locale }: Props) {

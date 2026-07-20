@@ -61,7 +61,10 @@ export default function ToolCard({
           </span>
         </div>
       </div>
-      <p className="mt-1 text-sm text-text-secondary leading-relaxed">
+      <p
+        className="mt-1 text-sm text-text-secondary leading-relaxed"
+        title={t("tools." + toolKey + ".desc")}
+      >
         {t("tools." + toolKey + ".desc")}
       </p>
     </Link>

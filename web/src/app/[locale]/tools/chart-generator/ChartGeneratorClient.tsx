@@ -344,6 +344,7 @@ export default function ChartGeneratorClient() {
                             }
                             className="w-full min-w-[80px] px-1.5 py-1 rounded-md border border-border bg-bg-article text-text text-xs focus:outline-none focus:border-teal"
                             aria-label={t("seriesName")}
+                            autoComplete="off"
                           />
                           {series.length > MIN_SERIES && (
                             <button
@@ -385,6 +386,7 @@ export default function ChartGeneratorClient() {
                           }
                           className={tableInputClass}
                           aria-label={t("label")}
+                          autoComplete="off"
                         />
                       </td>
                       {series.map((s, seriesIdx) => (
@@ -401,6 +403,7 @@ export default function ChartGeneratorClient() {
                             }
                             className={tableInputClass}
                             aria-label={`${s.label} ${label}`}
+                            autoComplete="off"
                           />
                         </td>
                       ))}
@@ -436,28 +439,27 @@ export default function ChartGeneratorClient() {
 
             {/* 添加系列 / 添加行 */}
             <div className="flex flex-wrap gap-3">
-              {series.length < MAX_SERIES && (
-                <button
-                  type="button"
-                  onClick={handleAddSeries}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-bg-warm text-text text-xs font-medium border border-border hover:border-teal-light transition-colors"
+              <button
+                type="button"
+                onClick={handleAddSeries}
+                disabled={series.length >= MAX_SERIES}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-bg-warm text-text text-xs font-medium border border-border hover:border-teal-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <svg
+                  className="w-3.5 h-3.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  <svg
-                    className="w-3.5 h-3.5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                  {t("addSeries")}
-                </button>
-              )}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                {t("addSeries")}
+              </button>
               {labels.length < MAX_ROWS && (
                 <button
                   type="button"
@@ -500,6 +502,8 @@ export default function ChartGeneratorClient() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder={t("chartTitlePlaceholder")}
+                maxLength={80}
+                autoComplete="off"
                 className={inputClass}
               />
             </div>

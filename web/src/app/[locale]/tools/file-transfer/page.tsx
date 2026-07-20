@@ -1,5 +1,5 @@
 import { getTranslations, getMessages } from "next-intl/server";
-import ChartGeneratorClient from "./ChartGeneratorClient";
+import FileTransferClient from "./FileTransferClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
@@ -12,11 +12,11 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "chartGenerator" });
+  const t = await getTranslations({ locale, namespace: "fileTransfer" });
   return {
     title: { absolute: t("title") },
     description: t("description"),
-    alternates: buildI18nMetadata("/tools/chart-generator", locale),
+    alternates: buildI18nMetadata("/tools/file-transfer", locale),
     openGraph: {
       title: t("title") + " - Neetpix",
       description: t("description"),
@@ -31,20 +31,20 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function ChartGeneratorPage({ params }: Props) {
+export default async function FileTransferPage({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "chartGenerator" });
-  // Faq 条目由后续 Task 统一添加；条目就绪前条件渲染，避免 next-intl 缺失键错误
+  const t = await getTranslations({ locale, namespace: "fileTransfer" });
+  // Faq 条目条件渲染：检查 faq.fileTransfer1..3 是否齐全（Faq 组件仅渲染前 3 条）
   const messages = await getMessages();
   const faq = (messages as Record<string, Record<string, string> | undefined>)
     .faq;
   const hasFaq = Boolean(
-    faq?.chartGenerator1 &&
-      faq?.chartGenerator1a &&
-      faq?.chartGenerator2 &&
-      faq?.chartGenerator2a &&
-      faq?.chartGenerator3 &&
-      faq?.chartGenerator3a
+    faq?.fileTransfer1 &&
+      faq?.fileTransfer1a &&
+      faq?.fileTransfer2 &&
+      faq?.fileTransfer2a &&
+      faq?.fileTransfer3 &&
+      faq?.fileTransfer3a
   );
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
@@ -53,16 +53,17 @@ export default async function ChartGeneratorPage({ params }: Props) {
         description={t("description")}
         url={
           locale === "en"
-            ? "https://neetpix.com/tools/chart-generator"
-            : "https://neetpix.com/zh/tools/chart-generator"
+            ? "https://neetpix.com/tools/file-transfer"
+            : "https://neetpix.com/zh/tools/file-transfer"
         }
         locale={locale}
+        type="SoftwareApplication"
       />
-      <PrivacyBadge locale={locale} />
-      <ChartGeneratorClient />
-      {hasFaq && <Faq tool="chartGenerator" locale={locale} />}
+      <PrivacyBadge locale={locale} variant="p2p" />
+      <FileTransferClient />
+      {hasFaq && <Faq tool="fileTransfer" locale={locale} />}
       <RelatedTools
-        tools={["imageGridSplit", "qrCode", "imageWatermark", "fileTransfer"]}
+        tools={["qrCode", "chartGenerator", "imageGridSplit"]}
         locale={locale}
       />
     </div>

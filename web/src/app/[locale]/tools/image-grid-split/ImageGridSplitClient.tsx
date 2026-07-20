@@ -387,6 +387,7 @@ export default function ImageGridSplitClient() {
                   {t("splitPreview", {
                     rows: previewGrid.rows,
                     cols: previewGrid.cols,
+                    count: previewGrid.rows * previewGrid.cols,
                   })}
                 </p>
 
@@ -455,10 +456,13 @@ export default function ImageGridSplitClient() {
             <div className="flex flex-col items-center gap-4">
               <button
                 type="button"
-                onClick={() =>
-                  triggerDownload(downloadUrl, "neetpix-gridsplit.zip")
-                }
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors"
+                disabled={!downloadUrl}
+                onClick={() => {
+                  if (downloadUrl) {
+                    triggerDownload(downloadUrl, "neetpix-gridsplit.zip");
+                  }
+                }}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg
                   className="w-4 h-4"

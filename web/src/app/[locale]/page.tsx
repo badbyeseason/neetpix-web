@@ -85,6 +85,12 @@ export default async function HomePage({ params }: Props) {
         { key: "chartGenerator", href: "/tools/chart-generator", gradient: "from-coral-light/10 to-bg-warm", badge: "new" },
       ],
     },
+    {
+      category: t("nav.networkTools"),
+      tools: [
+        { key: "fileTransfer", href: "/tools/file-transfer", gradient: "from-teal/10 to-bg-warm", badge: "new" },
+      ],
+    },
   ];
 
   return (

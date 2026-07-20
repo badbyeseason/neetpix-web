@@ -33,12 +33,14 @@ export const COLOR_PALETTES: string[][] = [
 
 const FONT_FAMILY = "system-ui, -apple-system, sans-serif";
 
-// 转义 XML 特殊字符 <, >, &
-export function escapeXml(text: string): string {
-  return String(text)
+// 转义 XML 特殊字符 <, >, &, ", '
+export function escapeXml(str: string): string {
+  return str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
 }
 
 // 数字格式化：整数显示原样，小数最多 2 位
@@ -118,14 +120,52 @@ export function renderBarChart(data: ChartData, options: ChartOptions): string {
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
 
-  // 计算最大值
+  // 计算最大值和最小值（含负数）
   let maxValue = 0;
+  let minValue = 0;
   for (const s of series) {
     for (const v of s.values) {
       if (v > maxValue) maxValue = v;
+      if (v < minValue) minValue = v;
     }
   }
-  const { max: scaledMax, step, ticks } = niceMax(maxValue);
+
+  const hasNegative = minValue < 0;
+  let scaledMax: number;
+  let scaledMin: number;
+  let step: number;
+  let range: number;
+  let tickValues: number[];
+  if (hasNegative) {
+    // 负值：基于实际范围计算 nice step，scaledMax/scaledMin 均对齐到 step，
+    // 从而保证 0 必为刻度（如 minValue=-15 → scaledMin=-20，maxValue=30 → scaledMax=30）
+    step = niceMax(maxValue - minValue).step;
+    scaledMax = Math.ceil(maxValue / step) * step;
+    scaledMin = Math.floor(minValue / step) * step;
+    if (scaledMax === scaledMin) {
+      scaledMax += step;
+      scaledMin -= step;
+    }
+    range = scaledMax - scaledMin;
+    const count = Math.round(range / step);
+    tickValues = [];
+    for (let i = 0; i <= count; i++) tickValues.push(scaledMin + step * i);
+  } else {
+    // 非负：保持原有逻辑（0 到 scaledMax，5 等分）
+    const nice = niceMax(maxValue);
+    scaledMax = nice.max;
+    scaledMin = 0;
+    step = nice.step;
+    range = scaledMax;
+    tickValues = [];
+    for (let i = 0; i <= nice.ticks; i++) tickValues.push(step * i);
+  }
+
+  // 值 → Y 坐标
+  const valueToY = (v: number): number =>
+    padding.top + ((scaledMax - v) / range) * chartHeight;
+  // 零线 Y 坐标（minValue >= 0 时即为 X 轴位置）
+  const zeroY = hasNegative ? valueToY(0) : padding.top + chartHeight;
 
   const parts: string[] = [];
   parts.push(svgOpen(width, height));
@@ -140,10 +180,9 @@ export function renderBarChart(data: ChartData, options: ChartOptions): string {
   // 标题
   parts.push(renderTitle(title ?? "", width));
 
-  // Y 轴刻度 + 横线
-  for (let i = 0; i <= ticks; i++) {
-    const value = step * i;
-    const y = padding.top + chartHeight - (value / scaledMax) * chartHeight;
+  // Y 轴刻度 + 横线（含负值时刻度包含 0）
+  for (const value of tickValues) {
+    const y = valueToY(value);
     parts.push(
       `<line x1="${padding.left}" y1="${y.toFixed(1)}" x2="${(padding.left + chartWidth).toFixed(1)}" y2="${y.toFixed(1)}" stroke="#e2e8f0" stroke-width="1" />`
     );
@@ -151,6 +190,13 @@ export function renderBarChart(data: ChartData, options: ChartOptions): string {
       `<text x="${(padding.left - 8).toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="end" font-family="${FONT_FAMILY}" font-size="11" fill="#64748b">${formatNumber(
         value
       )}</text>`
+    );
+  }
+
+  // 零线（仅有负值时单独绘制，颜色略深于网格线）
+  if (hasNegative) {
+    parts.push(
+      `<line x1="${padding.left}" y1="${zeroY.toFixed(1)}" x2="${(padding.left + chartWidth).toFixed(1)}" y2="${zeroY.toFixed(1)}" stroke="#94a3b8" stroke-width="1" />`
     );
   }
 
@@ -172,19 +218,26 @@ export function renderBarChart(data: ChartData, options: ChartOptions): string {
     const groupX = padding.left + groupWidth * labelIdx + groupGap;
     series.forEach((s, seriesIdx) => {
       const value = s.values[labelIdx] ?? 0;
-      const barHeight = (value / scaledMax) * chartHeight;
       const barX = groupX + barWidth * seriesIdx;
-      const barY = padding.top + chartHeight - barHeight;
+      // 正值从零线向上绘制，负值从零线向下绘制
+      const topY = valueToY(Math.max(value, 0));
+      const bottomY = valueToY(Math.min(value, 0));
+      const barHeight = Math.max(0, bottomY - topY);
       parts.push(
-        `<rect x="${barX.toFixed(1)}" y="${barY.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${Math.max(
-          0,
-          barHeight
-        ).toFixed(1)}" fill="${s.color}" rx="2" />`
+        `<rect x="${barX.toFixed(1)}" y="${topY.toFixed(1)}" width="${barWidth.toFixed(1)}" height="${barHeight.toFixed(
+          1
+        )}" fill="${s.color}" rx="2" />`
       );
-      // 数据标签（柱顶）
+      // 数据标签：正值显示在柱顶上方，负值显示在柱底下方
       if (value > 0) {
         parts.push(
-          `<text x="${(barX + barWidth / 2).toFixed(1)}" y="${(barY - 4).toFixed(1)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="10" fill="#475569">${formatNumber(
+          `<text x="${(barX + barWidth / 2).toFixed(1)}" y="${(topY - 4).toFixed(1)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="10" fill="#475569">${formatNumber(
+            value
+          )}</text>`
+        );
+      } else if (value < 0) {
+        parts.push(
+          `<text x="${(barX + barWidth / 2).toFixed(1)}" y="${(bottomY + 12).toFixed(1)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="10" fill="#475569">${formatNumber(
             value
           )}</text>`
         );
@@ -223,14 +276,52 @@ export function renderLineChart(data: ChartData, options: ChartOptions): string 
   const chartWidth = width - padding.left - padding.right;
   const chartHeight = height - padding.top - padding.bottom;
 
-  // 计算最大值
+  // 计算最大值和最小值（含负数）
   let maxValue = 0;
+  let minValue = 0;
   for (const s of series) {
     for (const v of s.values) {
       if (v > maxValue) maxValue = v;
+      if (v < minValue) minValue = v;
     }
   }
-  const { max: scaledMax, step, ticks } = niceMax(maxValue);
+
+  const hasNegative = minValue < 0;
+  let scaledMax: number;
+  let scaledMin: number;
+  let step: number;
+  let range: number;
+  let tickValues: number[];
+  if (hasNegative) {
+    // 负值：基于实际范围计算 nice step，scaledMax/scaledMin 均对齐到 step，
+    // 从而保证 0 必为刻度
+    step = niceMax(maxValue - minValue).step;
+    scaledMax = Math.ceil(maxValue / step) * step;
+    scaledMin = Math.floor(minValue / step) * step;
+    if (scaledMax === scaledMin) {
+      scaledMax += step;
+      scaledMin -= step;
+    }
+    range = scaledMax - scaledMin;
+    const count = Math.round(range / step);
+    tickValues = [];
+    for (let i = 0; i <= count; i++) tickValues.push(scaledMin + step * i);
+  } else {
+    // 非负：保持原有逻辑（0 到 scaledMax，5 等分）
+    const nice = niceMax(maxValue);
+    scaledMax = nice.max;
+    scaledMin = 0;
+    step = nice.step;
+    range = scaledMax;
+    tickValues = [];
+    for (let i = 0; i <= nice.ticks; i++) tickValues.push(step * i);
+  }
+
+  // 值 → Y 坐标
+  const valueToY = (v: number): number =>
+    padding.top + ((scaledMax - v) / range) * chartHeight;
+  // 零线 Y 坐标（minValue >= 0 时即为 X 轴位置）
+  const zeroY = hasNegative ? valueToY(0) : padding.top + chartHeight;
 
   const parts: string[] = [];
   parts.push(svgOpen(width, height));
@@ -242,10 +333,9 @@ export function renderLineChart(data: ChartData, options: ChartOptions): string 
 
   parts.push(renderTitle(title ?? "", width));
 
-  // Y 轴刻度 + 横线
-  for (let i = 0; i <= ticks; i++) {
-    const value = step * i;
-    const y = padding.top + chartHeight - (value / scaledMax) * chartHeight;
+  // Y 轴刻度 + 横线（含负值时刻度包含 0）
+  for (const value of tickValues) {
+    const y = valueToY(value);
     parts.push(
       `<line x1="${padding.left}" y1="${y.toFixed(1)}" x2="${(padding.left + chartWidth).toFixed(1)}" y2="${y.toFixed(1)}" stroke="#e2e8f0" stroke-width="1" />`
     );
@@ -253,6 +343,13 @@ export function renderLineChart(data: ChartData, options: ChartOptions): string 
       `<text x="${(padding.left - 8).toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="end" font-family="${FONT_FAMILY}" font-size="11" fill="#64748b">${formatNumber(
         value
       )}</text>`
+    );
+  }
+
+  // 零线（仅有负值时单独绘制）
+  if (hasNegative) {
+    parts.push(
+      `<line x1="${padding.left}" y1="${zeroY.toFixed(1)}" x2="${(padding.left + chartWidth).toFixed(1)}" y2="${zeroY.toFixed(1)}" stroke="#94a3b8" stroke-width="1" />`
     );
   }
 
@@ -274,20 +371,21 @@ export function renderLineChart(data: ChartData, options: ChartOptions): string 
     for (let i = 0; i < labelCount; i++) {
       const value = s.values[i] ?? 0;
       const x = labelCount > 1 ? padding.left + stepX * i : padding.left + chartWidth / 2;
-      const y = padding.top + chartHeight - (value / scaledMax) * chartHeight;
+      const y = valueToY(value);
       points.push({ x, y, value });
     }
 
-    // 填充区域（半透明）
+    // 填充区域（半透明）：有负值时填充到零线，否则填充到图表底部
     if (points.length >= 2) {
       const fillPoints = points
         .map((p) => `${p.x.toFixed(1)},${p.y.toFixed(1)}`)
         .join(" ");
-      const areaPath = `M ${points[0].x.toFixed(1)},${(padding.top + chartHeight).toFixed(
+      const fillBaseY = hasNegative ? zeroY : padding.top + chartHeight;
+      const areaPath = `M ${points[0].x.toFixed(1)},${fillBaseY.toFixed(
         1
       )} L ${fillPoints.replace(/ /g, " L ")} L ${points[points.length - 1].x.toFixed(
         1
-      )},${(padding.top + chartHeight).toFixed(1)} Z`;
+      )},${fillBaseY.toFixed(1)} Z`;
       parts.push(
         `<path d="${areaPath}" fill="${s.color}" fill-opacity="0.15" stroke="none" />`
       );
@@ -306,10 +404,16 @@ export function renderLineChart(data: ChartData, options: ChartOptions): string 
     // 数据点
     points.forEach((p) => {
       parts.push(`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="3.5" fill="${s.color}" stroke="#ffffff" stroke-width="1.5" />`);
-      // 数据标签
+      // 数据标签：正值显示在点上方，负值显示在点下方
       if (p.value > 0) {
         parts.push(
           `<text x="${p.x.toFixed(1)}" y="${(p.y - 8).toFixed(1)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="10" fill="#475569">${formatNumber(
+            p.value
+          )}</text>`
+        );
+      } else if (p.value < 0) {
+        parts.push(
+          `<text x="${p.x.toFixed(1)}" y="${(p.y + 14).toFixed(1)}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="10" fill="#475569">${formatNumber(
             p.value
           )}</text>`
         );

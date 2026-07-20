@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import LocaleSwitcher from "./LocaleSwitcher";
@@ -14,6 +14,50 @@ export default function Header() {
   const tPalette = useTranslations("commandPalette");
   const [toolsOpen, setToolsOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // 桌面端工具下拉：触发按钮键盘控制
+  const handleTriggerKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setToolsOpen(true);
+      // 等下拉渲染后聚焦首个菜单项
+      setTimeout(() => {
+        const firstItem = dropdownRef.current?.querySelector<HTMLAnchorElement>("a");
+        firstItem?.focus();
+      }, 0);
+    } else if (e.key === "Escape" && toolsOpen) {
+      e.preventDefault();
+      setToolsOpen(false);
+      triggerRef.current?.focus();
+    }
+  };
+
+  // 下拉菜单项键盘导航：ArrowUp/ArrowDown 在项间移动，Esc 关闭并回到触发按钮
+  const handleItemKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
+    const items = dropdownRef.current
+      ? Array.from(dropdownRef.current.querySelectorAll<HTMLAnchorElement>("a"))
+      : [];
+    const currentIndex = items.indexOf(e.currentTarget);
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      const next = items[currentIndex + 1];
+      if (next) next.focus();
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (currentIndex <= 0) {
+        setToolsOpen(false);
+        triggerRef.current?.focus();
+      } else {
+        items[currentIndex - 1]?.focus();
+      }
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      setToolsOpen(false);
+      triggerRef.current?.focus();
+    }
+  };
 
   // 工具按二级分类组织：name 使用字面量 key 访问，保证类型安全
   const toolCategories: { category: string; tools: { key: string; name: string; desc: string; href: string; badge?: "new" | "hot" }[] }[] = [
@@ -62,6 +106,12 @@ export default function Header() {
         { key: "chartGenerator", name: tTools("chartGenerator.name"), desc: tTools("chartGenerator.desc"), href: "/tools/chart-generator", badge: "new" },
       ],
     },
+    {
+      category: t("networkTools"),
+      tools: [
+        { key: "fileTransfer", name: tTools("fileTransfer.name"), desc: tTools("fileTransfer.desc"), href: "/tools/file-transfer", badge: "new" },
+      ],
+    },
   ];
 
   const openPalette = () => {
@@ -83,7 +133,14 @@ export default function Header() {
             onMouseEnter={() => setToolsOpen(true)}
             onMouseLeave={() => setToolsOpen(false)}
           >
-            <button className="flex items-center gap-1 text-sm text-text-secondary hover:text-text transition-colors py-2">
+            <button
+              ref={triggerRef}
+              type="button"
+              aria-haspopup="menu"
+              aria-expanded={toolsOpen}
+              onKeyDown={handleTriggerKeyDown}
+              className="flex items-center gap-1 text-sm text-text-secondary hover:text-text transition-colors py-2"
+            >
               {t("tools")}
               <svg
                 width="12"
@@ -96,8 +153,12 @@ export default function Header() {
               </svg>
             </button>
             {toolsOpen && (
-              <div className="absolute top-full left-0 w-[min(880px,calc(100vw-2rem))] py-2 bg-white border border-border rounded-lg shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto">
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-1 px-2">
+              <div
+                ref={dropdownRef}
+                role="menu"
+                className="absolute top-full left-0 w-[min(1080px,calc(100vw-2rem))] py-2 bg-white border border-border rounded-lg shadow-lg max-h-[calc(100vh-5rem)] overflow-y-auto"
+              >
+                <div className="grid grid-cols-2 lg:grid-cols-5 gap-1 px-2">
                   {toolCategories.map((group) => (
                     <div key={group.category} className="px-1">
                       <p className="px-3 pt-2 pb-1 text-xs font-semibold uppercase tracking-wide text-text-secondary">
@@ -107,6 +168,8 @@ export default function Header() {
                         <Link
                           key={tool.href}
                           href={tool.href}
+                          role="menuitem"
+                          onKeyDown={handleItemKeyDown}
                           className="group flex items-start gap-1 px-3 py-2 rounded-md hover:bg-bg-warm transition-colors"
                         >
                           <div className="flex-1 min-w-0">
@@ -142,7 +205,7 @@ export default function Header() {
           <button
             type="button"
             onClick={openPalette}
-            aria-label={tPalette("openHint")}
+            aria-label={t("search")}
             title={tPalette("openHint")}
             className="inline-flex items-center gap-2 h-9 pl-2.5 pr-2 sm:pr-3 rounded-full border border-border bg-bg-warm hover:bg-bg-article transition-colors text-text-secondary hover:text-text"
           >

@@ -31,6 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/image-grid-split",
     "/tools/qr-code",
     "/tools/chart-generator",
+    "/tools/file-transfer",
     "/privacy",
     "/about",
   ];

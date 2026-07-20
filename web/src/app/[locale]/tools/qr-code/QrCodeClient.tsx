@@ -20,6 +20,15 @@ function escapeWifi(value: string): string {
   return value.replace(/([\\;,":])/g, "\\$1");
 }
 
+// 转义 vCard 字段中的特殊字符（按 RFC 6350 要求转义 \ ; , 和换行符）
+function escapeVcard(value: string): string {
+  return value
+    .replace(/\\/g, "\\\\")
+    .replace(/\n/g, "\\n")
+    .replace(/;/g, "\\;")
+    .replace(/,/g, "\\,");
+}
+
 interface FormValues {
   text: string;
   url: string;
@@ -52,9 +61,9 @@ function buildContent(tab: TabKey, f: FormValues): string {
       return [
         "BEGIN:VCARD",
         "VERSION:3.0",
-        `FN:${f.vcardName}`,
-        `TEL:${f.vcardPhone}`,
-        `EMAIL:${f.vcardEmail}`,
+        `FN:${escapeVcard(f.vcardName)}`,
+        `TEL:${escapeVcard(f.vcardPhone)}`,
+        `EMAIL:${escapeVcard(f.vcardEmail)}`,
         "END:VCARD",
       ].join("\n");
     }
@@ -72,6 +81,7 @@ export default function QrCodeClient() {
   const [email, setEmail] = useState("");
   const [wifiSsid, setWifiSsid] = useState("");
   const [wifiPassword, setWifiPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [wifiEnc, setWifiEnc] = useState<WifiEnc>("WPA");
   const [vcardName, setVcardName] = useState("");
   const [vcardPhone, setVcardPhone] = useState("");
@@ -116,7 +126,6 @@ export default function QrCodeClient() {
     if (!content) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setQrDataUrl("");
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPreviewError("");
       return;
     }
@@ -200,6 +209,14 @@ export default function QrCodeClient() {
     { key: "vcard", label: t("tabVcard") },
   ];
 
+  // 容错等级本地化说明（用于 title 与 sr-only）
+  const errorLevelLabel: Record<QrErrorLevel, string> = {
+    L: t("errorLevelL"),
+    M: t("errorLevelM"),
+    Q: t("errorLevelQ"),
+    H: t("errorLevelH"),
+  };
+
   return (
     <div>
       {/* 标题区 */}
@@ -251,6 +268,8 @@ export default function QrCodeClient() {
                   onChange={(e) => setText(e.target.value)}
                   rows={5}
                   placeholder={t("textContentPlaceholder")}
+                  maxLength={1000}
+                  autoComplete="off"
                   className={inputClass + " resize-y"}
                 />
               </div>
@@ -266,6 +285,8 @@ export default function QrCodeClient() {
                   value={url}
                   onChange={(e) => setUrl(e.target.value)}
                   placeholder={t("urlPlaceholder")}
+                  maxLength={2048}
+                  autoComplete="url"
                   className={inputClass}
                 />
               </div>
@@ -281,6 +302,8 @@ export default function QrCodeClient() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t("emailPlaceholder")}
+                  maxLength={254}
+                  autoComplete="email"
                   className={inputClass}
                 />
                 <p className="mt-2 text-xs text-text-secondary">
@@ -300,6 +323,8 @@ export default function QrCodeClient() {
                     value={wifiSsid}
                     onChange={(e) => setWifiSsid(e.target.value)}
                     placeholder={t("placeholderWifiSsid")}
+                    maxLength={32}
+                    autoComplete="off"
                     className={inputClass}
                   />
                 </div>
@@ -307,13 +332,61 @@ export default function QrCodeClient() {
                   <label className="block mb-2 text-sm font-medium text-text">
                     {t("wifiPassword")}
                   </label>
-                  <input
-                    type="text"
-                    value={wifiPassword}
-                    onChange={(e) => setWifiPassword(e.target.value)}
-                    placeholder={t("placeholderWifiPassword")}
-                    className={inputClass}
-                  />
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      value={wifiPassword}
+                      onChange={(e) => setWifiPassword(e.target.value)}
+                      placeholder={t("placeholderWifiPassword")}
+                      maxLength={63}
+                      autoComplete="new-password"
+                      className={inputClass + " pr-10"}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((v) => !v)}
+                      aria-label={
+                        showPassword ? t("hidePassword") : t("showPassword")
+                      }
+                      className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-text-secondary hover:text-text focus:outline-none focus:text-teal"
+                    >
+                      {showPassword ? (
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                          />
+                        </svg>
+                      ) : (
+                        <svg
+                          className="w-5 h-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                          />
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                          />
+                        </svg>
+                      )}
+                    </button>
+                  </div>
                 </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-text">
@@ -346,6 +419,8 @@ export default function QrCodeClient() {
                     value={vcardName}
                     onChange={(e) => setVcardName(e.target.value)}
                     placeholder={t("placeholderVcardName")}
+                    maxLength={100}
+                    autoComplete="name"
                     className={inputClass}
                   />
                 </div>
@@ -358,6 +433,8 @@ export default function QrCodeClient() {
                     value={vcardPhone}
                     onChange={(e) => setVcardPhone(e.target.value)}
                     placeholder={t("placeholderVcardPhone")}
+                    maxLength={50}
+                    autoComplete="tel"
                     className={inputClass}
                   />
                 </div>
@@ -370,6 +447,8 @@ export default function QrCodeClient() {
                     value={vcardEmail}
                     onChange={(e) => setVcardEmail(e.target.value)}
                     placeholder={t("placeholderVcardEmail")}
+                    maxLength={254}
+                    autoComplete="email"
                     className={inputClass}
                   />
                 </div>
@@ -409,9 +488,11 @@ export default function QrCodeClient() {
                     key={lvl}
                     type="button"
                     onClick={() => setErrorLevel(lvl)}
+                    title={errorLevelLabel[lvl]}
                     className={optionBtn(errorLevel === lvl)}
                   >
                     {lvl}
+                    <span className="sr-only"> {errorLevelLabel[lvl]}</span>
                   </button>
                 ))}
               </div>
@@ -490,7 +571,7 @@ export default function QrCodeClient() {
               onClick={handleDownloadPng}
               disabled={!qrDataUrl}
               className={[
-                "inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm transition-colors",
+                "inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed",
                 !qrDataUrl
                   ? "bg-bg-article text-text-secondary cursor-not-allowed"
                   : "bg-teal text-white hover:bg-teal-dark",
@@ -514,10 +595,10 @@ export default function QrCodeClient() {
             <button
               type="button"
               onClick={handleDownloadSvg}
-              disabled={!qrDataUrl}
+              disabled={!content}
               className={[
-                "inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm transition-colors border",
-                !qrDataUrl
+                "inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm transition-colors border disabled:opacity-50 disabled:cursor-not-allowed",
+                !content
                   ? "bg-bg-article text-text-secondary border-border cursor-not-allowed"
                   : "bg-bg-warm text-text border-border hover:border-teal-light",
               ].join(" ")}

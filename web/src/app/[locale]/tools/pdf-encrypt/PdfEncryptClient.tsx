@@ -211,6 +211,7 @@ export default function PdfEncryptClient() {
             </div>
             <button
               onClick={removeFile}
+              aria-label={t("remove")}
               className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-text-secondary hover:text-coral hover:bg-coral/10 transition-colors"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -230,6 +231,7 @@ export default function PdfEncryptClient() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder={t("passwordPlaceholder")}
+                autoComplete="new-password"
                 className="w-full rounded-xl border border-border bg-bg-warm px-4 py-3 text-sm text-text placeholder:text-text-secondary focus:outline-none focus:border-teal focus:ring-1 focus:ring-teal"
               />
               <p className="mt-2 text-xs text-text-secondary">{t("passwordHint")}</p>
@@ -243,6 +245,7 @@ export default function PdfEncryptClient() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder={t("passwordConfirmPlaceholder")}
+                autoComplete="new-password"
                 className="w-full rounded-xl border border-border bg-bg-warm px-4 py-3 text-sm text-text placeholder:text-text-secondary focus:outline-none focus:border-teal focus:ring-1 focus:ring-teal"
               />
             </div>

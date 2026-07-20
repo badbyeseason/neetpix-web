@@ -4,14 +4,18 @@
     "tools": "Tools",
     "privacy": "Privacy",
     "about": "About",
+    "search": "Search",
     "categoryPdf": "PDF Tools",
     "categoryImage": "Image Tools",
     "categoryTranslate": "Translate Tools",
-    "categoryGenerator": "Generators"
+    "categoryGenerator": "Generators",
+    "networkTools": "Network Tools"
   },
   "badge": {
     "localProcessing": "Local Processing",
-    "localProcessingDesc": "100% in your browser"
+    "localProcessingDesc": "100% in your browser",
+    "p2pDirect": "End-to-end P2P direct",
+    "p2pDirectDesc": "Files transfer directly between devices, never through a server; only pairing signaling is relayed via the public PeerJS broker"
   },
   "badges": {
     "new": "NEW",
@@ -38,6 +42,7 @@
     "placeholder": "Search tools...",
     "noResults": "No matching tools found",
     "recent": "All tools",
+    "resultsCount": "{count} results",
     "openHint": "Press ⌘K to search"
   },
   "tools": {
@@ -102,7 +107,8 @@
     "imageBlur": { "name": "Blur Faces", "desc": "Blur faces, license plates, or sensitive areas in photos — 100% local" },
     "imageGridSplit": { "name": "Grid Split", "desc": "Split an image into 2x2, 3x3, 4x4 or custom grid — download as ZIP, 100% local" },
     "qrCode": { "name": "QR Code Generator", "desc": "Generate QR codes from text, URL, email, WiFi, or contact — PNG/SVG export, 100% local" },
-    "chartGenerator": { "name": "Chart Generator", "desc": "Create bar, line, and pie charts from your data — PNG/SVG export, 100% local" }
+    "chartGenerator": { "name": "Chart Generator", "desc": "Create bar, line, and pie charts from your data — PNG/SVG export, 100% local" },
+    "fileTransfer": { "name": "File Transfer", "desc": "Direct file transfer between devices via WebRTC" }
   },
   "relatedTools": {
     "title": "Related Tools"
@@ -288,6 +294,8 @@
     "previewOriginal": "Original",
     "previewWatermarked": "Watermarked",
     "close": "Close",
+    "previewTitle": "Image Watermark Preview",
+    "maxImagesExceeded": "Maximum 20 images. Please remove some before adding more.",
     "textMode": "Text Watermark",
     "imageMode": "Image Watermark",
     "uploadLogo": "Upload logo image",
@@ -623,7 +631,8 @@
     "errorPasswordMismatch": "Passwords do not match.",
     "retry": "Encrypt Another File",
     "success": "Encryption complete! Your password-protected PDF is ready.",
-    "fileLabel": "Selected File"
+    "fileLabel": "Selected File",
+    "remove": "Remove file"
   },
   "pdfDecrypt": {
     "title": "PDF Decrypt – Free Online PDF Password Remover | Neetpix",
@@ -645,6 +654,9 @@
     "errorNotEncrypted": "This PDF is not encrypted. No decryption needed.",
     "retry": "Decrypt Another File",
     "success": "Decryption complete! Your PDF is ready to download.",
+    "successMessage": "Decryption successful! Download ready.",
+    "errorEmptyPassword": "Password cannot be empty.",
+    "remove": "Remove file",
     "fileLabel": "Selected File",
     "legalNote": "Please ensure you have the legal right to decrypt this PDF (e.g., you forgot your own password). This tool must not be used to crack documents encrypted by others."
   },
@@ -715,6 +727,8 @@
     "emailPlaceholder": "name@example.com",
     "wifiSsid": "Network name (SSID)",
     "wifiPassword": "Password",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
     "wifiEncryption": "Encryption",
     "wifiWpa": "WPA/WPA2",
     "wifiWep": "WEP",
@@ -727,10 +741,10 @@
     "foregroundColor": "Foreground color",
     "backgroundColor": "Background color",
     "errorCorrection": "Error correction",
-    "errorLevelL": "L — 7%",
-    "errorLevelM": "M — 15%",
-    "errorLevelQ": "Q — 25%",
-    "errorLevelH": "H — 30%",
+    "errorLevelL": "Low (~7% recovery)",
+    "errorLevelM": "Medium (~15% recovery)",
+    "errorLevelQ": "Quartile (~25% recovery)",
+    "errorLevelH": "High (~30% recovery)",
     "preview": "Preview",
     "emptyHint": "Enter content above to generate QR code",
     "downloadPng": "Download PNG",
@@ -774,6 +788,45 @@
     "exportSvg": "Export SVG",
     "privacy": "100% private — chart generation runs entirely in your browser"
   },
+  "fileTransfer": {
+    "title": "LAN File Transfer",
+    "description": "Transfer files directly between devices over local network or internet. Files never go through any server.",
+    "createRoom": "Create Room",
+    "joinRoom": "Join Room",
+    "waitingForPeer": "Waiting for peer to join...",
+    "roomCode": "Room Code",
+    "joinLink": "Join Link",
+    "copyLink": "Copy Link",
+    "copied": "Copied!",
+    "scanToJoin": "Scan to join",
+    "enterRoomCode": "Enter 6-character room code",
+    "connect": "Connect",
+    "cancel": "Cancel",
+    "connected": "Connected",
+    "disconnected": "Peer disconnected",
+    "selectFile": "Select File",
+    "dragDropHint": "Click to select or drag a file here",
+    "send": "Send",
+    "sending": "Sending...",
+    "receiving": "Receiving...",
+    "transferComplete": "Transfer complete!",
+    "fileReceived": "File received",
+    "fileSent": "File sent successfully",
+    "sendAnother": "Send another",
+    "disconnect": "Disconnect",
+    "back": "Back",
+    "retry": "Retry",
+    "fileTooLarge": "File exceeds 500MB limit",
+    "invalidRoomCode": "Invalid room code",
+    "hostHint": "Create a room and share the code or QR with the other device",
+    "joinHint": "Enter the room code from the other device",
+    "privacyNote": "Files transfer directly between devices via WebRTC. Only pairing signal goes through public broker.",
+    "transferProgress": "{percent}% ({transferred} / {total})",
+    "youAreSender": "You are sender",
+    "youAreReceiver": "You are receiver",
+    "asSender": "Select a file to send",
+    "asReceiver": "Waiting for sender to select file..."
+  },
   "privacy": {
     "title": "Privacy Policy",
     "updated": "Last updated: July 2026",
@@ -801,7 +854,8 @@
     "toolsImage": "10 image tools - format convert, EXIF strip, resize/crop, grid split, ID photo, OCR, blur, remove background, compress, watermark",
     "toolsGenerator": "2 generator tools - QR code and chart generator, fully local",
     "toolsTranslate": "1 translation tool - screenshot OCR translation with auto-detect",
-    "toolsTotal": "25 tools in total — all free, no signup, no upload",
+    "toolsNetwork": "1 network tool - direct file transfer between devices via WebRTC, no server relay",
+    "toolsTotal": "26 tools in total — all free, no signup, no upload",
     "contactTitle": "Get in Touch",
     "contactEmail": "im.badbye@gmail.com"
   },
@@ -956,7 +1010,19 @@
     "chartGenerator2": "What chart types are supported?",
     "chartGenerator2a": "Bar, line, and pie charts. You can add multiple series for bar and line charts (pie uses the first series only).",
     "chartGenerator3": "What export formats are available?",
-    "chartGenerator3a": "PNG (raster) and SVG (vector). SVG scales to any size without quality loss, ideal for print and presentations."
+    "chartGenerator3a": "PNG (raster) and SVG (vector). SVG scales to any size without quality loss, ideal for print and presentations.",
+    "fileTransfer1": "Is my file safe during transfer?",
+    "fileTransfer1a": "Yes. Files transfer directly between two devices via WebRTC DataChannel. No server stores or relays file content.",
+    "fileTransfer2": "Why does it need a signaling server?",
+    "fileTransfer2a": "WebRTC requires a signaling channel to exchange connection info (SDP offer/answer). We use the public PeerJS broker which only relays this setup data, never the file itself.",
+    "fileTransfer3": "Does it work across different networks (not just LAN)?",
+    "fileTransfer3a": "Yes. As long as both devices have internet access, WebRTC can establish direct connection via STUN. In some restrictive networks, a TURN relay may be required, but file content remains end-to-end encrypted.",
+    "fileTransfer4": "Is there a file size limit?",
+    "fileTransfer4a": "Maximum 500MB per file. Very large files may be slow on poor connections.",
+    "fileTransfer5": "What happens if connection drops mid-transfer?",
+    "fileTransfer5a": "Transfer will abort and partial data is discarded. You can reconnect and try again.",
+    "fileTransfer6": "Do both devices need to be on Neetpix?",
+    "fileTransfer6a": "Yes. Both devices need to open this page (neetpix.com/tools/file-transfer) and one creates a room while the other joins with the code or QR."
   },
   "error": {
     "notFound": "Page Not Found",

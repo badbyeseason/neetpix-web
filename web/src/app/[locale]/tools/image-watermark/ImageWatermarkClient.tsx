@@ -16,6 +16,29 @@ import {
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
 // logo 最大尺寸 5MB
 const MAX_LOGO_SIZE = 5 * 1024 * 1024;
+// 最多支持图片数量
+const MAX_IMAGES = 20;
+
+// worker pool 模式的并发限制执行器：最多 limit 个任务同时运行
+async function runWithConcurrency<T>(
+  items: T[],
+  limit: number,
+  fn: (item: T) => Promise<void>
+): Promise<void> {
+  let index = 0;
+  const workerCount = Math.min(limit, items.length);
+  const workers: Promise<void>[] = [];
+  const run = async () => {
+    while (index < items.length) {
+      const currentIndex = index++;
+      await fn(items[currentIndex]);
+    }
+  };
+  for (let i = 0; i < workerCount; i++) {
+    workers.push(run());
+  }
+  await Promise.all(workers);
+}
 
 // 单张图片信息
 interface ImageItem {
@@ -76,6 +99,10 @@ export default function ImageWatermarkClient() {
   const imagesRef = useRef<ImageItem[]>([]);
   // 保持最新的 logoFile 引用，供异步渲染回调读取
   const logoFileRef = useRef<File | null>(null);
+  // 预览模态根节点 ref，用于焦点陷阱
+  const previewModalRef = useRef<HTMLDivElement>(null);
+  // 触发预览的按钮（缩略图）引用，用于模态关闭后归还焦点
+  const previewTriggerRef = useRef<HTMLElement | null>(null);
   useEffect(() => {
     imagesRef.current = images;
   }, [images]);
@@ -95,14 +122,60 @@ export default function ImageWatermarkClient() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 大图预览时按 ESC 关闭
+  // 大图预览模态：ESC 关闭 + 焦点陷阱 + 焦点归还
   useEffect(() => {
     if (!previewItem) return;
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setPreviewItem(null);
+    const modal = previewModalRef.current;
+    if (!modal) return;
+
+    const FOCUSABLE_SELECTOR =
+      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    const getFocusable = () =>
+      Array.from(modal.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+
+    // 模态打开时将焦点移至首个可交互元素（setTimeout 0 让 DOM 渲染完成）
+    const focusTimer = setTimeout(() => {
+      const elements = getFocusable();
+      if (elements.length > 0) elements[0].focus();
+    }, 0);
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setPreviewItem(null);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const elements = getFocusable();
+      if (elements.length === 0) return;
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey) {
+        // Shift+Tab 在首元素时回到末元素
+        if (active === first || !modal.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        // Tab 在末元素时回到首元素
+        if (active === last || !modal.contains(active)) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
+
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      clearTimeout(focusTimer);
+      window.removeEventListener("keydown", handleKey);
+      // 模态关闭时焦点回到触发按钮
+      if (previewTriggerRef.current) {
+        previewTriggerRef.current.focus();
+        previewTriggerRef.current = null;
+      }
+    };
   }, [previewItem]);
 
   // 校验并追加多张图片
@@ -110,6 +183,12 @@ export default function ImageWatermarkClient() {
     (fileList: FileList | File[]) => {
       const files = Array.from(fileList);
       if (files.length === 0) return;
+
+      // 图片数量上限校验：当前数量 + 新增数量 > MAX_IMAGES 时拒绝
+      if (imagesRef.current.length + files.length > MAX_IMAGES) {
+        setErrorMsg(t("maxImagesExceeded"));
+        return;
+      }
 
       const validItems: ImageItem[] = [];
       let firstError = "";
@@ -244,30 +323,30 @@ export default function ImageWatermarkClient() {
       const current = imagesRef.current;
       const currentLogo = logoFileRef.current;
       try {
-        const newResults = await Promise.all(
-          current.map(async (item) => {
-            let result: WatermarkResult;
-            if (mode === "image" && currentLogo) {
-              const blob = await addImageWatermark(item.file, currentLogo, {
-                position,
-                logoSize,
-                opacity: opacity / 100,
-              });
-              const url = URL.createObjectURL(blob);
-              result = { blob, url };
-            } else {
-              result = await applyWatermark(item.file, {
-                text,
-                position,
-                fontSize,
-                opacity,
-                angle,
-                color,
-              });
-            }
-            return { id: item.id, result };
-          })
-        );
+        // 使用 worker pool 限制并发为 4，避免大批量图片同时处理造成内存/CPU 压力
+        const newResults: { id: string; result: WatermarkResult }[] = [];
+        await runWithConcurrency(current, 4, async (item) => {
+          let result: WatermarkResult;
+          if (mode === "image" && currentLogo) {
+            const blob = await addImageWatermark(item.file, currentLogo, {
+              position,
+              logoSize,
+              opacity: opacity / 100,
+            });
+            const url = URL.createObjectURL(blob);
+            result = { blob, url };
+          } else {
+            result = await applyWatermark(item.file, {
+              text,
+              position,
+              fontSize,
+              opacity,
+              angle,
+              color,
+            });
+          }
+          newResults.push({ id: item.id, result });
+        });
         if (cancelled) {
           // 已取消，释放这些将不会使用的 url
           newResults.forEach((r) => URL.revokeObjectURL(r.result.url));
@@ -626,6 +705,7 @@ export default function ImageWatermarkClient() {
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     placeholder={t("textPlaceholder")}
+                    autoComplete="off"
                     className="w-full rounded-xl border border-border bg-bg-warm px-4 py-3 text-sm text-text placeholder:text-text-secondary focus:outline-none focus:border-teal focus:ring-1 focus:ring-teal"
                   />
                 </div>
@@ -801,9 +881,15 @@ export default function ImageWatermarkClient() {
                   <img
                     src={item.result?.url ?? item.previewUrl}
                     alt={item.file.name}
+                    tabIndex={item.result && !batchMode ? 0 : undefined}
+                    role={
+                      item.result && !batchMode ? "button" : undefined
+                    }
                     onClick={
                       item.result && !batchMode
-                        ? () => {
+                        ? (e) => {
+                            previewTriggerRef.current =
+                              e.currentTarget as HTMLElement;
                             setPreviewItem(item);
                             setPreviewMode("watermarked");
                           }
@@ -812,7 +898,7 @@ export default function ImageWatermarkClient() {
                     className={[
                       "w-16 h-16 shrink-0 rounded-lg object-cover bg-bg-warm",
                       item.result && !batchMode
-                        ? "cursor-pointer hover:opacity-80 transition-opacity"
+                        ? "cursor-pointer hover:opacity-80 transition-opacity focus:outline-none focus:ring-2 focus:ring-teal"
                         : "",
                     ].join(" ")}
                   />
@@ -843,7 +929,7 @@ export default function ImageWatermarkClient() {
                     onClick={() => downloadOne(item)}
                     disabled={!item.result}
                     className={[
-                      "shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium transition-colors",
+                      "shrink-0 inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed",
                       item.result
                         ? "bg-teal text-white hover:bg-teal-dark"
                         : "bg-bg-warm text-text-secondary cursor-not-allowed",
@@ -918,7 +1004,7 @@ export default function ImageWatermarkClient() {
                   images.every((i) => !i.result) || isProcessing
                 }
                 className={[
-                  "inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm transition-colors",
+                  "inline-flex items-center gap-2 px-6 py-2.5 rounded-full font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed",
                   images.every((i) => !i.result) || isProcessing
                     ? "bg-bg-article text-text-secondary cursor-not-allowed"
                     : "bg-teal text-white hover:bg-teal-dark",
@@ -969,9 +1055,17 @@ export default function ImageWatermarkClient() {
           onClick={() => setPreviewItem(null)}
         >
           <div
+            ref={previewModalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="watermark-preview-title"
             className="relative max-w-[90vw] max-h-[80vh] flex flex-col items-center"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* 模态标题（仅供屏幕阅读器使用） */}
+            <h2 id="watermark-preview-title" className="sr-only">
+              {t("previewTitle")}
+            </h2>
             {/* 顶部切换按钮 */}
             <div className="mb-3 flex gap-2">
               <button

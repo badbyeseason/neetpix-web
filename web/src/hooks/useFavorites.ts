@@ -55,6 +55,16 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     setFavorites(readFromStorage());
   }, []);
 
+  // 跨标签页同步：监听 storage 事件（仅在同源其他标签页触发）
+  useEffect(() => {
+    function handleStorageChange(e: StorageEvent) {
+      if (e.key !== STORAGE_KEY) return;
+      setFavorites(readFromStorage());
+    }
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
   const isFavorite = useCallback(
     (key: string) => favorites.includes(key),
     [favorites],

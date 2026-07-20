@@ -4,14 +4,18 @@
     "tools": "工具",
     "privacy": "隐私",
     "about": "关于",
+    "search": "搜索",
     "categoryPdf": "PDF 工具",
     "categoryImage": "图片工具",
     "categoryTranslate": "翻译工具",
-    "categoryGenerator": "生成器"
+    "categoryGenerator": "生成器",
+    "networkTools": "网络工具"
   },
   "badge": {
     "localProcessing": "本地处理",
-    "localProcessingDesc": "100% 在浏览器中完成"
+    "localProcessingDesc": "100% 在浏览器中完成",
+    "p2pDirect": "端到端 P2P 直传",
+    "p2pDirectDesc": "文件直接在两台设备间传输，不经过服务器；仅配对信令通过公共 PeerJS broker 中继"
   },
   "badges": {
     "new": "新",
@@ -38,6 +42,7 @@
     "placeholder": "搜索工具...",
     "noResults": "未找到匹配的工具",
     "recent": "全部工具",
+    "resultsCount": "找到 {count} 个结果",
     "openHint": "按 ⌘K 搜索"
   },
   "tools": {
@@ -102,7 +107,8 @@
     "imageBlur": { "name": "人脸/车牌模糊", "desc": "模糊照片中的人脸、车牌或敏感区域 — 100% 本地" },
     "imageGridSplit": { "name": "网格分割", "desc": "将图片分割为 2x2、3x3、4x4 或自定义网格 — 打包下载为 ZIP，100% 本地" },
     "qrCode": { "name": "二维码生成器", "desc": "从文本、URL、邮箱、WiFi 或联系人生成二维码 — PNG/SVG 导出，100% 本地" },
-    "chartGenerator": { "name": "图表生成器", "desc": "用你的数据创建柱状图、折线图和饼图 — PNG/SVG 导出，100% 本地" }
+    "chartGenerator": { "name": "图表生成器", "desc": "用你的数据创建柱状图、折线图和饼图 — PNG/SVG 导出，100% 本地" },
+    "fileTransfer": { "name": "文件互传", "desc": "通过 WebRTC 在设备间直接传输文件" }
   },
   "relatedTools": {
     "title": "相关工具"
@@ -288,6 +294,8 @@
     "previewOriginal": "原图",
     "previewWatermarked": "水印后",
     "close": "关闭",
+    "previewTitle": "图片水印预览",
+    "maxImagesExceeded": "最多支持 20 张图片，请先移除部分再添加。",
     "textMode": "文字水印",
     "imageMode": "图片水印",
     "uploadLogo": "上传 logo 图片",
@@ -623,7 +631,8 @@
     "errorPasswordMismatch": "两次输入的密码不一致。",
     "retry": "加密另一个文件",
     "success": "加密完成！你的密码保护 PDF 已准备好下载。",
-    "fileLabel": "已选文件"
+    "fileLabel": "已选文件",
+    "remove": "移除文件"
   },
   "pdfDecrypt": {
     "title": "PDF 解密 – 免费在线 PDF 密码移除 | Neetpix",
@@ -645,6 +654,9 @@
     "errorNotEncrypted": "此 PDF 未加密，无需解密。",
     "retry": "解密另一个文件",
     "success": "解密完成！你的 PDF 已准备好下载。",
+    "successMessage": "解密成功！可以下载。",
+    "errorEmptyPassword": "密码不能为空。",
+    "remove": "移除文件",
     "fileLabel": "已选文件",
     "legalNote": "请确保你拥有该 PDF 的合法解密权限（如忘记自己设置的密码）。本工具不应用于破解他人加密的文档。"
   },
@@ -715,6 +727,8 @@
     "emailPlaceholder": "name@example.com",
     "wifiSsid": "网络名称 (SSID)",
     "wifiPassword": "密码",
+    "showPassword": "显示密码",
+    "hidePassword": "隐藏密码",
     "wifiEncryption": "加密方式",
     "wifiWpa": "WPA/WPA2",
     "wifiWep": "WEP",
@@ -727,10 +741,10 @@
     "foregroundColor": "前景色",
     "backgroundColor": "背景色",
     "errorCorrection": "纠错级别",
-    "errorLevelL": "L — 7%",
-    "errorLevelM": "M — 15%",
-    "errorLevelQ": "Q — 25%",
-    "errorLevelH": "H — 30%",
+    "errorLevelL": "低（约 7% 容错）",
+    "errorLevelM": "中（约 15% 容错）",
+    "errorLevelQ": "较高（约 25% 容错）",
+    "errorLevelH": "高（约 30% 容错）",
     "preview": "预览",
     "emptyHint": "在上方输入内容以生成二维码",
     "downloadPng": "下载 PNG",
@@ -772,7 +786,46 @@
     "pieMultiSeriesHint": "饼图仅支持单系列，将使用第一个系列。",
     "exportPng": "导出 PNG",
     "exportSvg": "导出 SVG",
-    "privacy": "100% 隐私保护——图表生成完全在浏览器中运行"
+    "privacy": "100% 隐私 — 图表生成完全在浏览器中运行"
+  },
+  "fileTransfer": {
+    "title": "局域网文件互传",
+    "description": "在局域网或互联网中直接在两台设备间传输文件，文件不经过任何服务器。",
+    "createRoom": "创建房间",
+    "joinRoom": "加入房间",
+    "waitingForPeer": "等待对方加入...",
+    "roomCode": "房间码",
+    "joinLink": "加入链接",
+    "copyLink": "复制链接",
+    "copied": "已复制！",
+    "scanToJoin": "扫码加入",
+    "enterRoomCode": "输入 6 位房间码",
+    "connect": "连接",
+    "cancel": "取消",
+    "connected": "已连接",
+    "disconnected": "对方已断开",
+    "selectFile": "选择文件",
+    "dragDropHint": "点击选择或拖拽文件到此处",
+    "send": "发送",
+    "sending": "发送中...",
+    "receiving": "接收中...",
+    "transferComplete": "传输完成！",
+    "fileReceived": "已接收文件",
+    "fileSent": "文件已成功发送",
+    "sendAnother": "再传一个",
+    "disconnect": "断开连接",
+    "back": "返回",
+    "retry": "重试",
+    "fileTooLarge": "文件超过 500MB 限制",
+    "invalidRoomCode": "房间码无效",
+    "hostHint": "创建房间并将房间码或二维码分享给另一台设备",
+    "joinHint": "输入另一台设备提供的房间码",
+    "privacyNote": "文件通过 WebRTC 直接在两台设备间传输，仅配对信令通过公共 broker。",
+    "transferProgress": "{percent}%（{transferred} / {total}）",
+    "youAreSender": "您是发送方",
+    "youAreReceiver": "您是接收方",
+    "asSender": "选择要发送的文件",
+    "asReceiver": "等待发送方选择文件..."
   },
   "privacy": {
     "title": "隐私政策",
@@ -801,7 +854,8 @@
     "toolsImage": "10 个图片工具——格式转换、EXIF 剥离、缩放裁剪、网格分割、证件照、OCR、模糊、去除背景、压缩、加水印",
     "toolsGenerator": "2 个生成器工具——二维码和图表生成器，完全本地",
     "toolsTranslate": "1 个翻译工具——截图 OCR 翻译，支持自动检测",
-    "toolsTotal": "共 25 个工具——全部免费，无需注册，无需上传",
+    "toolsNetwork": "1 个网络工具——通过 WebRTC 在设备间直接传输文件，不经服务器中转",
+    "toolsTotal": "共 26 个工具——全部免费，无需注册，无需上传",
     "contactTitle": "联系我们",
     "contactEmail": "im.badbye@gmail.com"
   },
@@ -956,7 +1010,19 @@
     "chartGenerator2": "支持哪些图表类型？",
     "chartGenerator2a": "柱状图、折线图和饼图。柱状图和折线图支持多系列（饼图仅使用第一个系列）。",
     "chartGenerator3": "能导出什么格式？",
-    "chartGenerator3a": "PNG（位图）和 SVG（矢量）。SVG 可任意缩放不失真，适合打印和演示。"
+    "chartGenerator3a": "PNG（位图）和 SVG（矢量）。SVG 可任意缩放不失真，适合打印和演示。",
+    "fileTransfer1": "传输过程中我的文件安全吗？",
+    "fileTransfer1a": "安全。文件通过 WebRTC DataChannel 直接在两台设备间传输，没有任何服务器存储或转发文件内容。",
+    "fileTransfer2": "为什么需要信令服务器？",
+    "fileTransfer2a": "WebRTC 协议要求一个信令通道来交换连接信息（SDP offer/answer）。我们使用公共 PeerJS broker，仅中继这些初始化数据，不传输文件本身。",
+    "fileTransfer3": "跨网络（非局域网）也能用吗？",
+    "fileTransfer3a": "可以。只要两台设备都有互联网连接，WebRTC 可通过 STUN 建立直连。在部分限制性网络中可能需要 TURN 中继，但文件内容仍为端到端加密。",
+    "fileTransfer4": "文件大小有限制吗？",
+    "fileTransfer4a": "单个文件最大 500MB。网络较差时大文件传输可能较慢。",
+    "fileTransfer5": "传输中断了怎么办？",
+    "fileTransfer5a": "传输会中止且已接收的部分会丢弃。您可以重新连接后重试。",
+    "fileTransfer6": "两台设备都需要打开 Neetpix 吗？",
+    "fileTransfer6a": "是的。两台设备都需要打开本页面（neetpix.com/tools/file-transfer），一方创建房间，另一方用房间码或二维码加入。"
   },
   "error": {
     "notFound": "页面未找到",
