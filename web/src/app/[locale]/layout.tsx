@@ -5,6 +5,8 @@ import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Feedback from "@/components/Feedback";
+import CommandPalette from "@/components/layout/CommandPalette";
+import { FavoritesProvider } from "@/hooks/useFavorites";
 
 type Props = {
   children: React.ReactNode;
@@ -22,10 +24,13 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale} className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <Feedback />
+          <FavoritesProvider>
+            <Header />
+            <main className="flex-1">{children}</main>
+            <Footer />
+            <Feedback />
+            <CommandPalette />
+          </FavoritesProvider>
         </NextIntlClientProvider>
       </body>
     </html>

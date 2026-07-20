@@ -50,7 +50,7 @@ export default async function ImageBlurPage({ params }: Props) {
       <ImageBlurClient />
       <Faq tool="imageBlur" locale={locale} />
       <RelatedTools
-        tools={["imageResize", "imageCompress", "imageWatermark", "removeBackground"]}
+        tools={["imageResize", "imageCompress", "imageWatermark", "removeBackground", "imageGridSplit"]}
         locale={locale}
       />
     </div>

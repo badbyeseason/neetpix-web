@@ -45,7 +45,7 @@ export default async function ImageIdPhotoPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ImageIdPhotoClient />
       <Faq tool="imageIdPhoto" locale={locale} />
-      <RelatedTools tools={["removeBackground", "imageResize", "imageConvert", "imageCompress", "imageToPdf", "imageWatermark"]} locale={locale} />
+      <RelatedTools tools={["removeBackground", "imageResize", "imageConvert", "imageCompress", "imageToPdf", "imageWatermark", "imageGridSplit"]} locale={locale} />
     </div>
   );
 }

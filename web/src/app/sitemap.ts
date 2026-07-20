@@ -28,6 +28,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/pdf-decrypt",
     "/tools/pdf-crop",
     "/tools/pdf-rotate",
+    "/tools/image-grid-split",
+    "/tools/qr-code",
+    "/tools/chart-generator",
     "/privacy",
     "/about",
   ];

@@ -1,5 +1,5 @@
-import { getTranslations } from "next-intl/server";
-import ImageResizeClient from "./ImageResizeClient";
+import { getTranslations, getMessages } from "next-intl/server";
+import ImageGridSplitClient from "./ImageGridSplitClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
@@ -12,11 +12,11 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "imageResize" });
+  const t = await getTranslations({ locale, namespace: "imageGridSplit" });
   return {
     title: { absolute: t("title") },
     description: t("description"),
-    alternates: buildI18nMetadata("/tools/image-resize", locale),
+    alternates: buildI18nMetadata("/tools/image-grid-split", locale),
     openGraph: {
       title: t("title") + " - Neetpix",
       description: t("description"),
@@ -31,9 +31,21 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function ImageResizePage({ params }: Props) {
+export default async function ImageGridSplitPage({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "imageResize" });
+  const t = await getTranslations({ locale, namespace: "imageGridSplit" });
+  // Faq 条目由后续 Task 6 统一添加；条目就绪前条件渲染，避免 next-intl 缺失键错误
+  const messages = await getMessages();
+  const faq = (messages as Record<string, Record<string, string> | undefined>)
+    .faq;
+  const hasFaq = Boolean(
+    faq?.imageGridSplit1 &&
+      faq?.imageGridSplit1a &&
+      faq?.imageGridSplit2 &&
+      faq?.imageGridSplit2a &&
+      faq?.imageGridSplit3 &&
+      faq?.imageGridSplit3a
+  );
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
       <JsonLd
@@ -41,16 +53,16 @@ export default async function ImageResizePage({ params }: Props) {
         description={t("description")}
         url={
           locale === "en"
-            ? "https://neetpix.com/tools/image-resize"
-            : "https://neetpix.com/zh/tools/image-resize"
+            ? "https://neetpix.com/tools/image-grid-split"
+            : "https://neetpix.com/zh/tools/image-grid-split"
         }
         locale={locale}
       />
       <PrivacyBadge locale={locale} />
-      <ImageResizeClient />
-      <Faq tool="imageResize" locale={locale} />
+      <ImageGridSplitClient />
+      {hasFaq && <Faq tool="imageGridSplit" locale={locale} />}
       <RelatedTools
-        tools={["imageCompress", "imageToPdf", "imageWatermark", "removeBackground", "imageIdPhoto", "imageOcr", "imageBlur", "imageGridSplit"]}
+        tools={["imageResize", "imageWatermark", "imageConvert", "imageCompress"]}
         locale={locale}
       />
     </div>

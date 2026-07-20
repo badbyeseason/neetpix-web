@@ -72,7 +72,9 @@ export default async function AboutPage({ params }: Props) {
       <ul className="mt-4 list-disc pl-6 text-text-secondary leading-relaxed">
         <li>{t("toolsPdf")}</li>
         <li>{t("toolsImage")}</li>
+        <li>{t("toolsGenerator")}</li>
         <li>{t("toolsTranslate")}</li>
+        <li className="mt-2 font-medium text-text">{t("toolsTotal")}</li>
       </ul>
 
       {/* 联系方式 */}

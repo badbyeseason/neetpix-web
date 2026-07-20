@@ -1,5 +1,5 @@
-import { getTranslations } from "next-intl/server";
-import ImageResizeClient from "./ImageResizeClient";
+import { getTranslations, getMessages } from "next-intl/server";
+import QrCodeClient from "./QrCodeClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
@@ -12,11 +12,11 @@ type Props = {
 
 export async function generateMetadata({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "imageResize" });
+  const t = await getTranslations({ locale, namespace: "qrCode" });
   return {
     title: { absolute: t("title") },
     description: t("description"),
-    alternates: buildI18nMetadata("/tools/image-resize", locale),
+    alternates: buildI18nMetadata("/tools/qr-code", locale),
     openGraph: {
       title: t("title") + " - Neetpix",
       description: t("description"),
@@ -31,9 +31,21 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function ImageResizePage({ params }: Props) {
+export default async function QrCodePage({ params }: Props) {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "imageResize" });
+  const t = await getTranslations({ locale, namespace: "qrCode" });
+  // Faq 条目由后续 Task 6 统一添加；条目就绪前条件渲染，避免 next-intl 缺失键错误
+  const messages = await getMessages();
+  const faq = (messages as Record<string, Record<string, string> | undefined>)
+    .faq;
+  const hasFaq = Boolean(
+    faq?.qrCode1 &&
+      faq?.qrCode1a &&
+      faq?.qrCode2 &&
+      faq?.qrCode2a &&
+      faq?.qrCode3 &&
+      faq?.qrCode3a
+  );
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
       <JsonLd
@@ -41,16 +53,16 @@ export default async function ImageResizePage({ params }: Props) {
         description={t("description")}
         url={
           locale === "en"
-            ? "https://neetpix.com/tools/image-resize"
-            : "https://neetpix.com/zh/tools/image-resize"
+            ? "https://neetpix.com/tools/qr-code"
+            : "https://neetpix.com/zh/tools/qr-code"
         }
         locale={locale}
       />
       <PrivacyBadge locale={locale} />
-      <ImageResizeClient />
-      <Faq tool="imageResize" locale={locale} />
+      <QrCodeClient />
+      {hasFaq && <Faq tool="qrCode" locale={locale} />}
       <RelatedTools
-        tools={["imageCompress", "imageToPdf", "imageWatermark", "removeBackground", "imageIdPhoto", "imageOcr", "imageBlur", "imageGridSplit"]}
+        tools={["imageWatermark", "imageGridSplit", "chartGenerator"]}
         locale={locale}
       />
     </div>

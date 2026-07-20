@@ -45,7 +45,7 @@ export default async function ImageExifPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ImageExifClient />
       <Faq tool="imageExif" locale={locale} />
-      <RelatedTools tools={["imageCompress", "imageWatermark", "imageToPdf", "removeBackground", "imageIdPhoto", "imageOcr", "imageBlur"]} locale={locale} />
+      <RelatedTools tools={["imageCompress", "imageWatermark", "imageToPdf", "removeBackground", "imageIdPhoto", "imageOcr", "imageBlur", "imageGridSplit"]} locale={locale} />
     </div>
   );
 }

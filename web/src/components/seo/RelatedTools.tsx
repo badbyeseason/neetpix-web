@@ -32,6 +32,9 @@ const TOOL_ROUTES: Record<string, string> = {
   imageBlur: "image-blur",
   removeBackground: "remove-background",
   screenshotTranslate: "screenshot-translate",
+  imageGridSplit: "image-grid-split",
+  qrCode: "qr-code",
+  chartGenerator: "chart-generator",
 };
 
 // 工具 key → 图标 emoji/渐变（参考首页卡片的图标配置）
@@ -58,6 +61,9 @@ const TOOL_ICONS: Record<string, { emoji: string; gradient: string }> = {
   imageBlur: { emoji: "🔐", gradient: "from-teal-bg to-bg-warm" },
   removeBackground: { emoji: "✨", gradient: "from-teal/10 to-bg-article" },
   screenshotTranslate: { emoji: "📸", gradient: "from-coral/10 to-bg-article" },
+  imageGridSplit: { emoji: "🔲", gradient: "from-coral/10 to-bg-warm" },
+  qrCode: { emoji: "📱", gradient: "from-teal/10 to-bg-warm" },
+  chartGenerator: { emoji: "📊", gradient: "from-coral-light/10 to-bg-warm" },
 };
 
 export default function RelatedTools({ tools, locale }: Props) {

@@ -45,7 +45,7 @@ export default async function ImageToPdfPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ImageToPdfClient />
       <Faq tool="imageToPdf" locale={locale} />
-      <RelatedTools tools={["imageCompress", "imageWatermark", "wordToPdf", "pdfMerge"]} locale={locale} />
+      <RelatedTools tools={["imageCompress", "imageWatermark", "wordToPdf", "pdfMerge", "imageGridSplit"]} locale={locale} />
     </div>
   );
 }

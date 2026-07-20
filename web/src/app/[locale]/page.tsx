@@ -2,6 +2,8 @@ import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import Logo from "@/components/ui/Logo";
+import ToolCard from "@/components/home/ToolCard";
+import MyToolsSection from "@/components/home/MyToolsSection";
 import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
@@ -67,12 +69,20 @@ export default async function HomePage({ params }: Props) {
         { key: "imageIdPhoto", href: "/tools/image-id-photo", gradient: "from-teal/10 to-bg-warm", badge: "new" },
         { key: "imageOcr", href: "/tools/image-ocr", gradient: "from-coral-light/10 to-bg-warm", badge: "new" },
         { key: "imageBlur", href: "/tools/image-blur", gradient: "from-teal-bg to-bg-warm", badge: "new" },
+        { key: "imageGridSplit", href: "/tools/image-grid-split", gradient: "from-coral/10 to-bg-warm", badge: "new" },
       ],
     },
     {
       category: t("nav.categoryTranslate"),
       tools: [
         { key: "screenshotTranslate", href: "/tools/screenshot-translate", gradient: "from-coral/10 to-teal-bg" },
+      ],
+    },
+    {
+      category: t("nav.categoryGenerator"),
+      tools: [
+        { key: "qrCode", href: "/tools/qr-code", gradient: "from-teal/10 to-bg-warm", badge: "new" },
+        { key: "chartGenerator", href: "/tools/chart-generator", gradient: "from-coral-light/10 to-bg-warm", badge: "new" },
       ],
     },
   ];
@@ -104,6 +114,8 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
+      <MyToolsSection />
+
       <section className="py-16 px-4 bg-bg-warm">
         <div className="mx-auto max-w-5xl">
           <h2 className="text-2xl sm:text-3xl font-bold text-center text-text mb-12">
@@ -117,44 +129,14 @@ export default async function HomePage({ params }: Props) {
                 </h3>
                 <div className="grid sm:grid-cols-2 gap-4">
                   {group.tools.map((tool) => (
-                    <Link
+                    <ToolCard
                       key={tool.key}
+                      toolKey={tool.key}
                       href={tool.href}
-                      className={"group relative rounded-2xl p-6 sm:p-8 bg-gradient-to-br " + tool.gradient + " border border-border hover:border-teal-light transition-all hover:shadow-md"}
-                    >
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-lg font-semibold text-text">
-                          {t("tools." + tool.key + ".name")}
-                          {tool.comingSoon && (
-                            <span className="ml-2 text-xs font-medium text-text-secondary bg-bg-article px-2 py-0.5 rounded-full">
-                              Soon
-                            </span>
-                          )}
-                          {tool.badge && (
-                            <span
-                              className={
-                                "ml-2 text-xs font-medium px-1.5 py-0.5 rounded-full " +
-                                (tool.badge === "new"
-                                  ? "bg-teal/10 text-teal"
-                                  : "bg-coral/10 text-coral")
-                              }
-                            >
-                              {t("badges." + tool.badge)}
-                            </span>
-                          )}
-                        </h3>
-                        <span
-                          className="inline-flex items-center gap-1 text-xs font-medium text-teal bg-teal/10 px-2 py-1 rounded-full"
-                          title={t("badge.localProcessingDesc")}
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-teal" aria-hidden="true" />
-                          {t("badge.localProcessing")}
-                        </span>
-                      </div>
-                      <p className="mt-1 text-sm text-text-secondary leading-relaxed">
-                        {t("tools." + tool.key + ".desc")}
-                      </p>
-                    </Link>
+                      gradient={tool.gradient}
+                      badge={tool.badge}
+                      comingSoon={tool.comingSoon}
+                    />
                   ))}
                 </div>
               </div>

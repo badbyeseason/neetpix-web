@@ -45,7 +45,7 @@ export default async function RemoveBackgroundPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <RemoveBackgroundClient />
       <Faq tool="removeBackground" locale={locale} />
-      <RelatedTools tools={["imageCompress", "imageWatermark", "imageToPdf", "imageConvert", "imageExif", "imageResize", "imageIdPhoto", "imageOcr", "imageBlur"]} locale={locale} />
+      <RelatedTools tools={["imageCompress", "imageWatermark", "imageToPdf", "imageConvert", "imageExif", "imageResize", "imageIdPhoto", "imageOcr", "imageBlur", "imageGridSplit"]} locale={locale} />
     </div>
   );
 }
