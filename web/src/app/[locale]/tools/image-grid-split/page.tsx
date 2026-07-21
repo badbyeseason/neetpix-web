@@ -4,6 +4,8 @@ import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import ShareBar from "@/components/ShareBar";
+import FeedbackBar from "@/components/FeedbackBar";
 import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
@@ -61,10 +63,12 @@ export default async function ImageGridSplitPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ImageGridSplitClient />
       {hasFaq && <Faq tool="imageGridSplit" locale={locale} />}
+      <FeedbackBar toolNameKey="imageGridSplit" />
       <RelatedTools
         tools={["imageResize", "imageWatermark", "imageConvert", "imageCompress"]}
         locale={locale}
       />
+      <ShareBar />
     </div>
   );
 }

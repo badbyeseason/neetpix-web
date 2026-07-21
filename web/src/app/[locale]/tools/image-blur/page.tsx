@@ -4,6 +4,8 @@ import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import ShareBar from "@/components/ShareBar";
+import FeedbackBar from "@/components/FeedbackBar";
 import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
@@ -49,10 +51,12 @@ export default async function ImageBlurPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ImageBlurClient />
       <Faq tool="imageBlur" locale={locale} />
+      <FeedbackBar toolNameKey="imageBlur" />
       <RelatedTools
         tools={["imageResize", "imageCompress", "imageWatermark", "removeBackground", "imageGridSplit"]}
         locale={locale}
       />
+      <ShareBar />
     </div>
   );
 }

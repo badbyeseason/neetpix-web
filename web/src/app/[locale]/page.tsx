@@ -81,6 +81,7 @@ export default async function HomePage({ params }: Props) {
     {
       category: t("nav.categoryGenerator"),
       tools: [
+        { key: "qrDecode", href: "/tools/qr-decode", gradient: "from-coral/10 to-bg-warm", badge: "new" },
         { key: "qrCode", href: "/tools/qr-code", gradient: "from-teal/10 to-bg-warm", badge: "new" },
         { key: "chartGenerator", href: "/tools/chart-generator", gradient: "from-coral-light/10 to-bg-warm", badge: "new" },
       ],

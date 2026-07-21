@@ -108,6 +108,17 @@ export default function QrCodeClient() {
     };
   }, []);
 
+  // 读取 ?content= 参数预填
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const content = params.get("content");
+    if (content) {
+      setTab("text");
+      setText(content);
+    }
+  }, []);
+
   // 根据当前 tab + 表单值生成二维码内容
   const content = buildContent(tab, {
     text,
@@ -178,6 +189,7 @@ export default function QrCodeClient() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      window.dispatchEvent(new CustomEvent("tool-download-complete"));
       // 延迟释放，确保下载已开始
       setTimeout(() => {
         URL.revokeObjectURL(objUrl);

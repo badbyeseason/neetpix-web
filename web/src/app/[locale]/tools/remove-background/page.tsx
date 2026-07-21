@@ -4,6 +4,8 @@ import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import ShareBar from "@/components/ShareBar";
+import FeedbackBar from "@/components/FeedbackBar";
 import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
@@ -45,7 +47,9 @@ export default async function RemoveBackgroundPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <RemoveBackgroundClient />
       <Faq tool="removeBackground" locale={locale} />
+      <FeedbackBar toolNameKey="removeBackground" />
       <RelatedTools tools={["imageCompress", "imageWatermark", "imageToPdf", "imageConvert", "imageExif", "imageResize", "imageIdPhoto", "imageOcr", "imageBlur", "imageGridSplit"]} locale={locale} />
+      <ShareBar />
     </div>
   );
 }

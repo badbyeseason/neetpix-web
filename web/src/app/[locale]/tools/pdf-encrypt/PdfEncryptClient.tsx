@@ -124,6 +124,7 @@ export default function PdfEncryptClient() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      window.dispatchEvent(new CustomEvent("tool-download-complete"));
       // 保留下载链接，便于用户手动重新下载
       setDownloadUrl(url);
       setStatus("done");

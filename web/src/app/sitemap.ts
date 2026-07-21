@@ -30,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/tools/pdf-rotate",
     "/tools/image-grid-split",
     "/tools/qr-code",
+    "/tools/qr-decode",
     "/tools/chart-generator",
     "/tools/file-transfer",
     "/privacy",

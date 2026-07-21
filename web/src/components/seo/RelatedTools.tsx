@@ -34,6 +34,7 @@ const TOOL_ROUTES: Record<string, string> = {
   screenshotTranslate: "screenshot-translate",
   imageGridSplit: "image-grid-split",
   qrCode: "qr-code",
+  qrDecode: "qr-decode",
   chartGenerator: "chart-generator",
   fileTransfer: "file-transfer",
 };
@@ -64,6 +65,7 @@ const TOOL_ICONS: Record<string, { emoji: string; gradient: string }> = {
   screenshotTranslate: { emoji: "📸", gradient: "from-coral/10 to-bg-article" },
   imageGridSplit: { emoji: "🔲", gradient: "from-coral/10 to-bg-warm" },
   qrCode: { emoji: "📱", gradient: "from-teal/10 to-bg-warm" },
+  qrDecode: { emoji: "🔍", gradient: "from-coral/10 to-bg-warm" },
   chartGenerator: { emoji: "📊", gradient: "from-coral-light/10 to-bg-warm" },
   fileTransfer: { emoji: "🌐", gradient: "from-teal/10 to-bg-warm" },
 };

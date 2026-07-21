@@ -103,6 +103,7 @@ export default function Header() {
       category: t("categoryGenerator"),
       tools: [
         { key: "qrCode", name: tTools("qrCode.name"), desc: tTools("qrCode.desc"), href: "/tools/qr-code", badge: "new" },
+        { key: "qrDecode", name: tTools("qrDecode.name"), desc: tTools("qrDecode.desc"), href: "/tools/qr-decode", badge: "new" },
         { key: "chartGenerator", name: tTools("chartGenerator.name"), desc: tTools("chartGenerator.desc"), href: "/tools/chart-generator", badge: "new" },
       ],
     },
@@ -169,6 +170,7 @@ export default function Header() {
                           key={tool.href}
                           href={tool.href}
                           role="menuitem"
+                          onClick={() => setToolsOpen(false)}
                           onKeyDown={handleItemKeyDown}
                           className="group flex items-start gap-1 px-3 py-2 rounded-md hover:bg-bg-warm transition-colors"
                         >

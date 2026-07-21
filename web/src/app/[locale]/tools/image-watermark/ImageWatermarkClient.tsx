@@ -266,6 +266,7 @@ export default function ImageWatermarkClient() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    window.dispatchEvent(new CustomEvent("tool-download-complete"));
   }, []);
 
   // 批量下载（ZIP）

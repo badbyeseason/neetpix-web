@@ -4,6 +4,8 @@ import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import ShareBar from "@/components/ShareBar";
+import FeedbackBar from "@/components/FeedbackBar";
 import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
@@ -45,7 +47,9 @@ export default async function ImageWatermarkPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ImageWatermarkClient />
       <Faq tool="imageWatermark" locale={locale} />
+      <FeedbackBar toolNameKey="imageWatermark" />
       <RelatedTools tools={["imageCompress", "imageToPdf", "removeBackground", "imageConvert", "imageExif", "imageResize", "imageIdPhoto", "imageOcr", "imageBlur", "qrCode", "imageGridSplit"]} locale={locale} />
+      <ShareBar />
     </div>
   );
 }

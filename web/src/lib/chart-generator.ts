@@ -1,7 +1,7 @@
 // Neetpix Chart Generator
-// 纯 SVG 手写的图表生成器，支持柱状图/折线图/饼图，100% 本地处理，0 依赖
+// 纯 SVG 手写的图表生成器，支持柱状图/折线图/饼图/环形图/雷达图，100% 本地处理，0 依赖
 
-export type ChartType = "bar" | "line" | "pie";
+export type ChartType = "bar" | "line" | "area" | "pie" | "doughnut" | "radar";
 export type LegendPosition = "top" | "bottom" | "none";
 
 export interface ChartSeries {
@@ -68,8 +68,10 @@ function niceMax(value: number): { max: number; step: number; ticks: number } {
 }
 
 // 渲染 SVG 根元素
+// width="100%" 让 SVG 自适应容器宽度；移除 height 让浏览器按 viewBox 比例自动计算
+// viewBox 保留原始 800×500 坐标系，导出 PNG 时仍按 width/height 参数渲染
 function svgOpen(width: number, height: number): string {
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet">`;
 }
 
 // 渲染标题（顶部居中）
@@ -558,6 +560,408 @@ export function renderPieChart(data: ChartData, options: ChartOptions): string {
 
   parts.push("</svg>");
   return parts.join("");
+}
+
+// ====== 面积图 ======
+// 基于 renderLineChart，但填充区域 fill-opacity 提升到 0.35（更明显）
+export function renderAreaChart(data: ChartData, options: ChartOptions): string {
+  return renderLineChart(data, options).replace(
+    /fill-opacity="0\.15"/g,
+    'fill-opacity="0.35"'
+  );
+}
+
+// ====== 环形图 ======
+// 基于 renderPieChart，但使用环形 slice 路径，中心显示总计值
+export function renderDoughnutChart(
+  data: ChartData,
+  options: ChartOptions
+): string {
+  const { width, height, title, legendPosition } = options;
+  // 环形图只取第一个系列
+  const series = data.series[0];
+  if (!series) {
+    return (
+      svgOpen(width, height) +
+      `<rect x="0" y="0" width="${width}" height="${height}" fill="#ffffff" /></svg>`
+    );
+  }
+
+  const values = series.values;
+  const labels = data.labels;
+  const colors = COLOR_PALETTES[0];
+
+  const total = values.reduce((a, b) => a + Math.max(0, b), 0);
+
+  const titleHeight = title ? 40 : 10;
+  const legendHeight = legendPosition !== "none" ? 30 : 0;
+  const legendTopHeight = legendPosition === "top" ? legendHeight : 0;
+  const legendBottomHeight = legendPosition === "bottom" ? legendHeight : 0;
+
+  const cx = width / 2;
+  const cy =
+    titleHeight +
+    legendTopHeight +
+    (height - titleHeight - legendTopHeight - legendBottomHeight) / 2;
+  const radius =
+    Math.min(width, height - titleHeight - legendTopHeight - legendBottomHeight) /
+      2 -
+    30;
+  const innerRadius = radius * 0.55;
+
+  const parts: string[] = [];
+  parts.push(svgOpen(width, height));
+  parts.push(
+    `<rect x="0" y="0" width="${width}" height="${height}" fill="#ffffff" />`
+  );
+
+  if (legendPosition === "top") {
+    parts.push(renderLegend(series ? [series] : [], width, titleHeight));
+  }
+
+  parts.push(renderTitle(title ?? "", width));
+
+  if (total > 0) {
+    let startAngle = -Math.PI / 2; // 从 12 点钟方向开始
+    values.forEach((value, i) => {
+      if (value <= 0) return;
+      const angle = (value / total) * 2 * Math.PI;
+      const endAngle = startAngle + angle;
+      const color = colors[i % colors.length];
+
+      const x1 = cx + radius * Math.cos(startAngle);
+      const y1 = cy + radius * Math.sin(startAngle);
+      const x2 = cx + radius * Math.cos(endAngle);
+      const y2 = cy + radius * Math.sin(endAngle);
+      const ix1 = cx + innerRadius * Math.cos(startAngle);
+      const iy1 = cy + innerRadius * Math.sin(startAngle);
+      const ix2 = cx + innerRadius * Math.cos(endAngle);
+      const iy2 = cy + innerRadius * Math.sin(endAngle);
+
+      let path: string;
+      if (angle >= 2 * Math.PI - 0.0001) {
+        // 整环：外圆 + 内圆（用偶奇填充规则）
+        path = `M ${(cx - 0.01).toFixed(1)},${(cy - radius).toFixed(
+          1
+        )} A ${radius.toFixed(1)},${radius.toFixed(1)} 0 1 1 ${(
+          cx + 0.01
+        ).toFixed(1)},${(cy - radius).toFixed(1)} Z M ${(
+          cx - 0.01
+        ).toFixed(1)},${(cy - innerRadius).toFixed(1)} A ${innerRadius.toFixed(
+          1
+        )},${innerRadius.toFixed(1)} 0 1 0 ${(cx + 0.01).toFixed(1)},${(
+          cy - innerRadius
+        ).toFixed(1)} Z`;
+      } else {
+        const largeArc = angle > Math.PI ? 1 : 0;
+        // 环形 slice：外 arc (sweep=1) → 内 arc 末端 → 内 arc 反向 (sweep=0) → 闭合
+        path = `M ${x1.toFixed(1)},${y1.toFixed(1)} A ${radius.toFixed(
+          1
+        )},${radius.toFixed(1)} 0 ${largeArc} 1 ${x2.toFixed(1)},${y2.toFixed(
+          1
+        )} L ${ix2.toFixed(1)},${iy2.toFixed(1)} A ${innerRadius.toFixed(
+          1
+        )},${innerRadius.toFixed(1)} 0 ${largeArc} 0 ${ix1.toFixed(
+          1
+        )},${iy1.toFixed(1)} Z`;
+      }
+      parts.push(
+        `<path d="${path}" fill="${color}" stroke="#ffffff" stroke-width="1.5" fill-rule="evenodd" />`
+      );
+
+      // 百分比标签（外环中间位置）
+      const midAngle = startAngle + angle / 2;
+      const percent = (value / total) * 100;
+      if (percent >= 5) {
+        const labelRadius = (radius + innerRadius) / 2;
+        const lx = cx + labelRadius * Math.cos(midAngle);
+        const ly = cy + labelRadius * Math.sin(midAngle);
+        parts.push(
+          `<text x="${lx.toFixed(1)}" y="${ly.toFixed(
+            1
+          )}" text-anchor="middle" dominant-baseline="middle" font-family="${FONT_FAMILY}" font-size="12" font-weight="600" fill="#ffffff">${percent.toFixed(
+            1
+          )}%</text>`
+        );
+      }
+
+      // 外侧片名标签
+      if (percent >= 5 && labels[i]) {
+        const outerR = radius + 18;
+        const ox = cx + outerR * Math.cos(midAngle);
+        const oy = cy + outerR * Math.sin(midAngle);
+        const anchor = Math.cos(midAngle) > 0 ? "start" : "end";
+        parts.push(
+          `<text x="${ox.toFixed(1)}" y="${oy.toFixed(
+            1
+          )}" text-anchor="${anchor}" dominant-baseline="middle" font-family="${FONT_FAMILY}" font-size="11" fill="#475569">${escapeXml(
+            labels[i]
+          )}</text>`
+        );
+      }
+
+      startAngle = endAngle;
+    });
+
+    // 中心总计值
+    parts.push(
+      `<text x="${cx.toFixed(1)}" y="${(cy - 6).toFixed(
+        1
+      )}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="12" fill="#64748b">Total</text>`
+    );
+    parts.push(
+      `<text x="${cx.toFixed(1)}" y="${(cy + 14).toFixed(
+        1
+      )}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="20" font-weight="700" fill="#1e293b">${formatNumber(
+        total
+      )}</text>`
+    );
+  } else {
+    parts.push(
+      `<text x="${cx}" y="${cy}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="14" fill="#64748b">No data</text>`
+    );
+  }
+
+  if (legendPosition === "bottom") {
+    const legendSeries: ChartSeries[] = labels
+      .map((label, i) => ({
+        label,
+        color: colors[i % colors.length],
+        values: [values[i] ?? 0],
+      }))
+      .filter((_, i) => (values[i] ?? 0) > 0);
+    parts.push(
+      renderLegend(legendSeries, width, height - legendBottomHeight + 8)
+    );
+  }
+
+  parts.push("</svg>");
+  return parts.join("");
+}
+
+// ====== 雷达图 ======
+// 多边形雷达图，同心多边形网格（5 层），每个系列一个多边形 + 半透明填充
+export function renderRadarChart(
+  data: ChartData,
+  options: ChartOptions
+): string {
+  const { width, height, title, legendPosition } = options;
+  const { labels, series } = data;
+
+  const n = labels.length;
+
+  const titleHeight = title ? 40 : 10;
+  const legendHeight = legendPosition !== "none" ? 30 : 0;
+  const legendTopHeight = legendPosition === "top" ? legendHeight : 0;
+  const legendBottomHeight = legendPosition === "bottom" ? legendHeight : 0;
+
+  const cx = width / 2;
+  const cy =
+    titleHeight +
+    legendTopHeight +
+    (height - titleHeight - legendTopHeight - legendBottomHeight) / 2;
+  const radius =
+    Math.min(width, height - titleHeight - legendTopHeight - legendBottomHeight) /
+      2 -
+    50;
+
+  const parts: string[] = [];
+  parts.push(svgOpen(width, height));
+  parts.push(
+    `<rect x="0" y="0" width="${width}" height="${height}" fill="#ffffff" />`
+  );
+
+  if (legendPosition === "top") {
+    parts.push(renderLegend(series, width, titleHeight));
+  }
+
+  parts.push(renderTitle(title ?? "", width));
+
+  if (n < 3) {
+    parts.push(
+      `<text x="${cx}" y="${cy}" text-anchor="middle" font-family="${FONT_FAMILY}" font-size="14" fill="#64748b">Need at least 3 labels</text>`
+    );
+    parts.push("</svg>");
+    return parts.join("");
+  }
+
+  // 计算 maxValue（所有系列所有值的最大值）
+  let maxValue = 0;
+  for (const s of series) {
+    for (const v of s.values) {
+      if (v > maxValue) maxValue = v;
+    }
+  }
+  if (maxValue <= 0) maxValue = 1;
+
+  // 同心多边形网格（5 层，20% 递增）
+  for (let layer = 1; layer <= 5; layer++) {
+    const r = (radius * layer) / 5;
+    const pts: string[] = [];
+    for (let i = 0; i < n; i++) {
+      const angle = -Math.PI / 2 + (2 * Math.PI * i) / n;
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+      pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+    }
+    parts.push(
+      `<polygon points="${pts.join(
+        " "
+      )}" fill="none" stroke="#e2e8f0" stroke-width="1" />`
+    );
+  }
+
+  // 轴线（从中心到各顶点）
+  for (let i = 0; i < n; i++) {
+    const angle = -Math.PI / 2 + (2 * Math.PI * i) / n;
+    const x = cx + radius * Math.cos(angle);
+    const y = cy + radius * Math.sin(angle);
+    parts.push(
+      `<line x1="${cx.toFixed(1)}" y1="${cy.toFixed(1)}" x2="${x.toFixed(
+        1
+      )}" y2="${y.toFixed(1)}" stroke="#e2e8f0" stroke-width="1" />`
+    );
+  }
+
+  // 顶点标签
+  for (let i = 0; i < n; i++) {
+    const angle = -Math.PI / 2 + (2 * Math.PI * i) / n;
+    const labelR = radius + 20;
+    const x = cx + labelR * Math.cos(angle);
+    const y = cy + labelR * Math.sin(angle);
+    parts.push(
+      `<text x="${x.toFixed(1)}" y="${y.toFixed(
+        1
+      )}" text-anchor="middle" dominant-baseline="middle" font-family="${FONT_FAMILY}" font-size="11" fill="#475569">${escapeXml(
+        labels[i]
+      )}</text>`
+    );
+  }
+
+  // 每个系列：多边形 + 半透明填充 + 边线
+  series.forEach((s) => {
+    const pts: string[] = [];
+    for (let i = 0; i < n; i++) {
+      const value = s.values[i] ?? 0;
+      const r = (Math.max(0, value) / maxValue) * radius;
+      const angle = -Math.PI / 2 + (2 * Math.PI * i) / n;
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+      pts.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+    }
+    parts.push(
+      `<polygon points="${pts.join(
+        " "
+      )}" fill="${s.color}" fill-opacity="0.2" stroke="${s.color}" stroke-width="2" stroke-linejoin="round" />`
+    );
+    // 顶点圆点
+    for (let i = 0; i < n; i++) {
+      const value = s.values[i] ?? 0;
+      const r = (Math.max(0, value) / maxValue) * radius;
+      const angle = -Math.PI / 2 + (2 * Math.PI * i) / n;
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+      parts.push(
+        `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(
+          1
+        )}" r="3" fill="${s.color}" stroke="#ffffff" stroke-width="1.5" />`
+      );
+    }
+  });
+
+  if (legendPosition === "bottom") {
+    parts.push(renderLegend(series, width, height - legendBottomHeight + 8));
+  }
+
+  parts.push("</svg>");
+  return parts.join("");
+}
+
+// ====== CSV/TSV 解析 ======
+// 解析 CSV/TSV 文本为图表数据
+// hasHeader=true：首行作为 series 标签（第一列空/"Label"/"标签"等被忽略），其余行第一列为 label，其余列数值
+// hasHeader=false：所有行第一列为 label，按列组装 series，标签自动生成 "Series 1", "Series 2"...
+// 自动检测分隔符：第一行含 \t 则用 \t，否则用 ,
+export function parseCsvOrTsv(
+  text: string,
+  hasHeader: boolean
+):
+  | { labels: string[]; seriesData: number[][]; seriesLabels: string[] }
+  | { error: string } {
+  const trimmed = text.trim();
+  if (!trimmed) return { error: "Empty input" };
+
+  // 按 \n 分行（支持 \r\n）
+  const rawLines = trimmed.split(/\r?\n/);
+  // 过滤完全空行
+  const lines = rawLines.map((l) => l.trim()).filter((l) => l.length > 0);
+  if (lines.length < 2) return { error: "Need at least 2 rows" };
+
+  // 自动检测分隔符：第一行含 \t 则用 \t，否则用 ,
+  const delimiter = lines[0].includes("\t") ? "\t" : ",";
+
+  // 简单解析（不处理引号内分隔符）
+  const rows = lines.map((l) => l.split(delimiter));
+  if (rows[0].length < 2) return { error: "Need at least 2 columns" };
+
+  // 检查所有行列数一致（取首行列数为准，不一致则报错）
+  const colCount = rows[0].length;
+  for (let i = 1; i < rows.length; i++) {
+    if (rows[i].length !== colCount) {
+      return { error: `Row ${i + 1} has ${rows[i].length} cols, expected ${colCount}` };
+    }
+  }
+
+  let labels: string[];
+  let seriesCount: number;
+  let seriesLabels: string[];
+  let dataRows: string[][]; // 不含 header 行（如有）的数据行
+
+  if (hasHeader) {
+    // 首行：第一列空/"Label"/"标签"等被忽略，其余为 series 标签
+    const headerRow = rows[0];
+    seriesLabels = headerRow.slice(1).map((s) => s.trim() || `Series ${1}`);
+    // 修正空标签
+    seriesLabels = seriesLabels.map((s, i) => (s ? s : `Series ${i + 1}`));
+    seriesCount = seriesLabels.length;
+    dataRows = rows.slice(1);
+    if (dataRows.length === 0) return { error: "No data rows after header" };
+    labels = dataRows.map((r) => r[0]?.trim() || `Item ${1}`);
+    labels = labels.map((s, i) => (s ? s : `Item ${i + 1}`));
+  } else {
+    // 无 header：所有行的第一列为 label，每行其余列视为 series 值
+    seriesCount = colCount - 1;
+    if (seriesCount < 1) return { error: "Need at least 2 columns" };
+    seriesLabels = Array.from(
+      { length: seriesCount },
+      (_, i) => `Series ${i + 1}`
+    );
+    dataRows = rows;
+    labels = dataRows.map((r) => r[0]?.trim() || `Item ${1}`);
+    labels = labels.map((s, i) => (s ? s : `Item ${i + 1}`));
+  }
+
+  if (seriesCount < 1) return { error: "Need at least 1 series column" };
+
+  // 解析数值：空值或非数值视为 0
+  const seriesData: number[][] = Array.from({ length: seriesCount }, () => []);
+  let anyValidNumber = false;
+  for (const row of dataRows) {
+    for (let s = 0; s < seriesCount; s++) {
+      const cell = row[s + 1]?.trim() ?? "";
+      const n = Number(cell);
+      if (cell !== "" && !isNaN(n)) {
+        seriesData[s].push(n);
+        anyValidNumber = true;
+      } else {
+        seriesData[s].push(0);
+      }
+    }
+  }
+
+  if (!anyValidNumber) return { error: "No numeric values found" };
+
+  return { labels, seriesData, seriesLabels };
 }
 
 // SVG 字符串 → PNG Blob（通过 Image + Canvas）

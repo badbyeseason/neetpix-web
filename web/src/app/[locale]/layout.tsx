@@ -6,6 +6,8 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import Feedback from "@/components/Feedback";
 import CommandPalette from "@/components/layout/CommandPalette";
+import BookmarkHint from "@/components/BookmarkHint";
+import ShareToast from "@/components/ShareToast";
 import { FavoritesProvider } from "@/hooks/useFavorites";
 
 type Props = {
@@ -30,6 +32,8 @@ export default async function LocaleLayout({ children, params }: Props) {
             <Footer />
             <Feedback />
             <CommandPalette />
+            <BookmarkHint />
+            <ShareToast />
           </FavoritesProvider>
         </NextIntlClientProvider>
       </body>

@@ -4,6 +4,8 @@ import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import ShareBar from "@/components/ShareBar";
+import FeedbackBar from "@/components/FeedbackBar";
 import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
@@ -45,7 +47,9 @@ export default async function PdfMergePage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <PdfMergeClient />
       <Faq tool="pdfMerge" locale={locale} />
+      <FeedbackBar toolNameKey="pdfMerge" />
       <RelatedTools tools={["pdfSplit", "pdfCompress", "pdfToWord", "pdfCrop", "pdfRotate"]} locale={locale} />
+      <ShareBar />
     </div>
   );
 }

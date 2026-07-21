@@ -4,6 +4,8 @@ import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
 import RelatedTools from "@/components/seo/RelatedTools";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
+import ShareBar from "@/components/ShareBar";
+import FeedbackBar from "@/components/FeedbackBar";
 import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
@@ -50,10 +52,12 @@ export default async function ImageConvertPage({ params }: Props) {
       <PrivacyBadge locale={locale} />
       <ImageConvertClient />
       <Faq tool="imageConvert" locale={locale} />
+      <FeedbackBar toolNameKey="imageConvert" />
       <RelatedTools
         tools={["imageToPdf", "imageCompress", "imageWatermark", "removeBackground", "imageIdPhoto", "imageOcr", "imageBlur", "imageGridSplit"]}
         locale={locale}
       />
+      <ShareBar />
     </div>
   );
 }
