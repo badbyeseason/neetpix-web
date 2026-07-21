@@ -8,8 +8,6 @@ import { trackEvent } from "@/lib/analytics";
 
 type Status = "idle" | "processing" | "done" | "error";
 
-const MAX_SIZE = 100 * 1024 * 1024;
-
 interface SplitResult {
   range: string;
   url: string;
@@ -88,11 +86,6 @@ export default function PdfSplitClient() {
         setStatus("error");
         return;
       }
-      if (selected.size > MAX_SIZE) {
-        setErrorMsg(t("errorSize"));
-        setStatus("error");
-        return;
-      }
       setErrorMsg("");
       setFile(selected);
       setStatus("idle");
@@ -101,8 +94,15 @@ export default function PdfSplitClient() {
         const buf = await selected.arrayBuffer();
         const doc = await PDFDocument.load(buf, { ignoreEncryption: true });
         setPageCount(doc.getPageCount());
-      } catch {
-        setErrorMsg(t("errorParse"));
+      } catch (err) {
+        console.error("Parse error:", err);
+        const errMsg = err instanceof Error ? err.message.toLowerCase() : "";
+        const isMemoryError =
+          err instanceof RangeError ||
+          errMsg.includes("memory") ||
+          errMsg.includes("allocation") ||
+          errMsg.includes("out of memory");
+        setErrorMsg(isMemoryError ? t("memoryError") : t("errorParse"));
         setStatus("error");
       }
     },
@@ -172,7 +172,15 @@ export default function PdfSplitClient() {
     } catch (err) {
       console.error("Split error:", err);
       const msg = err instanceof Error ? err.message : "";
-      if (msg === "out-of-range" || msg === "invalid" || msg === "empty") {
+      const lowerMsg = msg.toLowerCase();
+      const isMemoryError =
+        err instanceof RangeError ||
+        lowerMsg.includes("memory") ||
+        lowerMsg.includes("allocation") ||
+        lowerMsg.includes("out of memory");
+      if (isMemoryError) {
+        setErrorMsg(t("memoryError"));
+      } else if (msg === "out-of-range" || msg === "invalid" || msg === "empty") {
         setErrorMsg(t("errorRanges"));
       } else {
         setErrorMsg(t("errorParse"));

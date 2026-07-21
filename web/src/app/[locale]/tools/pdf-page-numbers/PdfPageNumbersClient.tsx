@@ -4,12 +4,12 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import Logo from "@/components/ui/Logo";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 type Status = "idle" | "processing" | "done" | "error";
 type Position = "center" | "left" | "right";
 type Format = "plain" | "page" | "pageOf";
-
-const MAX_SIZE = 100 * 1024 * 1024;
 
 function formatFileSize(bytes: number): string {
   if (bytes < 1024) return bytes + " B";
@@ -43,11 +43,6 @@ export default function PdfPageNumbersClient() {
         selected.name.toLowerCase().endsWith(".pdf");
       if (!isPdf) {
         setErrorMsg(t("errorFormat"));
-        setStatus("error");
-        return;
-      }
-      if (selected.size > MAX_SIZE) {
-        setErrorMsg(t("errorSize"));
         setStatus("error");
         return;
       }
@@ -155,10 +150,18 @@ export default function PdfPageNumbersClient() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      trackEvent("tool-used", { toolKey: "pdfPageNumbers" });
+      addRecentTool("pdfPageNumbers");
       setStatus("done");
     } catch (err) {
       console.error("Page numbers error:", err);
-      setErrorMsg(t("errorParse"));
+      const errMsg = err instanceof Error ? err.message.toLowerCase() : "";
+      const isMemoryError =
+        err instanceof RangeError ||
+        errMsg.includes("memory") ||
+        errMsg.includes("allocation") ||
+        errMsg.includes("out of memory");
+      setErrorMsg(isMemoryError ? t("memoryError") : t("errorParse"));
       setStatus("error");
     }
   }, [file, position, startNumber, format, t]);

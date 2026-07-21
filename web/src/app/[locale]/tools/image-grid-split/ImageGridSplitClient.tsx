@@ -4,6 +4,8 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Logo from "@/components/ui/Logo";
 import { splitImageToGrid } from "@/lib/image-grid-split";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 // 单张图片最大尺寸 20MB
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
@@ -172,6 +174,8 @@ export default function ImageGridSplitClient() {
       setDownloadUrl(url);
       // 自动触发下载
       triggerDownload(url, "neetpix-gridsplit.zip");
+      trackEvent("tool-used", { toolKey: "imageGridSplit" });
+      addRecentTool("imageGridSplit");
       setStatus("done");
     } catch (err) {
       console.error("Grid split error:", err);

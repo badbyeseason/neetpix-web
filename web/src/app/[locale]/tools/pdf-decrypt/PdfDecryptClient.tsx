@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import Logo from "@/components/ui/Logo";
 import { decryptPdf } from "@/lib/pdf-decrypt";
 import { isPdfEncrypted } from "@/lib/pdf-encrypt";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 type Status = "idle" | "processing" | "done" | "error";
 
@@ -126,6 +128,8 @@ export default function PdfDecryptClient() {
       window.dispatchEvent(new CustomEvent("tool-download-complete"));
       // 保留下载链接，便于用户手动重新下载
       setDownloadUrl(url);
+      trackEvent("tool-used", { toolKey: "pdfDecrypt" });
+      addRecentTool("pdfDecrypt");
       setStatus("done");
     } catch (err) {
       console.error("Decrypt error:", err);

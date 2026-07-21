@@ -78,7 +78,7 @@ export default function RelatedTools({ tools, locale }: Props) {
     <section className="mt-16 border-t border-border pt-12">
       <h2 className="text-2xl font-bold text-text mb-6">{t("title")}</h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {tools.map((key) => {
+        {tools.slice(0, 6).map((key) => {
           const slug = TOOL_ROUTES[key];
           if (!slug) return null;
           const icon = TOOL_ICONS[key];

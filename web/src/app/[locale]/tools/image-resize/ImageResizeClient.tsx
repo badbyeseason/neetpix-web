@@ -11,6 +11,8 @@ import {
   formatBytes,
   type ResizeOptions,
 } from "@/lib/image-resize";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 // 单张图片最大尺寸 20MB
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
@@ -308,6 +310,8 @@ export default function ImageResizeClient() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    trackEvent("tool-used", { toolKey: "imageResize" });
+    addRecentTool("imageResize");
   }, []);
 
   const handleDownloadAllResize = useCallback(async () => {
@@ -515,6 +519,8 @@ export default function ImageResizeClient() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    trackEvent("tool-used", { toolKey: "imageResize" });
+    addRecentTool("imageResize");
   }, [cropResult]);
 
   // ===== 计算裁剪框在显示层的尺寸/位置 =====

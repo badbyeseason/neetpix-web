@@ -8,6 +8,8 @@ import {
   translateText,
   splitIntoSentences,
 } from "@/lib/screenshot-translate";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 // 处理状态机：idle → ocr → translating → done / error
 type Status = "idle" | "ocr" | "translating" | "done" | "error";
@@ -207,6 +209,8 @@ export default function ScreenshotTranslateClient() {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
+      trackEvent("tool-used", { toolKey: "screenshotTranslate" });
+      addRecentTool("screenshotTranslate");
       setTimeout(() => setCopied(false), 2000);
     } catch (e) {
       // 忽略剪贴板错误

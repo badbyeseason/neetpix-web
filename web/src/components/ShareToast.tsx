@@ -46,7 +46,8 @@ export default function ShareToast() {
   }, [handleDismiss]);
 
   const handleFeedback = useCallback(() => {
-    window.location.href = `mailto:im.badbye@gmail.com?subject=${encodeURIComponent("工具反馈")}&body=${encodeURIComponent("工具 URL: " + window.location.href)}`;
+    const email = 'im.badbye' + '@' + 'gmail.com';
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent("工具反馈")}&body=${encodeURIComponent("工具 URL: " + window.location.href)}`;
   }, []);
 
   if (!visible) return null;

@@ -4,6 +4,8 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Logo from "@/components/ui/Logo";
 import { encryptPdf } from "@/lib/pdf-encrypt";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 type Status = "idle" | "processing" | "done" | "error";
 
@@ -127,6 +129,8 @@ export default function PdfEncryptClient() {
       window.dispatchEvent(new CustomEvent("tool-download-complete"));
       // 保留下载链接，便于用户手动重新下载
       setDownloadUrl(url);
+      trackEvent("tool-used", { toolKey: "pdfEncrypt" });
+      addRecentTool("pdfEncrypt");
       setStatus("done");
     } catch (err) {
       console.error("Encrypt error:", err);

@@ -219,6 +219,7 @@
 | 日期 | 变更人 | 变更内容 |
 |------|--------|----------|
 | 2026-07-21 | 增长运营负责人 | 文档初版创建，登记 9 项已完成执行项、28 项未执行项、4 级监测节奏。所有基线占位 `TBD（部署后 7 天采集）` 待部署后 T+7 日采集。 |
+| 2026-07-21 | 工程负责人 | spec `execute-p0-fixes-from-audits` 完成 Task 1-15，闭环 28 项审计问题。包含：安全响应头（6 个）/ 翻译 API 速率限制 / WASM 按需加载 / 文件大小限制统一 / CI/CD / 27 工具 title 模板 / 4 篇博客 + 5 对比页 / WebSite+Organization JSON-LD / Geist 字体 / sitemap lastModified / 本地化错误页 + 骨架屏 / 最近使用工具 / PWA 安装引导 / PDF 扫描件检测 / 27 工具 tool-used 埋点 / share_landed 监听 / Feedback z-index / RelatedTools 精简 / Header 双触发 / hero CTA / 邮箱防爬虫。 |
 
 ---
 

@@ -14,7 +14,16 @@ export default function Footer() {
         <div className="flex items-center gap-4 text-sm text-text-secondary">
           <Link href="/privacy" className="hover:text-teal transition-colors">{t("privacy")}</Link>
           <Link href="/about" className="hover:text-teal transition-colors">{tNav("about")}</Link>
-          <a href="mailto:im.badbye@gmail.com" className="hover:text-teal transition-colors">{t("contact")}</a>
+          <a
+            href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              window.location.href = `mailto:${'im.badbye' + '@' + 'gmail.com'}`;
+            }}
+            className="hover:text-teal transition-colors"
+          >
+            {t("contact")}
+          </a>
         </div>
       </div>
     </footer>

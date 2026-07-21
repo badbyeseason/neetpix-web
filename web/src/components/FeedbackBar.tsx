@@ -20,15 +20,19 @@ export default function FeedbackBar({ toolNameKey }: Props) {
   const toolName = tTools(`${toolNameKey}.name`);
   const subject = encodeURIComponent(`${t("subject")} - ${toolName}`);
   const body = encodeURIComponent(`${t("body")}\n${pageUrl}`);
-  const mailtoUrl = `mailto:im.badbye@gmail.com?subject=${subject}&body=${body}`;
+  const email = 'im.badbye' + '@' + 'gmail.com';
 
   return (
     <section className="mt-8 border-t border-border pt-6">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
         <p className="text-text-secondary">{t("title")}</p>
         <a
-          href={mailtoUrl}
-          onClick={() => trackEvent("feedback-clicked", { toolKey: toolNameKey })}
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+            trackEvent("feedback-clicked", { toolKey: toolNameKey });
+          }}
           className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-border bg-bg-warm text-text hover:border-teal-light hover:text-text transition-colors"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

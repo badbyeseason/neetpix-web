@@ -39,6 +39,11 @@
     "addToFavorites": "添加到收藏",
     "removeFromFavorites": "从收藏移除"
   },
+  "recentTools": {
+    "title": "最近使用",
+    "empty": "暂无最近使用的工具",
+    "clear": "清空"
+  },
   "commandPalette": {
     "placeholder": "搜索工具...",
     "noResults": "未找到匹配的工具",
@@ -116,7 +121,7 @@
     "title": "相关工具"
   },
   "removeBackground": {
-    "title": "抠图 – 免费在线图片工具 | Neetpix",
+    "title": "图片背景去除 – 免费在线工具 | Neetpix",
     "description": "上传图片，一键移除背景。AI 驱动，全程在浏览器本地处理。",
     "upload": "拖拽图片到此处，或点击选择文件",
     "uploadHint": "支持 JPG、PNG、WebP 格式，最大 20MB",
@@ -134,7 +139,7 @@
     "step": "处理中..."
   },
   "imageToPdf": {
-    "title": "图片转 PDF – 免费在线转换器 | Neetpix",
+    "title": "图片转 PDF – 免费在线工具 | Neetpix",
     "description": "上传多张图片，合成为一个 PDF 文件。全程在浏览器本地处理。",
     "upload": "拖拽图片到此处，或点击选择文件",
     "uploadHint": "支持 JPG、PNG、WebP 格式，单张最大 20MB",
@@ -156,10 +161,10 @@
     "remove": "移除"
   },
   "pdfToWord": {
-    "title": "PDF 转 Word – 免费在线 PDF 转换器 | Neetpix",
+    "title": "PDF 转 Word – 免费在线工具 | Neetpix",
     "description": "将 PDF 文件转为可编辑的 Word 文档。文字在浏览器本地提取。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
-    "uploadHint": "支持 PDF 格式，最大 50MB",
+    "uploadHint": "支持 PDF 文件",
     "convert": "转换为 Word",
     "converting": "正在转换...",
     "privacy": "🔒 100% 隐私保护——你的文件不会离开你的设备",
@@ -168,13 +173,21 @@
     "errorFormat": "请上传 PDF 文件。",
     "errorSize": "PDF 文件不能超过 50MB。",
     "errorParse": "PDF 解析失败，文件可能已损坏或已加密。",
+    "memoryError": "浏览器内存不足，建议将文件拆分后重试。",
     "retry": "重试",
     "success": "转换成功！",
     "fileLabel": "文件",
-    "pageProgress": "正在处理第 {current}/{total} 页..."
+    "pageProgress": "正在处理第 {current}/{total} 页...",
+    "detecting": "检测中...",
+    "scanWarning": {
+      "title": "检测到扫描件",
+      "description": "该 PDF 为扫描件，直接转换可能输出空内容或低质量文本，建议先使用 OCR 工具。",
+      "continue": "继续转换",
+      "useOcr": "使用 OCR 工具"
+    }
   },
   "wordToPdf": {
-    "title": "Word 转 PDF – 免费在线转换器 | Neetpix",
+    "title": "Word 转 PDF – 免费在线工具 | Neetpix",
     "description": "在浏览器中直接将 Word 文档（.docx）转换为 PDF。100% 本地处理，不上传服务器，无水印，无需注册，免费且不限次数。",
     "upload": "上传 .docx 文件",
     "uploadHint": "点击选择或拖拽文件 · 最大 50MB · 仅支持 .docx",
@@ -238,7 +251,7 @@
     "zh": "中文"
   },
   "screenshotTranslate": {
-    "title": "截图翻译 – 免费在线 OCR 翻译 | Neetpix",
+    "title": "截图翻译 – 免费在线工具 | Neetpix",
     "description": "从截图中提取文字并即时翻译。OCR 在浏览器本地运行。",
     "upload": "拖拽截图到此处，或点击选择文件",
     "uploadHint": "支持 JPG、PNG、WebP 格式，最大 20MB",
@@ -264,7 +277,7 @@
     "retry": "重试"
   },
   "imageCompress": {
-    "title": "图片压缩 – 免费在线图片优化 | Neetpix",
+    "title": "图片压缩 – 免费在线工具 | Neetpix",
     "description": "压缩图片以减小文件体积，几乎不损失画质。全程在浏览器本地处理。",
     "upload": "拖拽图片到此处，或点击选择文件",
     "uploadHint": "支持 JPG、PNG、WebP 格式，单张最大 20MB",
@@ -289,7 +302,7 @@
     "remove": "移除"
   },
   "imageWatermark": {
-    "title": "图片加水印 – 免费在线工具 | Neetpix",
+    "title": "图片水印 – 免费在线工具 | Neetpix",
     "description": "为图片添加文字水印。保护证件照、声明版权或品牌宣传。全程在浏览器本地处理。",
     "upload": "拖拽图片到此处，或点击选择文件",
     "uploadHint": "支持 JPG、PNG、WebP 格式，单张最大 20MB",
@@ -339,7 +352,7 @@
     "batchHint": "上传多张图片，为所有图片添加相同水印"
   },
   "imageConvert": {
-    "title": "图片格式转换 – 免费在线格式转换器 | Neetpix",
+    "title": "图片格式转换 – 免费在线工具 | Neetpix",
     "description": "在 JPG、PNG、WebP、AVIF、HEIC 格式之间转换图片。支持批量转换。100% 浏览器本地处理，无需上传。",
     "upload": "拖拽图片到此处，或点击选择",
     "uploadHint": "支持 JPG、PNG、WebP、AVIF、HEIC，每个最大 20MB",
@@ -365,7 +378,7 @@
     "converted": "已转换"
   },
   "imageExif": {
-    "title": "EXIF 剥离 – 免费在线照片元数据工具 | Neetpix",
+    "title": "图片 EXIF 查看 – 免费在线工具 | Neetpix",
     "description": "查看和剥离照片的 EXIF 元数据（GPS 位置、相机信息、时间戳）。分享前保护你的隐私。100% 本地处理。",
     "upload": "拖拽图片到此处，或点击选择",
     "uploadHint": "支持 JPG、PNG、WebP、HEIC，最大 20MB",
@@ -394,7 +407,7 @@
     "fieldCount": "找到 {count} 个元数据字段"
   },
   "imageResize": {
-    "title": "图片缩放裁剪 – 免费在线图片缩放与裁剪工具 | Neetpix",
+    "title": "图片缩放 – 免费在线工具 | Neetpix",
     "description": "按百分比或像素缩放图片，或裁剪为社媒预设尺寸（Instagram、Twitter、YouTube）。支持批量缩放。100% 本地处理。",
     "upload": "拖拽图片到此处，或点击选择",
     "uploadHint": "支持 JPG、PNG、WebP，每个最大 20MB",
@@ -427,7 +440,7 @@
     "maintainRatio": "保持宽高比"
   },
   "imageIdPhoto": {
-    "title": "证件照生成 – 免费在线证件照与换底色工具 | Neetpix",
+    "title": "证件照制作 – 免费在线工具 | Neetpix",
     "description": "自动去除背景并换底色，生成标准证件照。支持一寸、二寸、大一寸等规格。100% 本地处理。",
     "upload": "拖拽照片到此处，或点击选择",
     "uploadHint": "支持 JPG、PNG、WebP，最大 20MB",
@@ -454,7 +467,7 @@
     "tip": "建议使用纯色背景、光线良好的照片以获得最佳效果。"
   },
   "imageOcr": {
-    "title": "图片 OCR – 免费在线文字提取工具 | Neetpix",
+    "title": "图片 OCR – 免费在线工具 | Neetpix",
     "description": "使用 OCR 从图片中提取文字。支持中文、英文和日文。100% 本地处理，无需上传。",
     "upload": "拖拽图片到此处，或点击选择",
     "uploadHint": "支持 JPG、PNG、WebP，最大 20MB",
@@ -477,7 +490,7 @@
     "remove": "移除"
   },
   "imageBlur": {
-    "title": "人脸/车牌模糊 – 免费在线隐私打码工具 | Neetpix",
+    "title": "图片模糊 – 免费在线工具 | Neetpix",
     "description": "分享照片前模糊人脸、车牌和敏感区域。手动框选，不上传 AI 处理。100% 本地处理。",
     "upload": "拖拽图片到此处，或点击选择",
     "uploadHint": "支持 JPG、PNG、WebP，最大 20MB",
@@ -500,7 +513,7 @@
     "regionsCount": "已模糊 {count} 个区域"
   },
   "imageGridSplit": {
-    "title": "图片网格分割 – 免费在线工具 | Neetpix",
+    "title": "图片网格拆分 – 免费在线工具 | Neetpix",
     "description": "将图片分割为 2x2、3x3、4x4 或自定义网格。打包下载为 ZIP。100% 本地处理。",
     "upload": "拖拽图片到此处，或点击选择",
     "uploadHint": "支持 JPG、PNG、WebP，最大 20MB",
@@ -525,7 +538,7 @@
     "errorParse": "图片处理失败，请尝试其他文件。"
   },
   "pdfMerge": {
-    "title": "PDF 合并 – 免费在线 PDF 合并工具 | Neetpix",
+    "title": "PDF 合并 – 免费在线工具 | Neetpix",
     "description": "上传多个 PDF 文件，合并为一个文档。全程在浏览器本地处理。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 PDF 文件",
@@ -545,7 +558,7 @@
     "minHint": "至少需要 2 个 PDF 文件才能合并。"
   },
   "pdfSplit": {
-    "title": "PDF 拆分 – 免费在线 PDF 分割工具 | Neetpix",
+    "title": "PDF 拆分 – 免费在线工具 | Neetpix",
     "description": "输入页码范围，从 PDF 中提取指定页面。全程在浏览器本地处理。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 PDF 文件",
@@ -560,6 +573,7 @@
     "errorSize": "文件大小不能超过 100MB。",
     "errorRanges": "页码范围无效，请检查格式（如 1-3,5,7-9）。",
     "errorParse": "PDF 解析失败，文件可能已损坏或已加密。",
+    "memoryError": "浏览器内存不足，建议将文件拆分后重试。",
     "retry": "重试",
     "success": "拆分成功！",
     "fileLabel": "文件",
@@ -567,7 +581,7 @@
     "resultItem": "范围 {range}（{count} 页）"
   },
   "pdfCompress": {
-    "title": "PDF 压缩 – 免费在线 PDF 优化器 | Neetpix",
+    "title": "PDF 压缩 – 免费在线工具 | Neetpix",
     "description": "在浏览器中压缩 PDF 文件。文本型 PDF 用轻量无损压缩，图片型 PDF 用强力栅格化压缩。100% 本地处理。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 PDF 文件",
@@ -584,6 +598,7 @@
     "errorFormat": "请上传 PDF 文件。",
     "errorSize": "文件大小不能超过 100MB。",
     "errorParse": "PDF 解析失败，文件可能已损坏或已加密。",
+    "memoryError": "浏览器内存不足，建议将文件拆分后重试。",
     "retry": "重试",
     "success": "压缩成功！",
     "fileLabel": "文件",
@@ -596,7 +611,7 @@
     "analyzing": "正在分析 PDF..."
   },
   "pdfWatermark": {
-    "title": "PDF 加水印 – 免费在线工具 | Neetpix",
+    "title": "PDF 水印 – 免费在线工具 | Neetpix",
     "description": "为 PDF 添加文字水印。可选居中或平铺布局，可调透明度。全程在浏览器本地处理。",
     "upload": "拖拽 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 PDF 文件",
@@ -615,6 +630,7 @@
     "errorFormat": "请上传 PDF 文件。",
     "errorSize": "文件大小不能超过 100MB。",
     "errorParse": "PDF 解析失败，文件可能已损坏或已加密。",
+    "memoryError": "浏览器内存不足，建议将文件拆分后重试。",
     "retry": "重试",
     "success": "水印添加成功！",
     "fileLabel": "文件"
@@ -640,12 +656,13 @@
     "errorFormat": "请上传 PDF 文件。",
     "errorSize": "文件大小不能超过 100MB。",
     "errorParse": "PDF 解析失败，文件可能已损坏或已加密。",
+    "memoryError": "浏览器内存不足，建议将文件拆分后重试。",
     "retry": "重试",
     "success": "页码添加成功！",
     "fileLabel": "文件"
   },
   "pdfEncrypt": {
-    "title": "PDF 加密 – 免费在线 PDF 密码保护 | Neetpix",
+    "title": "PDF 加密 – 免费在线工具 | Neetpix",
     "description": "用 AES-256 加密为 PDF 文件添加密码保护。100% 浏览器本地处理，不上传服务器，免费且不限次数。",
     "upload": "上传 PDF 文件",
     "uploadHint": "点击选择或拖拽文件 · 最大 50MB · 仅支持 PDF",
@@ -669,7 +686,7 @@
     "remove": "移除文件"
   },
   "pdfDecrypt": {
-    "title": "PDF 解密 – 免费在线 PDF 密码移除 | Neetpix",
+    "title": "PDF 解密 – 免费在线工具 | Neetpix",
     "description": "移除你拥有的 PDF 文件的密码保护。100% 浏览器本地处理，不上传服务器，免费且不限次数。",
     "upload": "上传加密 PDF",
     "uploadHint": "点击选择或拖拽文件 · 最大 50MB · 仅支持 PDF",
@@ -695,7 +712,7 @@
     "legalNote": "请确保你拥有该 PDF 的合法解密权限（如忘记自己设置的密码）。本工具不应用于破解他人加密的文档。"
   },
   "pdfCrop": {
-    "title": "PDF 裁剪 – 免费在线 PDF 页面裁剪工具 | Neetpix",
+    "title": "PDF 裁剪 – 免费在线工具 | Neetpix",
     "description": "按百分比裁剪 PDF 页面边距。完全在浏览器端处理，无需上传，无需注册。",
     "upload": "拖放 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 50MB 以内的 PDF 文件",
@@ -719,7 +736,7 @@
     "pages": "{count} 页"
   },
   "pdfRotate": {
-    "title": "PDF 旋转 – 免费在线 PDF 页面旋转工具 | Neetpix",
+    "title": "PDF 旋转 – 免费在线工具 | Neetpix",
     "description": "将 PDF 页面旋转 90°、180° 或 270°。可选全部页面或指定页面。100% 本地处理。",
     "upload": "拖放 PDF 文件到此处，或点击选择",
     "uploadHint": "支持 50MB 以内的 PDF 文件",
@@ -746,7 +763,7 @@
     "pages": "{count} 页"
   },
   "qrCode": {
-    "title": "二维码生成器 – 免费在线工具 | Neetpix",
+    "title": "二维码生成 – 免费在线工具 | Neetpix",
     "description": "从文本、URL、邮箱、WiFi 或联系人信息生成二维码。可自定义颜色，导出 PNG 或 SVG。100% 本地处理。",
     "tabText": "文本",
     "tabUrl": "URL",
@@ -794,7 +811,7 @@
     "previewAlt": "二维码预览"
   },
   "chartGenerator": {
-    "title": "图表生成器 – 免费在线工具 | Neetpix",
+    "title": "图表生成 – 免费在线工具 | Neetpix",
     "description": "用你的数据创建柱状图、折线图和饼图。导出为 PNG 或 SVG。100% 本地处理，无需上传。",
     "typeBar": "柱状图",
     "typeLine": "折线图",
@@ -837,7 +854,7 @@
     "privacy": "100% 隐私 — 图表生成完全在浏览器中运行"
   },
   "qrDecode": {
-    "title": "二维码解析 – 免费在线工具 | Neetpix",
+    "title": "二维码识别 – 免费在线工具 | Neetpix",
     "description": "从图片中解析二维码。提取 URL、WiFi、vCard、邮箱、电话或纯文本。100% 本地处理，无需上传。",
     "upload": "拖拽二维码图片到此处，或点击选择",
     "uploadHint": "支持 JPG、PNG、WebP，最大 20MB",
@@ -872,7 +889,7 @@
     "decodeAnother": "再解析一张"
   },
   "fileTransfer": {
-    "title": "局域网文件互传",
+    "title": "局域网文件传输 – P2P 在线工具 | Neetpix",
     "description": "在局域网或互联网中直接在两台设备间传输文件，文件不经过任何服务器。",
     "createRoom": "创建房间",
     "joinRoom": "加入房间",
@@ -939,8 +956,7 @@
     "toolsTranslate": "1 个翻译工具——截图 OCR 翻译，支持自动检测",
     "toolsNetwork": "1 个网络工具——通过 WebRTC 在设备间直接传输文件，不经服务器中转",
     "toolsTotal": "共 27 个工具——全部免费，无需注册，无需上传",
-    "contactTitle": "联系我们",
-    "contactEmail": "im.badbye@gmail.com"
+    "contactTitle": "联系我们"
   },
   "faq": {
     "title": "常见问题",
@@ -958,8 +974,8 @@
     "imageToPdf3a": "没有硬性限制，但建议不超过 50 张以获得最佳性能。",
     "pdfToWord1": "PDF 转 Word 会保留格式吗？",
     "pdfToWord1a": "本工具提取文字内容，复杂版式、图片、表格可能无法完全保留。",
-    "pdfToWord2": "PDF 最大支持多大？",
-    "pdfToWord2a": "50MB。处理在浏览器中进行，过大的文件可能较慢。",
+    "pdfToWord2": "PDF 文件有大小限制吗？",
+    "pdfToWord2a": "没有硬性限制。处理在浏览器中进行，超大文件可能因浏览器内存不足而失败，建议先拆分后处理。",
     "pdfToWord3": "支持扫描版 PDF 吗？",
     "pdfToWord3a": "不支持。扫描版 PDF 没有文字层，本工具需要 PDF 中有可选中的文字。",
     "wordToPdf1": "Word 转 PDF 是免费的吗？",
@@ -1182,8 +1198,8 @@
     "removeBackground4a": "不会。所有 AI 抠图都通过 ONNX 模型在你浏览器本地运行，照片不会离开你的设备——尤其适合敏感肖像和证件照。",
     "imageToPdf4": "我的图片会上传到服务器吗？",
     "imageToPdf4a": "不会。所有图片转 PDF 都在浏览器中完成，图片始终留在你的设备上，隐私无忧。",
-    "pdfToWord4": "PDF 转 Word 是免费的吗？需要注册吗？",
-    "pdfToWord4a": "完全免费，无需注册、无水印、不上传。所有处理都在浏览器中完成。",
+    "pdfToWord4": "扫描件 PDF 怎么办？",
+    "pdfToWord4a": "仅支持文本型 PDF，扫描件请配合 OCR 工具使用。",
     "wordToPdf4": "支持哪些文件格式？",
     "wordToPdf4a": "仅支持 .docx 格式。不支持传统 .doc 格式，请先将文档另存为 .docx。",
     "screenshotTranslate4": "我的截图会上传到服务器吗？",
@@ -1633,5 +1649,316 @@
   "learnMore": {
     "title": "想了解更多关于「{topic}」？",
     "cta": "阅读详细指南"
+  },
+  "blog": {
+    "pageTitle": "博客",
+    "pageDescription": "PDF 与图片工具指南与对比——隐私风险、Smallpdf / Remove.bg / TinyPNG 的免费替代方案，来自 Neetpix 团队。",
+    "publishedAt": "发布于 {date}",
+    "readingTime": "{minutes} 分钟阅读",
+    "backToBlog": "返回博客",
+    "byAuthor": "作者：{author}",
+    "cta": "试试 {tool}",
+    "categories": {
+      "privacy": "隐私",
+      "comparison": "对比"
+    },
+    "pdf-tools-privacy-risk": {
+      "title": "在线 PDF 工具的隐藏隐私风险",
+      "description": "绝大多数在线 PDF 工具会把你的文档上传到远程服务器。本文揭示你的文件可能遭遇什么，以及浏览器本地处理如何保护隐私。",
+      "content": [
+        "PDF 是合同、发票、证件扫描件、报税单和病历的标准载体。当你急需合并、压缩或转换一份 PDF 时，搜索引擎会列出几十款免费在线工具。然而，几乎所有主流 PDF 服务在友好拖拽界面的背后都隐藏着一个事实：你的文件会被上传到远程服务器，而你几乎无法掌控之后发生的事情。",
+        "想理解这件事的严重性，先看服务端 PDF 工具的运行方式。当你在典型的在线 PDF 合并/转换页面上选中文件时，浏览器会通过 HTTPS 把整份文件发送到厂商的存储后端。服务器执行真正的处理逻辑——qpdf、Ghostscript、无头 LibreOffice 或自研流水线——生成结果后再流回你的浏览器。文件至少在任务执行期间驻留在厂商的磁盘上，很多时候会保留更久。",
+        "处理完成后，不同厂商对文件的去留政策差异巨大。有的几分钟内就删除文件，有的保留数小时、数天甚至「直到你从用户面板手动删除」。还有少数厂商明确声明文件可能被人工审阅，用于「质量、安全或滥用预防」。这句话藏在隐私政策里很容易被忽略，但它意味着陌生人可能打开你的报税单或已签署的租约。",
+        "数据泄露风险让问题更严峻。即使厂商奉行严格删除政策，也无法保证文件被彻底销毁。备份、日志附件、错误追踪系统、对象存储快照都可能保留副本数月之久。一旦厂商遭遇数据泄露，这些「孤儿副本」正是攻击者最想要的。PDF 文档密度极高——姓名、地址、签名、身份证号、银行账户——这让 PDF 工具服务器成为高价值目标。",
+        "现实案例并不少见。注重隐私的用户常引用 2017 年 DocuView 数据暴露事件，以及主流在线转换器文件泄露至第三方索引的多次报告。TinyPNG 在 2019 年披露过一起泄露 API key 和源数据的事件。这些都不是抽象风险，而是「让用户上交文档」这种业务模式的必然结果。",
+        "好消息是，判断一个工具是否在上传你的文件只需几秒钟。打开浏览器开发者工具，切换到 Network（网络）标签，再开始转换。如果看到向 S3 存储桶、API 端点或任何非当前域名的 POST 请求并伴随较大上传体积，说明你的文件正在离开设备。真正本地处理的工具不会出现这种上传——所有工作都在页面的 WebAssembly 沙箱内完成。",
+        "Neetpix 的设计基于相反的假设。所有 PDF 操作——合并、拆分、压缩、加水印、加密、旋转、裁剪、加页码、PDF 转 Word——都在浏览器中完成，使用 qpdf、pdf-lib、PDF.js 的 WebAssembly 版本。你选择的文件永远不会离开设备。没有上传端点，没有服务端存储，也没有人工审阅流水线。唯一的网络流量就是页面本身。",
+        "浏览器本地模型在隐私之外还有实际好处。因为没有上传/下载的往返开销，处理立即开始，速度取决于你的 CPU。一份 50 页的合并在服务端工具上需要约 30 秒的往返时间，在 Neetpix 中通常 2-3 秒就能完成。对于连续处理多个文件的批量工作流，时间节省会累积放大。",
+        "评估任何在线 PDF 工具时，看三个信号。第一，明确的「100% 本地处理」标识，并附带技术说明——WebAssembly、浏览器内、无上传。第二，用开发者工具自测确认没有文件上传。第三，隐私政策中不出现文件留存或人工审阅的字眼。三者缺一，就应将其视为服务端工具，无论营销话术如何。",
+        "PDF 承载着你最敏感的信息。免费在线工具的便利，不值得以合同泄露或身份被盗为代价。试试我们的 PDF 合并 或 PDF 转 Word，打开网络面板观察：没有任何东西离开你的设备。一旦你体验过浏览器本地 PDF 工具，上传式模型就会开始显得像旧时代的遗物。"
+      ]
+    },
+    "smallpdf-free-alternative": {
+      "title": "2026 年 Smallpdf 最佳免费替代品",
+      "description": "Smallpdf 免费版每天限 2 个任务并把文件上传到服务器。Neetpix 完全免费、无限制、全程浏览器本地处理。",
+      "content": [
+        "Smallpdf 是在线 PDF 工具领域最具辨识度的品牌之一。凭借清爽的界面和齐全的功能，它从 2013 年起就成了许多人快速编辑文档的首选。但如果你最近用过它的免费版，多半撞上过「每天 2 个任务」的墙、上传到服务器的提示，以及无处不在的 Pro 订阅推销。本文梳理 2026 年 Smallpdf 免费版到底在哪些地方力不从心，以及 Neetpix 为何是最不妥协的替代选择。",
+        "先看每日任务限制。截至 2026 年，Smallpdf 免费版每天只允许 2 个任务。早上合并三份 PDF、下午再压缩一份？对不起，明天再来。免费版还把 PDF/A 转换、OCR、电子签名等部分工具整体锁在付费墙后，并且几乎每次操作结束都会弹出升级提示。",
+        "再看价格。Smallpdf Pro 当前按年付 9 美元/月，按月付 12 美元/月；团队版从 10 美元/席位起。对于偶尔需要合并或压缩 PDF 的用户，这是一笔不小的经常性支出——而这些功能完全可以跑在一个浏览器标签页里。一年下来，个人订阅者要为「开源 PDF 库的封装」付出 100 多美元。",
+        "更严重的是上传问题。和大多数服务端 PDF 服务一样，Smallpdf 需要把文件上传到服务器处理。官方 FAQ 声明文件会在规定时间窗口后删除（历史上是两小时），但在这段时间内，你的文档驻留在它的基础设施上，暴露在我们上一篇《PDF 工具隐私风险》里讨论过的泄露与留存风险中。对于合同、证件扫描件或任何含个人身份信息的文件，这是必须考虑的因素。",
+        "于是有了 Neetpix。Neetpix 是免费、浏览器本地的替代方案，覆盖 Smallpdf 的全部 PDF 核心功能——合并、拆分、压缩、转换、加水印、加密、旋转、裁剪、加页码——外加更丰富的图片工具（移除背景、图片压缩、图片转 PDF）和生成器（二维码、图表）。所有操作通过 WebAssembly 在浏览器中完成。无需注册、不上传、没有每日任务限制。",
+        "把两者并排放在一起差异就很具体了。价格：Neetpix 永远 0 元，Smallpdf 免费版限制严苛或 Pro 9 美元/月。每日任务：Neetpix 无限制，Smallpdf 2 个。文件上传：Neetpix 从不上传，Smallpdf 每个文件都上传。注册要求：两者免费版都不强制注册，但 Smallpdf 把 Pro 功能锁在账号下。工具数量：Neetpix 25+，Smallpdf 约 20 个。离线能力：Neetpix 页面加载后可离线使用，Smallpdf 必须连接其处理服务器。",
+        "速度是本地处理模型真正甩开对手的地方。因为 Neetpix 不上传/下载文件，处理立即开始，速度取决于你的 CPU。50 页合并在服务端工具上往返约 30 秒，在 Neetpix 中通常 2-3 秒完成。对于批量工作流——连续压缩 10 个 PDF、把 5 份 Word 转 PDF——节省的时间每周累积到分钟级。",
+        "Smallpdf 仍有它的用武之地。它的 OCR、电子签名、PDF/A 归档工具确实有价值，付费版对每天重度使用这些功能的团队来说也算合理。如果你是这些特定功能的高频用户，Smallpdf Pro 仍是可辩护的选择。对其他人——学生、自由职业者、小企业主、任何偶尔做 PDF 编辑的人——没必要为此付费或接受上传风险。",
+        "在文件大小和格式支持上，Neetpix 在常见工作流中也更友好。Smallpdf 免费版单文件上传上限 5 MB，把许多真实 PDF 排除在外。Neetpix 没有这种限制，因为文件从不离开你的设备——唯一的限制是机器内存。两者都支持标准的 PDF、JPG、PNG、Office 格式，但 Neetpix 额外支持 WebP、HEIC 以及更完整的图片处理流水线。",
+        "切换过来很简单。打开 Neetpix，选你要的工具，拖入文件，下载结果。不用创建账号、不用付款、不用事后清理文件。一个浏览器标签页就是完整工作流。收藏 neetpix.com 即可。试试我们的 PDF 合并、PDF 压缩 或 PDF 转 Word——这三样是最高频的 Smallpdf 替代——亲自感受一下。"
+      ]
+    },
+    "remove-bg-free-alternative": {
+      "title": "Remove.bg 免费替代：不上传、无限制",
+      "description": "Remove.bg 高清下载要付费，且图片要上传到它的服务器。Neetpix 用 transformers.js + onnxruntime-web 在浏览器本地推理移除背景。",
+      "content": [
+        "Remove.bg 是 AI 移除背景领域的大众熟知品牌。在 Google 搜「remove background」，几乎每次它都排在第一位。输出质量确实惊艳——干净抠图、柔和边缘、对头发和半透明物体处理得相当不错。但在这份漂亮结果背后，是一道付费墙和一条注重隐私的用户应当三思的上传流水线。",
+        "先看价格。Remove.bg 免费版下载的图片是预览分辨率，约 0.25 兆像素——大致 612 × 408 像素。要下载全分辨率结果，要么按张付费，要么订阅。订阅起步约 9.99 美元/月含 100 积分，更大套餐一直延伸到企业级。对于做产品摄影、社媒素材或设计稿的人来说，这些积分很快就会用光。一个忙碌的下午就能耗光一个月的额度。",
+        "上传问题是更根本的隐患。你把图片上传到 Remove.bg 时，它被发送到 Kaleido AI 在奥地利的服务器进行推理。官方隐私政策明确说明图片在其基础设施上处理，并会留存一段时间用于改进模型质量。对于处理证件照、医疗影像、内部产品原型或孩子照片的用户，这是不可忽视的暴露。图片一旦上了第三方服务器，你就要依赖该厂商的删除实践、泄露态势和分包商。",
+        "免费分辨率上限也是一种隐性的生产力税。0.25 兆像素预览图做快速草稿还行，但任何要打印、全尺寸展示或合成进更大设计的场景都无能为力。结果就是免费用户要么按张付费、要么订阅、要么用别的工具给预览图做超分辨——没有一种是真正免费的。这种摩擦在设计上有意把用户推向付费版。",
+        "Neetpix 走了不同的路。我们的移除背景工具基于 MODNet 和 U2Net 架构同类 AI 分割模型，通过 transformers.js 和 onnxruntime-web 直接在浏览器中运行。模型权重下载一次后会被积极缓存，调用设备的 GPU 或 CPU 执行推理。你选择的图片永远不会离开浏览器标签页。没有上传端点，没有服务端存储。",
+        "本地处理模型同时解决了两个问题。因为没有要计费的服务器，所以没有按张成本。因为没有上传，所以没有暴露风险。因为推理针对的是你给它的任何图片，所以没有分辨率上限——4K、8K、全景图，只要你的机器内存装得下都行。输出的 PNG 在本地生成，直接保存到下载目录。",
+        "代价是浏览器本地推理受设备性能约束。低端笔记本处理 12 兆像素图片会比高端台式机慢一些。Neetpix 免费版的移除背景结果会带一个角落小水印——对于「无上传、无限高清输出」来说是合理交换。对大多数用户和大多数工作流，速度差异几乎察觉不到，水印在非关键用途中也容易裁掉。",
+        "输出质量对比可观。并排放在一起，Neetpix 本地模型在大多数照片和产品图上的抠图效果与 Remove.bg 视觉上难以区分。头发边缘、半透明织物、复杂阴影都有相近的处理功力。Remove.bg 领先的是最难的场景——比如细密金发配复杂背景——但这个差距在最近的模型更新和后处理改进后已显著缩小。",
+        "常见用例尤其受益于本地模型。每周处理几十张产品图的电商卖家可以把整批图丢给 Neetpix，不用担心积分耗尽。社媒运营可以快速迭代缩略图，没有上传延迟。设计师可以放心丢进客户作品，不必担心保密协议。学生和爱好者拿到专业级结果，不需要信用卡。",
+        "对于隐私敏感的工作流，比较根本不在一个量级。证件照、医疗影像、内部产品原型、孩子照片——这些都不应上传到第三方推理服务。本地推理意味着图片留在你的设备上、由你掌控，永远不会出现在厂商的训练语料或泄露通报里。在医疗、金融等受监管行业，这不仅是偏好，更是合规要求。",
+        "试用大约 30 秒。打开 Neetpix 的移除背景，拖入一张图片，看着结果在浏览器里渲染出来。打开开发者工具的 Network 标签，确认没有任何上传。同一个标签页处理模型下载、推理和输出合成。如果你一直在为偶尔的移除背景给 Remove.bg 付费，用过之后就不会再回去了。"
+      ]
+    },
+    "tinypng-free-alternative": {
+      "title": "TinyPNG 免费替代：本地压缩图片",
+      "description": "TinyPNG 免费版每月限 20 张且图片要上传到服务器。Neetpix 在浏览器中压缩图片，无限制、不上传。",
+      "content": [
+        "提到压缩 PNG 或 JPEG，大多数设计师第一个想到的就是 TinyPNG。它的压缩质量出色——常能做到 60% 到 80% 的体积缩减而视觉无损——拖拽界面也确实好用。但和大多数主流在线工具一样，TinyPNG 免费版带着不那么显眼的限制和一条值得多看一眼的上传流水线。",
+        "免费版的限制是最直观的痛点。截至 2026 年，TinyPNG 网页版对免费用户每月限 20 张。这是 20 张总数——不是每次会话 20 张，也不是每天 20 张。如果你一月初就处理了 15 张产品图，那这个月剩下的额度只有 5 次。任何经常处理图片的人都会很快撞到这条线。",
+        "付费版解除限制但带来经常性开销。TinyPNG Pro 个人版当前约 25 美元/年，开发者用 API 按压缩次数计费。API 对开发者比较慷慨——每月 500 次免费压缩——但大多数偶尔用用的用户接触的网页版仍然是限额的。结果就是一个工具悄无声息地把偶尔使用的用户推向订阅。",
+        "更根本的隐忧是上传。你把图片拖进 TinyPNG 网页版时，它会被上传到他们的服务器处理。官方 FAQ 声明图片会在很短时间窗口（历史上约 20 分钟）后删除，但在这段时间内，图片驻留在他们的基础设施上。对敏感图片（证件扫描、内部产品照、医疗摄影），即便是短暂的上传窗口也是必须考虑的因素。",
+        "TinyPNG 的 API 在 2019 年还出过一次 notable 泄露。公司披露部分用户的 API key 和源数据被暴露。泄露得到控制，回应也算透明，但它点明了一个普遍事实：任何让你上传图片的服务，离一次泄露只有一步之遥。浏览器本地处理直接绕开整类风险。",
+        "Neetpix 提供了一个完全在浏览器中运行的 TinyPNG 替代。我们的图片压缩工具使用 browser-image-compression 库，结合原生 Canvas 和 WebCodecs API 缩小 JPEG、PNG、WebP 文件。你选择的图片永远不会离开设备。无需注册、不上传、没有月度上限。",
+        "压缩效果对比可观。JPEG 上，Neetpix 通常在视觉无损质量下做到 60% 到 80% 的缩减——与 TinyPNG 输出相当。PNG 上，无损模式保留 alpha 通道和索引色；有损模式用色彩量化进一步压缩体积。除 JPEG 和 PNG 外还支持 WebP 输出，对现代 Web 工作流很实用。",
+        "本地处理模型在隐私之外还有实际好处。因为没有上传，批量压缩立即开始，多核 CPU 并行处理。50 张产品图在 TinyPNG 上要花几分钟上传、处理、下载，在 Neetpix 上通常不到一分钟完成。没有排队、没有速率限制、不用等服务器腾出容量。",
+        "格式灵活性是 Neetpix 领先的另一面。TinyPNG 支持 JPEG、PNG、WebP 输入，但输出与原格式一致。Neetpix 允许在压缩时转换格式——比如把 PNG 压缩后输出为 WebP，在同等质量下体积更小。这对每 KB 都要计较的 Web 性能预算很重要，毕竟 WebP 在现代浏览器中已全面支持。",
+        "批量工作流上 Neetpix 明显更顺。一次拖入 30 张图，设定目标体积或质量，工具并行处理，每张图有独立进度条。可单独下载，也可打包成 zip。没有每张图的上传延迟，没有「本月已用 15/20 次免费压缩」的提示，没有批次之间的升级推销。",
+        "TinyPNG 仍有它的位置。Photoshop 和 Figma 插件对长期在这两个工具里工作的设计师很出色，API 文档完善，适合把压缩集成进自有流水线的开发者。如果你是这些插件的重度用户，TinyPNG Pro 仍是可辩护的选择。对其他做 Web 图片压缩的人，Neetpix 在质量上打平，去掉上限，并让图片留在你的设备上。",
+        "试用 30 秒就够。打开 Neetpix 的图片压缩，拖入几张图，设定目标体积或质量，下载结果。打开开发者工具的 Network 标签，确认没有任何上传。整个流水线都在同一个标签页里。体验过无限制的本地压缩之后，每月 20 张的上限就像上一个 Web 时代的化石。"
+      ]
+    }
+  },
+  "compare": {
+    "breadcrumbLabel": "对比",
+    "dimensionLabel": "对比维度",
+    "faqTitle": "常见问题",
+    "smallpdfVsNeetpix": {
+      "title": "Smallpdf vs Neetpix – 最佳免费 Smallpdf 替代品 | Neetpix",
+      "description": "正在对比 Smallpdf 和 Neetpix？了解为什么 Neetpix 是最佳免费 Smallpdf 替代品 —— 100% 浏览器本地处理、无需注册、不上传、无限任务、28+ 工具。",
+      "heroTitle": "Smallpdf vs Neetpix",
+      "heroSubtitle": "Smallpdf 免费用户每天只能用 2 次任务，且文件需上传到服务器。Neetpix 完全免费、无限制、所有文件都在浏览器本地处理。从功能、价格、隐私、限制和速度五个维度逐一对比，帮你找到最佳的免费 Smallpdf 替代方案。",
+      "tableTitle": "Smallpdf vs Neetpix —— 功能对比",
+      "featuresLabel": "功能",
+      "competitorFeatures": [
+        "约 20 个 PDF 工具（合并、拆分、压缩、转换）",
+        "免费版每天限 2 次任务",
+        "Pro 计划解锁全部工具并解除限制",
+        "在线工具 + Pro 桌面端应用",
+        "OCR 与电子签名仅在更高版本提供"
+      ],
+      "neetpixFeatures": [
+        "28+ 工具覆盖 PDF、图片和网络三大类",
+        "完全免费、无每日任务限制",
+        "全部工具对所有人开放、无等级门槛",
+        "浏览器端运行、无需安装",
+        "包含 AI 背景移除、二维码工具和图表生成器"
+      ],
+      "pricingLabel": "价格",
+      "competitorPricing": "免费版每天 2 次任务；Pro 计划按年付每月 12 美元起，另提供团队套餐。",
+      "neetpixPricing": "全部 28+ 工具 100% 免费、无等级、无需注册、无隐藏费用、多数工具无水印。",
+      "privacyLabel": "隐私",
+      "competitorPrivacy": "文件需上传到 Smallpdf 服务器处理，按其政策 2 小时后删除。",
+      "neetpixPrivacy": "文件永不离开你的设备 —— 全部处理通过 WebAssembly 和 ONNX 模型在浏览器中完成。",
+      "limitsLabel": "限制",
+      "competitorLimits": "免费版每天 2 次任务、5MB 文件大小、工具受限。Pro 解除任务和大小限制。",
+      "neetpixLimits": "无每日任务限制、无文件大小上限（除浏览器内存外）、所有工具对所有人开放。",
+      "speedLabel": "速度",
+      "competitorSpeed": "服务端处理对小文件很快，但受上传/下载带宽限制。",
+      "neetpixSpeed": "本地处理省去上传时间；超大文件可能受设备 CPU 和内存限制。",
+      "ctaButton": "免费试用 PDF 合并",
+      "faq1": "Neetpix 真的是免费的 Smallpdf 替代品吗？",
+      "faq1a": "是的。Neetpix 全部 28+ 工具完全免费，无每日任务限制、无需注册，文件大小仅受浏览器内存限制。Smallpdf 免费版每天只能用 2 次任务、文件最大 5MB。",
+      "faq2": "Neetpix 会像 Smallpdf 一样把文件上传到服务器吗？",
+      "faq2a": "不会。Neetpix 通过 WebAssembly 和 ONNX 模型完全在浏览器中处理文件，文件永不离开你的设备。Smallpdf 则会把文件上传到服务器，2 小时后删除。",
+      "faq3": "Neetpix 可以离线使用吗？",
+      "faq3a": "页面加载完成后，多数 Neetpix 工具可离线运行，因为处理在本地完成。你只需在初次加载页面时联网。"
+    },
+    "ilovepdfVsNeetpix": {
+      "title": "iLovePDF vs Neetpix – 最佳免费 iLovePDF 替代品 | Neetpix",
+      "description": "正在对比 iLovePDF 和 Neetpix？了解为什么 Neetpix 是最佳免费 iLovePDF 替代品 —— 100% 浏览器本地处理、无需注册、不上传、无文件大小限制。",
+      "heroTitle": "iLovePDF vs Neetpix",
+      "heroSubtitle": "iLovePDF 免费版对文件大小和任务次数有限制，且每个文件都要上传到服务器。Neetpix 完全免费、不上传、无需注册、无文件大小上限。从功能、价格、隐私、限制和速度五个维度逐一对比，帮你找到最佳的免费 iLovePDF 替代方案，覆盖压缩、合并、转换 PDF 等场景。",
+      "tableTitle": "iLovePDF vs Neetpix —— 功能对比",
+      "featuresLabel": "功能",
+      "competitorFeatures": [
+        "约 25 个 PDF 工具（压缩、合并、拆分、转换、整理）",
+        "免费版有文件大小和任务次数限制",
+        "Premium 计划解锁更大文件和批量处理",
+        "服务端处理，商业版提供 API",
+        "OCR 与水印工具在更高版本提供"
+      ],
+      "neetpixFeatures": [
+        "28+ 工具覆盖 PDF、图片和网络三大类",
+        "完全免费、无任务次数限制",
+        "全部工具与批量处理对所有人开放",
+        "100% 浏览器本地处理、完全无服务端",
+        "包含图片工具、二维码工具和 AI 背景移除"
+      ],
+      "pricingLabel": "价格",
+      "competitorPricing": "免费版有大小和任务限制；Premium 每月 7 美元起；另提供 Business 和 Enterprise 套餐。",
+      "neetpixPricing": "全部 28+ 工具 100% 免费、无等级、无需注册、无隐藏费用、无文件大小付费墙。",
+      "privacyLabel": "隐私",
+      "competitorPrivacy": "文件需上传到 iLovePDF 服务器处理，按其保留策略临时存储。",
+      "neetpixPrivacy": "文件永不离开你的设备 —— 全部处理通过 WebAssembly 在浏览器中完成。",
+      "limitsLabel": "限制",
+      "competitorLimits": "免费版有文件大小上限（PDF 通常 25MB）、每日任务受限。Premium 提升大小与任务额度。",
+      "neetpixLimits": "除浏览器内存外无文件大小上限、无每日任务限制、无工具门槛。",
+      "speedLabel": "速度",
+      "competitorSpeed": "服务端处理对小文件很快，但受上传带宽限制；免费版大文件需排队。",
+      "neetpixSpeed": "本地处理省去上传时间；超大文件可能受设备 CPU 和内存限制。",
+      "ctaButton": "免费试用 PDF 压缩",
+      "faq1": "Neetpix 是无文件大小限制的免费 iLovePDF 替代品吗？",
+      "faq1a": "是的。Neetpix 没有文件大小付费墙 —— 唯一约束是浏览器的可用内存。iLovePDF 免费版对 PDF 文件大小有上限（约 25MB）且每日任务受限，而 Neetpix 两者都不设限。",
+      "faq2": "Neetpix 会像 iLovePDF 一样把 PDF 上传到服务器吗？",
+      "faq2a": "不会。Neetpix 通过 WebAssembly 完全在浏览器中处理 PDF，文件永不离开你的设备。iLovePDF 则会把文件上传到服务器处理并临时存储。",
+      "faq3": "Neetpix 压缩 PDF 的效果和 iLovePDF 一样好吗？",
+      "faq3a": "是的。Neetpix 提供轻量（无损结构）和强压缩（栅格化 JPEG）两种模式，全部本地运行。对多数文档效果与 iLovePDF 相当，并额外提供完全隐私保护。"
+    },
+    "removeBgVsNeetpix": {
+      "title": "Remove.bg vs Neetpix – 最佳免费 Remove.bg 替代品 | Neetpix",
+      "description": "正在对比 Remove.bg 和 Neetpix？了解为什么 Neetpix 是最佳免费 Remove.bg 替代品 —— 100% 浏览器本地 AI、无需注册、不上传、任意分辨率。",
+      "heroTitle": "Remove.bg vs Neetpix",
+      "heroSubtitle": "Remove.bg 高清下载需付费，且图片要上传到服务器。Neetpix 完全在浏览器中运行 AI 背景移除，任意分辨率免费。从功能、价格、隐私、限制和速度五个维度逐一对比，帮你找到最佳的免费 Remove.bg 替代方案，覆盖产品图、人像和设计场景。",
+      "tableTitle": "Remove.bg vs Neetpix —— 功能对比",
+      "featuresLabel": "功能",
+      "competitorFeatures": [
+        "AI 前景主体背景移除",
+        "免费版仅提供低分辨率预览",
+        "原分辨率下载需点数或订阅",
+        "服务端处理，付费版提供 API",
+        "附赠抠图与设计效果工具"
+      ],
+      "neetpixFeatures": [
+        "通过 onnxruntime-web 在浏览器中本地运行 AI 背景移除",
+        "免费原分辨率下载、无点数机制",
+        "100% 本地处理、完全不上传",
+        "无每日限制、适合批量工作流",
+        "属于 28+ 工具套件，覆盖 PDF、图片和网络"
+      ],
+      "pricingLabel": "价格",
+      "competitorPricing": "免费版仅低分辨率预览；原 HD 每张 1.99 美元起；订阅每月 9.99 美元起兑换点数。",
+      "neetpixPricing": "任意分辨率 100% 免费、无点数、无订阅、无需注册。",
+      "privacyLabel": "隐私",
+      "competitorPrivacy": "图片需上传到 Remove.bg 服务器进行 AI 推理，按其政策短期存储。",
+      "neetpixPrivacy": "图片永不离开你的设备 —— AI 通过浏览器中的 ONNX 模型本地运行。",
+      "limitsLabel": "限制",
+      "competitorLimits": "免费版仅低分辨率输出、带小水印；HD 与批量需付费计划。",
+      "neetpixLimits": "无分辨率上限、无每日图片限制。免费版含小小的 Neetpix 水印。",
+      "speedLabel": "速度",
+      "competitorSpeed": "服务端 GPU 推理很快，但需先上传图片。",
+      "neetpixSpeed": "本地推理速度取决于设备 GPU/CPU；首次运行需下载模型，后续运行有缓存。",
+      "ctaButton": "免费试用移除背景",
+      "faq1": "Neetpix 真的是支持原分辨率的免费 Remove.bg 替代品吗？",
+      "faq1a": "是的。Neetpix 免费移除图片背景，分辨率仅受浏览器支持限制。Remove.bg 免费版只提供低分辨率预览，原 HD 每张 1.99 美元起或订阅每月 9.99 美元。",
+      "faq2": "Neetpix 会像 Remove.bg 一样把图片上传到服务器吗？",
+      "faq2a": "不会。Neetpix 通过 onnxruntime-web 在浏览器中本地运行 AI 背景移除模型，图片永不离开你的设备。Remove.bg 则会把图片上传到服务器进行推理。",
+      "faq3": "Neetpix 免费版有水印吗？",
+      "faq3a": "Neetpix 免费版背景移除会包含小小的 Neetpix 水印。分辨率与用量均无限制，无需点数或订阅。"
+    },
+    "tinypngVsNeetpix": {
+      "title": "TinyPNG vs Neetpix – 最佳免费 TinyPNG 替代品 | Neetpix",
+      "description": "正在对比 TinyPNG 和 Neetpix？了解为什么 Neetpix 是最佳免费 TinyPNG 替代品 —— 100% 浏览器本地处理、无需注册、不上传、无限图片。",
+      "heroTitle": "TinyPNG vs Neetpix",
+      "heroSubtitle": "TinyPNG 免费用户每月限 20 张图片，且每张都要上传到服务器。Neetpix 在浏览器本地压缩 PNG、JPG、WebP 图片，无每日或每月限制。从功能、价格、隐私、限制和速度五个维度逐一对比，帮你找到最佳的免费 TinyPNG 替代方案，适合批量图片压缩。",
+      "tableTitle": "TinyPNG vs Neetpix —— 功能对比",
+      "featuresLabel": "功能",
+      "competitorFeatures": [
+        "PNG、JPG、WebP 智能有损压缩",
+        "免费版每月限 20 张图片",
+        "付费开发者计划提供 API",
+        "服务端处理，含 Photoshop 与 Shopify 插件",
+        "付费版提供调整尺寸与水印功能"
+      ],
+      "neetpixFeatures": [
+        "PNG、JPG、WebP 压缩，可调质量和尺寸",
+        "完全免费、无每月图片限制",
+        "100% 浏览器本地处理、无需 API Key、无服务端",
+        "批量上传 + 全部结果打包 ZIP 下载",
+        "属于 28+ 工具套件，全部免费"
+      ],
+      "pricingLabel": "价格",
+      "competitorPricing": "免费版每月 20 张；超出部分每张 0.009 美元起；订阅按量计费。",
+      "neetpixPricing": "无限图片 100% 免费、无单张费用、无订阅、无需注册。",
+      "privacyLabel": "隐私",
+      "competitorPrivacy": "图片需上传到 TinyPNG 服务器压缩，按其政策临时存储。",
+      "neetpixPrivacy": "图片永不离开你的设备 —— 全部压缩在浏览器中完成。",
+      "limitsLabel": "限制",
+      "competitorLimits": "免费版每月 20 张、单张 5MB。付费计划提升月配额和单张大小。",
+      "neetpixLimits": "无每月图片限制、除浏览器内存外无单张大小上限。",
+      "speedLabel": "速度",
+      "competitorSpeed": "服务端压缩很快，但批量受上传带宽限制。",
+      "neetpixSpeed": "本地压缩省去上传时间；大批量受设备 CPU 限制。",
+      "ctaButton": "免费试用图片压缩",
+      "faq1": "Neetpix 是无每月图片限制的免费 TinyPNG 替代品吗？",
+      "faq1a": "是的。Neetpix 每月可免费压缩无限图片。TinyPNG 免费用户每月限 20 张，超出部分每张 0.009 美元起。",
+      "faq2": "Neetpix 会像 TinyPNG 一样把图片上传到服务器吗？",
+      "faq2a": "不会。Neetpix 完全在浏览器中压缩图片，图片永不离开你的设备。TinyPNG 则会把图片上传到服务器压缩。",
+      "faq3": "Neetpix 能像 PNG 和 JPG 一样压缩 WebP 吗？",
+      "faq3a": "可以。Neetpix 支持 PNG、JPG、WebP 作为输入和输出格式，并提供质量和尺寸控制。同等视觉质量下 WebP 通常体积最小。"
+    },
+    "pdf24VsNeetpix": {
+      "title": "PDF24 vs Neetpix – 最佳免费 PDF24 替代品 | Neetpix",
+      "description": "正在对比 PDF24 和 Neetpix？了解为什么 Neetpix 是最佳免费 PDF24 替代品 —— 100% 浏览器本地处理、不上传、现代 UI、28+ 工具、无需安装。",
+      "heroTitle": "PDF24 vs Neetpix",
+      "heroSubtitle": "PDF24 免费但其在线工具需上传文件到服务器，桌面版需安装。Neetpix 完全免费、所有工具都在浏览器本地运行、UI 现代化、无需安装。从功能、价格、隐私、限制和速度五个维度逐一对比，帮你找到最佳的免费 PDF24 替代方案，覆盖 PDF 转 Word、合并和压缩场景。",
+      "tableTitle": "PDF24 vs Neetpix —— 功能对比",
+      "featuresLabel": "功能",
+      "competitorFeatures": [
+        "免费在线 PDF 工具（合并、拆分、压缩、转换）",
+        "在线工具需上传文件到 PDF24 服务器",
+        "提供 Windows 桌面版，支持本地处理",
+        "UI 较为陈旧，不及现代 Web 应用",
+        "含 OCR、签名和 PDF 表单工具"
+      ],
+      "neetpixFeatures": [
+        "28+ 工具覆盖 PDF、图片和网络三大类",
+        "100% 浏览器本地处理、完全无服务端上传",
+        "无需安装桌面端 —— 任意现代浏览器即可使用",
+        "现代化无障碍 UI，支持深色模式和多语言",
+        "包含 AI 背景移除、二维码工具和图表生成器"
+      ],
+      "pricingLabel": "价格",
+      "competitorPricing": "在线工具和桌面版均免费，无付费等级。",
+      "neetpixPricing": "全部 28+ 工具 100% 免费、无等级、无需注册、无需安装、无隐藏费用。",
+      "privacyLabel": "隐私",
+      "competitorPrivacy": "在线工具需上传文件到 PDF24 服务器；桌面版在 Windows 上本地处理。",
+      "neetpixPrivacy": "文件永不离开你的设备 —— 全部工具通过 WebAssembly 和 ONNX 模型在浏览器中运行。",
+      "limitsLabel": "限制",
+      "competitorLimits": "在线：受服务端处理限制。桌面版：本地处理但仅限 Windows 且需安装。",
+      "neetpixLimits": "无每日任务限制、无需安装、跨平台（任意现代浏览器）、所有工具对所有人开放。",
+      "speedLabel": "速度",
+      "competitorSpeed": "在线工具受上传带宽限制；桌面版很快但仅限 Windows。",
+      "neetpixSpeed": "本地处理省去上传时间；超大文件可能受设备 CPU 和内存限制。",
+      "ctaButton": "免费试用 PDF 转 Word",
+      "faq1": "Neetpix 是无需安装的免费 PDF24 替代品吗？",
+      "faq1a": "是的。Neetpix 完全在浏览器中运行、无需安装，全部 28+ 工具免费。PDF24 提供 Windows 免费桌面版但需安装，且 PDF24 在线工具需上传文件到服务器。",
+      "faq2": "Neetpix 会像 PDF24 在线工具一样把文件上传到服务器吗？",
+      "faq2a": "不会。Neetpix 通过 WebAssembly 完全在浏览器中处理文件，文件永不离开你的设备。PDF24 在线工具需上传文件到服务器，但 PDF24 桌面版是本地处理。",
+      "faq3": "Neetpix 能像 PDF24 一样把 PDF 转 Word 吗？",
+      "faq3a": "可以。Neetpix 提供免费的 PDF 转 Word 转换器，提取文本内容并在浏览器中本地运行。基础格式（标题、段落、列表）会保留；复杂布局和表格可能会被简化。"
+    }
+  },
+  "pwaInstall": {
+    "button": "安装应用",
+    "tooltip": "将 Neetpix 安装为桌面应用",
+    "installed": "已安装",
+    "dismiss": "暂不",
+    "banner": "安装 Neetpix，一键访问所有工具"
+  },
+  "errors": {
+    "notFound": {
+      "title": "页面未找到",
+      "description": "您访问的页面不存在或已被移动。",
+      "cta": "返回首页",
+      "popularTools": "热门工具"
+    },
+    "error": {
+      "title": "出错了",
+      "description": "发生了一个意外错误，请重试。",
+      "retry": "重试",
+      "home": "返回首页"
+    }
   }
 }

@@ -39,6 +39,11 @@
     "addToFavorites": "Add to favorites",
     "removeFromFavorites": "Remove from favorites"
   },
+  "recentTools": {
+    "title": "Recently Used",
+    "empty": "No recently used tools yet",
+    "clear": "Clear"
+  },
   "commandPalette": {
     "placeholder": "Search tools...",
     "noResults": "No matching tools found",
@@ -116,7 +121,7 @@
     "title": "Related Tools"
   },
   "removeBackground": {
-    "title": "Remove Background – Free Online Image Tool | Neetpix",
+    "title": "Free Remove Background Online – No Upload | Neetpix",
     "description": "Upload an image and remove its background instantly. Powered by AI, processed entirely in your browser.",
     "upload": "Drop an image here or click to browse",
     "uploadHint": "Supports JPG, PNG, WebP — up to 20MB",
@@ -134,7 +139,7 @@
     "step": "Processing..."
   },
   "imageToPdf": {
-    "title": "Image to PDF – Free Online Converter | Neetpix",
+    "title": "Free Image to PDF Online – No Upload | Neetpix",
     "description": "Upload multiple images and combine them into a single PDF file. Processed entirely in your browser.",
     "upload": "Drop images here or click to browse",
     "uploadHint": "Supports JPG, PNG, WebP — up to 20MB each",
@@ -156,10 +161,10 @@
     "remove": "Remove"
   },
   "pdfToWord": {
-    "title": "PDF to Word – Free Online PDF Converter | Neetpix",
+    "title": "Free PDF to Word Online – No Upload | Neetpix",
     "description": "Convert PDF files to editable Word documents. Text is extracted locally in your browser.",
     "upload": "Drop a PDF file here or click to browse",
-    "uploadHint": "Supports PDF — up to 50MB",
+    "uploadHint": "Supports PDF files",
     "convert": "Convert to Word",
     "converting": "Converting...",
     "privacy": "🔒 100% private — your file never leaves your device",
@@ -168,13 +173,21 @@
     "errorFormat": "Please upload a PDF file.",
     "errorSize": "PDF file must be under 50MB.",
     "errorParse": "Failed to parse PDF. The file may be corrupted or encrypted.",
+    "memoryError": "The browser ran out of memory processing this file. Try splitting it into smaller parts first.",
     "retry": "Try Again",
     "success": "Converted successfully!",
     "fileLabel": "File",
-    "pageProgress": "Processing page {current} of {total}..."
+    "pageProgress": "Processing page {current} of {total}...",
+    "detecting": "Checking...",
+    "scanWarning": {
+      "title": "Scanned PDF Detected",
+      "description": "This PDF appears to be a scanned document. Direct conversion may produce empty or low-quality text. We recommend using OCR first.",
+      "continue": "Continue Anyway",
+      "useOcr": "Use OCR Tool"
+    }
   },
   "wordToPdf": {
-    "title": "Word to PDF – Free Online Converter | Neetpix",
+    "title": "Free Word to PDF Online – No Upload | Neetpix",
     "description": "Convert Word documents (.docx) to PDF directly in your browser. 100% local processing, no uploads, no watermark, no signup. Free and unlimited.",
     "upload": "Upload .docx File",
     "uploadHint": "Click to select or drag and drop · Max 50MB · .docx only",
@@ -238,7 +251,7 @@
     "zh": "中文"
   },
   "screenshotTranslate": {
-    "title": "Screenshot Translate – Free Online OCR Translation | Neetpix",
+    "title": "Free Screenshot Translate Online – No Upload | Neetpix",
     "description": "Extract text from screenshots and translate it instantly. OCR runs locally in your browser.",
     "upload": "Drop a screenshot here or click to browse",
     "uploadHint": "Supports JPG, PNG, WebP — up to 20MB",
@@ -264,7 +277,7 @@
     "retry": "Retry"
   },
   "imageCompress": {
-    "title": "Image Compress – Free Online Image Optimizer | Neetpix",
+    "title": "Free Image Compress Online – No Upload | Neetpix",
     "description": "Compress images to reduce file size without losing quality. Processed entirely in your browser.",
     "upload": "Drop images here or click to browse",
     "uploadHint": "Supports JPG, PNG, WebP — up to 20MB each",
@@ -289,7 +302,7 @@
     "remove": "Remove"
   },
   "imageWatermark": {
-    "title": "Image Watermark – Free Online Tool | Neetpix",
+    "title": "Free Image Watermark Online – No Upload | Neetpix",
     "description": "Add text watermarks to images. Protect identity documents, claim copyright, or brand your photos. 100% processed in your browser.",
     "upload": "Drag images here, or click to select",
     "uploadHint": "Supports JPG, PNG, WebP, up to 20MB each",
@@ -339,7 +352,7 @@
     "batchHint": "Upload multiple images, apply the same watermark to all"
   },
   "imageConvert": {
-    "title": "Image Convert – Free Online Format Converter | Neetpix",
+    "title": "Free Image Convert Online – No Upload | Neetpix",
     "description": "Convert images between JPG, PNG, WebP, AVIF, and HEIC formats. Batch conversion supported. 100% processed in your browser — no upload.",
     "upload": "Drag images here, or click to select",
     "uploadHint": "Supports JPG, PNG, WebP, AVIF, HEIC, up to 20MB each",
@@ -365,7 +378,7 @@
     "converted": "Converted"
   },
   "imageExif": {
-    "title": "EXIF Remover – Free Online Photo Metadata Tool | Neetpix",
+    "title": "Free Image EXIF Viewer Online – No Upload | Neetpix",
     "description": "View and strip EXIF metadata (GPS location, camera info, timestamps) from your photos. Protect your privacy before sharing. 100% local processing.",
     "upload": "Drag an image here, or click to select",
     "uploadHint": "Supports JPG, PNG, WebP, HEIC, up to 20MB",
@@ -394,7 +407,7 @@
     "fieldCount": "{count} metadata fields found"
   },
   "imageResize": {
-    "title": "Image Resize – Free Online Image Resizer & Cropper | Neetpix",
+    "title": "Free Image Resize Online – No Upload | Neetpix",
     "description": "Resize images by percentage or pixels, or crop to social media presets (Instagram, Twitter, YouTube). Batch resize supported. 100% local processing.",
     "upload": "Drag images here, or click to select",
     "uploadHint": "Supports JPG, PNG, WebP, up to 20MB each",
@@ -427,7 +440,7 @@
     "maintainRatio": "Maintain aspect ratio"
   },
   "imageIdPhoto": {
-    "title": "ID Photo Maker – Free Online ID Photo & Background Changer | Neetpix",
+    "title": "Free ID Photo Online – No Upload | Neetpix",
     "description": "Create ID photos with automatic background removal and color change. Supports 1-inch, 2-inch, and visa photo sizes. 100% local processing.",
     "upload": "Drag a photo here, or click to select",
     "uploadHint": "Supports JPG, PNG, WebP, up to 20MB",
@@ -454,7 +467,7 @@
     "tip": "For best results, use a photo with a plain background and good lighting."
   },
   "imageOcr": {
-    "title": "Image OCR – Free Online Text Extractor | Neetpix",
+    "title": "Free Image OCR Online – No Upload | Neetpix",
     "description": "Extract text from images using OCR. Supports Chinese, English, and Japanese. 100% local processing — no upload.",
     "upload": "Drag an image here, or click to select",
     "uploadHint": "Supports JPG, PNG, WebP, up to 20MB",
@@ -477,7 +490,7 @@
     "remove": "Remove"
   },
   "imageBlur": {
-    "title": "Blur Faces & License Plates – Free Online Privacy Tool | Neetpix",
+    "title": "Free Image Blur Online – No Upload | Neetpix",
     "description": "Blur faces, license plates, and sensitive areas in your photos before sharing. Manual selection, no AI upload. 100% local processing.",
     "upload": "Drag an image here, or click to select",
     "uploadHint": "Supports JPG, PNG, WebP, up to 20MB",
@@ -500,7 +513,7 @@
     "regionsCount": "{count} region(s) blurred"
   },
   "imageGridSplit": {
-    "title": "Image Grid Split – Free Online Tool | Neetpix",
+    "title": "Free Image Grid Split Online – No Upload | Neetpix",
     "description": "Split an image into 2x2, 3x3, 4x4 or custom grid pieces. Download all as ZIP. 100% local processing.",
     "upload": "Drag an image here, or click to select",
     "uploadHint": "Supports JPG, PNG, WebP, up to 20MB",
@@ -525,7 +538,7 @@
     "errorParse": "Failed to process the image. Please try another file."
   },
   "pdfMerge": {
-    "title": "PDF Merge – Free Online PDF Combiner | Neetpix",
+    "title": "Free PDF Merge Online – No Upload | Neetpix",
     "description": "Upload multiple PDF files and combine them into a single document. Processed entirely in your browser.",
     "upload": "Drop PDF files here or click to browse",
     "uploadHint": "Supports PDF files",
@@ -545,7 +558,7 @@
     "minHint": "At least 2 PDF files are required to merge."
   },
   "pdfSplit": {
-    "title": "PDF Split – Free Online PDF Separator | Neetpix",
+    "title": "Free PDF Split Online – No Upload | Neetpix",
     "description": "Extract specific pages from a PDF by entering page ranges. Processed entirely in your browser.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF files",
@@ -560,6 +573,7 @@
     "errorSize": "File must be under 100MB.",
     "errorRanges": "Invalid page range. Please check the format (e.g. 1-3,5,7-9).",
     "errorParse": "Failed to parse PDF. The file may be corrupted or encrypted.",
+    "memoryError": "The browser ran out of memory processing this file. Try splitting it into smaller parts first.",
     "retry": "Try Again",
     "success": "Split successfully!",
     "fileLabel": "File",
@@ -567,7 +581,7 @@
     "resultItem": "Range {range} ({count} pages)"
   },
   "pdfCompress": {
-    "title": "PDF Compress – Free Online PDF Optimizer | Neetpix",
+    "title": "Free PDF Compress Online – No Upload | Neetpix",
     "description": "Compress PDF files in your browser. Choose lossless structural compression for text PDFs or strong rasterization for image-based PDFs. 100% local processing.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF files",
@@ -584,6 +598,7 @@
     "errorFormat": "Please upload a PDF file.",
     "errorSize": "File must be under 100MB.",
     "errorParse": "Failed to parse PDF. The file may be corrupted or encrypted.",
+    "memoryError": "The browser ran out of memory processing this file. Try splitting it into smaller parts first.",
     "retry": "Try Again",
     "success": "Compressed successfully!",
     "fileLabel": "File",
@@ -596,7 +611,7 @@
     "analyzing": "Analyzing PDF..."
   },
   "pdfWatermark": {
-    "title": "PDF Watermark – Free Online Tool | Neetpix",
+    "title": "Free PDF Watermark Online – No Upload | Neetpix",
     "description": "Add text watermarks to your PDF. Choose center or tiled layout with opacity control. Processed in your browser.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF files",
@@ -615,12 +630,13 @@
     "errorFormat": "Please upload a PDF file.",
     "errorSize": "File must be under 100MB.",
     "errorParse": "Failed to parse PDF. The file may be corrupted or encrypted.",
+    "memoryError": "The browser ran out of memory processing this file. Try splitting it into smaller parts first.",
     "retry": "Try Again",
     "success": "Watermark applied successfully!",
     "fileLabel": "File"
   },
   "pdfPageNumbers": {
-    "title": "PDF Page Numbers – Free Online Tool | Neetpix",
+    "title": "Free PDF Page Numbers Online – No Upload | Neetpix",
     "description": "Add page numbers to your PDF. Choose position, format, and start number. Processed in your browser.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF files",
@@ -640,12 +656,13 @@
     "errorFormat": "Please upload a PDF file.",
     "errorSize": "File must be under 100MB.",
     "errorParse": "Failed to parse PDF. The file may be corrupted or encrypted.",
+    "memoryError": "The browser ran out of memory processing this file. Try splitting it into smaller parts first.",
     "retry": "Try Again",
     "success": "Page numbers added successfully!",
     "fileLabel": "File"
   },
   "pdfEncrypt": {
-    "title": "PDF Encrypt – Free Online PDF Password Protection | Neetpix",
+    "title": "Free PDF Encrypt Online – No Upload | Neetpix",
     "description": "Add password protection to your PDF files with AES-256 encryption. 100% local browser processing, no uploads. Free and unlimited.",
     "upload": "Upload PDF File",
     "uploadHint": "Click to select or drag and drop · Max 50MB · PDF only",
@@ -669,7 +686,7 @@
     "remove": "Remove file"
   },
   "pdfDecrypt": {
-    "title": "PDF Decrypt – Free Online PDF Password Remover | Neetpix",
+    "title": "Free PDF Decrypt Online – No Upload | Neetpix",
     "description": "Remove password protection from PDF files you own. 100% local browser processing, no uploads. Free and unlimited.",
     "upload": "Upload Encrypted PDF",
     "uploadHint": "Click to select or drag and drop · Max 50MB · PDF only",
@@ -695,7 +712,7 @@
     "legalNote": "Please ensure you have the legal right to decrypt this PDF (e.g., you forgot your own password). This tool must not be used to crack documents encrypted by others."
   },
   "pdfCrop": {
-    "title": "PDF Crop – Free Online PDF Trimmer | Neetpix",
+    "title": "Free PDF Crop Online – No Upload | Neetpix",
     "description": "Crop PDF page margins by percentage. Processed entirely in your browser — no uploads, no signup.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF files up to 50MB",
@@ -719,7 +736,7 @@
     "pages": "{count} pages"
   },
   "pdfRotate": {
-    "title": "PDF Rotate – Free Online PDF Rotator | Neetpix",
+    "title": "Free PDF Rotate Online – No Upload | Neetpix",
     "description": "Rotate PDF pages by 90, 180, or 270 degrees. Choose all pages or specific ones. 100% local processing.",
     "upload": "Drop a PDF file here or click to browse",
     "uploadHint": "Supports PDF files up to 50MB",
@@ -746,7 +763,7 @@
     "pages": "{count} pages"
   },
   "qrCode": {
-    "title": "QR Code Generator – Free Online Tool | Neetpix",
+    "title": "Free QR Code Generator Online | Neetpix",
     "description": "Generate QR codes from text, URL, email, WiFi, or contact info. Customize colors and export as PNG or SVG. 100% local.",
     "tabText": "Text",
     "tabUrl": "URL",
@@ -794,7 +811,7 @@
     "previewAlt": "QR code preview"
   },
   "chartGenerator": {
-    "title": "Chart Generator – Free Online Tool | Neetpix",
+    "title": "Free Chart Generator Online | Neetpix",
     "description": "Create bar, line, and pie charts from your data. Export as PNG or SVG. 100% local processing, no upload.",
     "typeBar": "Bar",
     "typeLine": "Line",
@@ -837,7 +854,7 @@
     "privacy": "100% private — chart generation runs entirely in your browser"
   },
   "qrDecode": {
-    "title": "QR Code Decoder – Free Online Tool | Neetpix",
+    "title": "Free QR Code Decoder Online | Neetpix",
     "description": "Decode QR codes from images. Extract URL, WiFi, vCard, email, phone, or plain text. 100% local processing, no upload.",
     "upload": "Drop a QR image here or click to browse",
     "uploadHint": "Supports JPG, PNG, WebP — up to 20MB",
@@ -872,7 +889,7 @@
     "decodeAnother": "Decode Another"
   },
   "fileTransfer": {
-    "title": "LAN File Transfer",
+    "title": "Free LAN File Transfer Online – P2P | Neetpix",
     "description": "Transfer files directly between devices over local network or internet. Files never go through any server.",
     "createRoom": "Create Room",
     "joinRoom": "Join Room",
@@ -939,8 +956,7 @@
     "toolsTranslate": "1 translation tool - screenshot OCR translation with auto-detect",
     "toolsNetwork": "1 network tool - direct file transfer between devices via WebRTC, no server relay",
     "toolsTotal": "27 tools in total — all free, no signup, no upload",
-    "contactTitle": "Get in Touch",
-    "contactEmail": "im.badbye@gmail.com"
+    "contactTitle": "Get in Touch"
   },
   "faq": {
     "title": "FAQ",
@@ -958,8 +974,8 @@
     "imageToPdf3a": "No hard limit, but we recommend under 50 images for best performance.",
     "pdfToWord1": "Does PDF to Word preserve formatting?",
     "pdfToWord1a": "This tool extracts text content. Complex layouts, images, and tables may not be fully preserved.",
-    "pdfToWord2": "What's the maximum PDF size?",
-    "pdfToWord2a": "50MB. Processing happens in your browser, so very large files may be slow.",
+    "pdfToWord2": "Is there a file size limit?",
+    "pdfToWord2a": "No hard limit. Processing happens in your browser, so very large files may fail with insufficient memory — try splitting the PDF first.",
     "pdfToWord3": "Are scanned PDFs supported?",
     "pdfToWord3a": "Scanned PDFs without a text layer cannot be extracted. The tool requires selectable text in the PDF.",
     "wordToPdf1": "Is the Word to PDF converter free?",
@@ -1182,8 +1198,8 @@
     "removeBackground4a": "No. All AI background removal runs locally in your browser using ONNX models. Your photos never leave your device — perfect for sensitive portraits and ID photos.",
     "imageToPdf4": "Are my images uploaded to a server?",
     "imageToPdf4a": "No. All image-to-PDF conversion happens in your browser. Your images stay on your device, ensuring complete privacy.",
-    "pdfToWord4": "Is PDF to Word free? Do I need to sign up?",
-    "pdfToWord4a": "Yes, completely free with no signup, no watermark, and no upload. All processing happens in your browser.",
+    "pdfToWord4": "What should I do if my PDF is scanned?",
+    "pdfToWord4a": "Only text-based PDFs are supported. For scanned PDFs, please use our OCR tool first.",
     "wordToPdf4": "What file formats are supported?",
     "wordToPdf4a": "Only .docx files are supported. Legacy .doc format is not supported — please save your document as .docx first.",
     "screenshotTranslate4": "Are my screenshots uploaded to a server?",
@@ -1633,5 +1649,320 @@
   "learnMore": {
     "title": "Want to learn more about {topic}?",
     "cta": "Read our detailed guide"
+  },
+  "blog": {
+    "pageTitle": "Blog",
+    "pageDescription": "Guides and comparisons on PDF and image tools — privacy risks, free alternatives to Smallpdf, Remove.bg, and TinyPNG, all from the Neetpix team.",
+    "publishedAt": "Published on {date}",
+    "readingTime": "{minutes} min read",
+    "backToBlog": "Back to Blog",
+    "byAuthor": "By {author}",
+    "cta": "Try {tool}",
+    "categories": {
+      "privacy": "Privacy",
+      "comparison": "Comparison"
+    },
+    "pdf-tools-privacy-risk": {
+      "title": "The Hidden Privacy Risks of Online PDF Tools",
+      "description": "Most online PDF tools upload your documents to remote servers. Learn what happens to your files and how browser-local processing keeps them private.",
+      "content": [
+        "PDFs are the workhorse format for contracts, invoices, ID scans, tax forms, and medical records. When you need to merge, compress, or convert one in a hurry, a quick search surfaces dozens of free online tools. But behind the friendly drag-and-drop interface of almost every popular PDF service sits a quieter reality: your file is being uploaded to a remote server, and you have very little control over what happens next.",
+        "To understand why this matters, it helps to know how server-based PDF tools actually work. When you drop a file into a typical online PDF merger or converter, the browser sends the entire file over HTTPS to the vendor's storage backend. The server runs the actual processing — qpdf, Ghostscript, headless LibreOffice, or a proprietary pipeline — generates the result, and streams it back to your browser. The file sits on the vendor's disk for at least the duration of the job, and in many cases much longer.",
+        "What happens to your uploaded documents after processing varies widely between vendors. Some delete the file within minutes. Others retain it for hours, days, or until you delete it from your dashboard. A few explicitly state that files may be reviewed by humans for quality, security, or abuse prevention. That sentence is easy to miss in a privacy policy, but it means a stranger could open your tax return or your signed lease.",
+        "The breach problem makes this worse. Even vendors with strict deletion policies cannot guarantee your file is gone forever. Backups, log attachments, error tracking systems, and cloud storage snapshots can retain copies for months. When a vendor suffers a breach, those orphaned copies are exactly what attackers are after. The PDF format is dense with personally identifiable information — names, addresses, signatures, Social Security numbers, bank account details — which makes PDF tooling servers high-value targets.",
+        "There is no shortage of real-world incidents. Privacy-conscious users have pointed to episodes like the 2017 DocuView exposure and recurring reports of files from popular online converters resurfacing in third-party indexes. TinyPNG disclosed a 2019 breach that exposed API keys and source data. These are not abstract risks; they are the predictable outcome of building a service that asks users to hand over their documents.",
+        "The good news is that you can verify in seconds whether a tool is uploading your file. Open your browser's DevTools, switch to the Network tab, and start a conversion. If you see a POST request with a large upload to an S3 bucket, an API endpoint, or any domain other than the one you are on, your file is leaving your device. A tool that processes locally will show no such upload — the work happens inside the page's WebAssembly sandbox.",
+        "Neetpix was built on the opposite assumption. Every PDF operation — merge, split, compress, watermark, encrypt, rotate, crop, page numbers, and PDF-to-Word conversion — runs directly in your browser using WebAssembly ports of qpdf, pdf-lib, and PDF.js. The file you select never leaves your device. There is no upload endpoint, no server-side storage, and no human review pipeline. The only network traffic is the page itself.",
+        "The browser-local model has practical benefits beyond privacy. Because there is no upload or download round-trip, processing starts instantly and finishes as fast as your CPU allows. A 50-page merge that takes thirty seconds round-trip on a server-based tool typically completes in two or three seconds in Neetpix. For batch workflows where you process many files in a row, the time savings compounds.",
+        "If you are evaluating any online PDF tool, look for three signals. First, a clear 100% local processing badge backed by a technical explanation — WebAssembly, in-browser, no upload. Second, an open DevTools test that confirms no file upload occurs. Third, a privacy policy that does not include language about file retention or human review. If any of these are missing, treat the tool as a server-based service regardless of marketing.",
+        "Certain document categories deserve extra caution. Signed contracts and NDAs often contain competitive intelligence that would be valuable to a breach buyer. Medical records are regulated under HIPAA in the US and similar frameworks elsewhere, which means a single leaked PDF can trigger mandatory disclosure obligations and reputational harm. Tax returns and bank statements are the raw materials of identity theft, and a single W-2 or 1099 in the wrong hands is enough to file a fraudulent return in your name. If you would not email a document to a stranger, you should not upload it to an unverified PDF tool either.",
+        "PDFs carry some of your most sensitive information. The convenience of a free online tool is not worth a leaked contract or a stolen identity. Try our PDF Merge or PDF to Word and watch your Network tab: nothing leaves your device. Once you have experienced browser-local PDF tooling, the upload-based model starts to look like a relic."
+      ]
+    },
+    "smallpdf-free-alternative": {
+      "title": "The Best Free Smallpdf Alternative in 2026",
+      "description": "Smallpdf limits free users to 2 tasks per day and uploads files to its servers. Neetpix is fully free, unlimited, and processes everything in your browser.",
+      "content": [
+        "Smallpdf is one of the most recognizable names in online PDF tooling. Its clean interface and broad feature set have made it a go-to for quick document edits since 2013. But if you have used the free tier recently, you have probably hit the 2-tasks-per-day wall, the upload-to-server prompts, and the constant nudges toward a Pro subscription. This article breaks down exactly where Smallpdf's free tier falls short in 2026 and why Neetpix is the strongest no-compromise alternative.",
+        "Start with the daily task limit. As of 2026, Smallpdf's free plan restricts users to 2 tasks per day. Need to merge three PDFs in the morning and compress a fourth in the afternoon? You are locked out until tomorrow. The free tier also restricts access to certain tools entirely — PDF/A conversion, OCR, and e-signatures sit behind the paywall — and inserts prompts to upgrade after almost every action.",
+        "Then there is price. Smallpdf Pro is currently priced at $9 per month when billed annually, or $12 when billed monthly. A team plan runs from $10 per seat. For users who only occasionally need to merge or compress a PDF, that is a meaningful recurring cost for functionality that can run entirely in a browser tab. Over a year, a solo subscriber pays more than $100 for what is essentially a wrapper around open-source PDF libraries.",
+        "The more serious issue is the upload problem. Like most server-based PDF services, Smallpdf uploads your file for processing. Their FAQ states files are deleted after a defined window — historically two hours — but during that window your document lives on their infrastructure, exposed to the same breach and retention risks we covered in our PDF privacy risk article. For contracts, ID scans, or anything containing personally identifiable information, that is a real consideration.",
+        "Enter Neetpix. Neetpix is a free, browser-local alternative that covers the same PDF essentials as Smallpdf — merge, split, compress, convert, watermark, encrypt, rotate, crop, and page numbers — plus a broader suite of image tools (background removal, image compress, image-to-PDF) and generators (QR codes, charts). Everything runs in your browser via WebAssembly. There is no signup, no upload, and no daily task limit.",
+        "The side-by-side comparison makes the difference concrete. On price, Neetpix is $0 forever; Smallpdf is $0 with severe limits or $9 per month for Pro. On daily task limit, Neetpix has none; Smallpdf caps at 2. On file upload, Neetpix never uploads; Smallpdf uploads every file. On signup, neither requires an account for the free tier, but Smallpdf gates Pro features behind one. On tool count, Neetpix offers 25+ tools; Smallpdf offers around 20. On offline capability, Neetpix works offline once the page is loaded; Smallpdf requires connectivity to its processing servers.",
+        "Speed is where the local-processing model really pulls ahead. Because Neetpix does not upload or download files, processing starts instantly and finishes as fast as your CPU allows. A 50-page merge that takes thirty seconds round-trip on a server-based tool typically completes in two or three seconds in Neetpix. For batch workflows — compress ten PDFs in a row, convert five Word documents to PDF — the time savings compounds into minutes saved per week.",
+        "There are still places where Smallpdf makes sense. Its OCR, e-signature, and PDF/A archiving tools genuinely add value, and the paid plan is reasonable for teams that need them daily. If you are a heavy user of those specific features, Smallpdf Pro remains a defensible choice. For everyone else — students, freelancers, small business owners, anyone doing occasional PDF edits — there is no reason to pay or accept upload risks.",
+        "File size and format support also favor Neetpix for typical workflows. Smallpdf caps free uploads at 5 MB per file, which excludes many real-world PDFs. Neetpix has no such cap because the file never leaves your device — the only limit is your machine's memory. Both tools support the standard PDF, JPG, PNG, and Office formats, but Neetpix additionally handles WebP, HEIC, and a broader image pipeline.",
+        "Team collaboration features are worth a closer look too. Smallpdf's team plan adds shared workspaces, admin controls, and audit logs, which are useful for organizations that process many documents. Neetpix, being browser-local, does not have a server-side team workspace, but the trade-off is that there is nothing to share, store, or audit because files never leave individual devices. For most small teams, the simpler workflow of each person processing their own files locally is actually safer and easier to manage than a shared document pipeline.",
+        "Switching is trivial. Open Neetpix, pick the tool you need, drop in your file, and download the result. No account to create, no payment to authorize, no file to clean up afterward. Your browser tab is the entire workflow. Bookmark neetpix.com and you are done. Try our PDF Merge, PDF Compress, or PDF to Word — three of the most-used Smallpdf replacements — and see for yourself."
+      ]
+    },
+    "remove-bg-free-alternative": {
+      "title": "Free Remove.bg Alternative: No Upload, No Limit",
+      "description": "Remove.bg charges for HD downloads and uploads images to its servers. Neetpix removes backgrounds locally in your browser with transformers.js + onnxruntime-web.",
+      "content": [
+        "Remove.bg is the household name in AI background removal. Type remove background into Google and it is the first result almost every time. The output quality is genuinely impressive — clean cutouts, soft edges, and respectable handling of hair and translucent objects. But behind that polished result sits a payment wall and an upload pipeline that privacy-conscious users should think twice about.",
+        "Start with the price. Remove.bg's free tier downloads images at a preview resolution of roughly 0.25 megapixels — about 612 × 408 pixels. To download the full-resolution result, you pay per image or subscribe. Subscriptions start around $9.99 per month for 100 credits, with larger plans scaling up to enterprise tiers. For anyone working with product photography, social media assets, or design mockups, those credits disappear quickly. A single busy afternoon of editing can burn through a month's allocation.",
+        "The upload problem is the more fundamental issue. When you upload an image to Remove.bg, it is sent to Kaleido AI's servers in Austria for inference. The company's privacy policy is clear that images are processed on their infrastructure and retained for a period to improve model quality. For users handling ID photos, medical images, internal product mockups, or children's photos, that is a non-trivial exposure. Once an image is on a third-party server, you depend on that vendor's deletion practices, breach posture, and subcontractors.",
+        "The free-resolution cap is also a quiet productivity tax. A 0.25-megapixel preview is fine for a quick mockup but useless for anything that will be printed, displayed at full size, or composited into a larger design. The result is that free users either pay per image, subscribe, or stitch together workarounds like upscaling the preview with a separate tool — none of which is actually free. The friction pushes users toward the paid plan by design.",
+        "Neetpix takes a different approach. Our Remove Background tool runs the same class of AI segmentation model — based on MODNet and U2Net architectures — directly in your browser using transformers.js and onnxruntime-web. The model weights download once, cache aggressively, and execute against your device's GPU or CPU. The image you select never leaves your browser tab. There is no upload endpoint and no server-side storage.",
+        "The local-processing model dissolves both problems at once. There is no per-image cost because there is no server to bill against. There is no upload exposure because there is no upload. And there is no resolution cap because the inference runs against whatever image you give it — 4K, 8K, panoramic, whatever your machine can hold in memory. The output PNG is generated locally and saved directly to your downloads folder.",
+        "The trade-off is that browser-local inference is constrained by your device. A low-end laptop will take longer to process a 12-megapixel image than a high-end desktop. The free version of Neetpix's background remover also includes a small corner watermark — a fair trade for unlimited HD output with no upload. For most users and most workflows, the speed difference is barely noticeable and the watermark is easy to crop out for non-critical use.",
+        "Output quality compares well. Side by side, Neetpix's local model produces cutouts that are visually indistinguishable from Remove.bg's output on most photographs and product shots. Hair edges, translucent fabric, and complex shadows are handled with similar finesse. Where Remove.bg pulls ahead is in the hardest cases — fine blonde hair against a busy background, for instance — but the gap has narrowed significantly with recent model updates and improved post-processing.",
+        "Common use cases benefit particularly from the local model. E-commerce sellers processing dozens of product photos a week can run the entire batch through Neetpix without worrying about credit depletion. Social media managers can iterate quickly on thumbnails without upload latency. Designers can drop in client work without worrying about confidentiality agreements. Students and hobbyists get professional-grade results without a credit card.",
+        "For privacy-sensitive workflows, the comparison is not even close. ID photos, medical images, internal product mockups, children's photos — none of these should be uploaded to a third-party inference service. Running inference locally means the image stays on your device, in your control, and never appears in a vendor's training corpus or breach disclosure. In regulated industries like healthcare and finance, this is not just a preference; it is a compliance requirement.",
+        "A note on the model download size. The first time you use Neetpix's Remove Background, the browser downloads the segmentation model — typically under 10 MB. Subsequent uses load from cache, so there is no repeated download. On a typical home broadband connection, the initial download finishes in a few seconds and never happens again. This is a fundamentally different cost model from per-image API pricing, where every single removal incurs a charge against your account.",
+        "Trying it out takes about thirty seconds. Open Neetpix's Remove Background, drop in an image, and watch the result render in your browser. Open DevTools' Network tab and confirm there is no upload. The same tab handles the model download, the inference, and the output compositing. If you have been paying Remove.bg for occasional background removal, you will not go back."
+      ]
+    },
+    "tinypng-free-alternative": {
+      "title": "TinyPNG Free Alternative: Compress Images Locally",
+      "description": "TinyPNG caps free users at 20 images per month and uploads them to its servers. Neetpix compresses images in your browser with no limit and no upload.",
+      "content": [
+        "TinyPNG is the first tool most designers reach for when they need to shrink a PNG or JPEG. The compression quality is excellent — often 60 to 80 percent file-size reduction with no visible loss — and the drag-and-drop interface is genuinely delightful. But like most popular online tools, TinyPNG's free tier carries quiet limits and an upload pipeline that deserves a second look.",
+        "The free tier limit is the most visible pain point. As of 2026, TinyPNG's web interface caps free users at 20 images per month. That is 20 total — not 20 per session, not 20 per day. If you process a batch of 15 product photos in early January, you have 5 compressions left for the rest of the month. For anyone who works with images regularly, the cap bites fast.",
+        "The paid plan lifts the limit but introduces a recurring cost. TinyPNG Pro is currently priced at around $25 per year for individuals, with API pricing for developers that charges per compression. The API is generous — 500 free compressions per month for developers — but the web interface, which is what most casual users touch, stays metered. The result is a tool that quietly pushes occasional users toward a subscription.",
+        "The more fundamental concern is upload. When you drop an image into TinyPNG's web interface, it is uploaded to their servers for processing. Their FAQ states that images are deleted within a short window — historically around 20 minutes — but during that window your image sits on their infrastructure. For sensitive images (ID scans, internal product shots, medical photography), even a brief upload window is a real consideration.",
+        "TinyPNG's API also had a notable breach in 2019. The company disclosed that API keys and source data were exposed for a subset of users. The breach was contained and the company responded transparently, but it underscores a general truth: any service that asks you to upload images is one breach away from exposing them. Browser-local processing sidesteps the entire category of risk.",
+        "Neetpix offers a TinyPNG alternative that runs entirely in your browser. Our Image Compress tool uses the browser-image-compression library combined with native Canvas and WebCodecs APIs to shrink JPEG, PNG, and WebP files. The image you select never leaves your device. There is no signup, no upload, and no monthly cap.",
+        "The compression results compare well. For JPEGs, Neetpix typically achieves 60 to 80 percent reduction at visually lossless quality — matching TinyPNG's output. For PNGs, the lossless mode preserves alpha channels and indexed colors; a lossy mode uses quantization to push sizes down further. WebP output is supported alongside JPEG and PNG, which is useful for modern web workflows.",
+        "The local-processing model has practical advantages beyond privacy. Because there is no upload, batch compression starts instantly and processes images in parallel across CPU cores. A folder of 50 product photos that takes several minutes to upload, process, and download through TinyPNG typically finishes in under a minute on Neetpix. There is no queue position, no rate limit, no waiting for the server to free up capacity.",
+        "Format flexibility is another area where Neetpix pulls ahead. TinyPNG supports JPEG, PNG, and WebP inputs but outputs in the original format. Neetpix lets you convert during compression — for instance, compressing a PNG and outputting as WebP for a smaller file at equivalent quality. This matters for web performance budgets where every kilobyte counts, and where WebP is now universally supported in modern browsers.",
+        "For batch workflows, Neetpix is significantly smoother. Drag in 30 images at once, set a target size or quality, and the tool processes them in parallel with a per-image progress indicator. Download them individually or as a zip. No per-image upload delay, no you have used 15 of 20 free compressions this month nag, no upgrade prompts between batches.",
+        "TinyPNG still has its place. The Photoshop and Figma plugins are excellent for designers who live in those tools, and the API is well-documented for developers building compression into their own pipelines. If you are a heavy plugin user, TinyPNG Pro is a defensible choice. For everyone else doing web image compression, Neetpix matches the quality, removes the cap, and keeps your images on your device.",
+        "A note on transparency. Neetpix's compression runs in the open: the browser-image-compression library is open source, and you can inspect the source of the page you are on. TinyPNG's compression algorithm, by contrast, is proprietary and runs on their servers, which means you cannot verify what happens to your image between upload and download. For most users this does not matter, but for privacy-sensitive workflows it is the difference between trusting a vendor and verifying a tool.",
+        "Trying it takes thirty seconds. Open Neetpix's Image Compress, drop in a few images, set a target size or quality, and download the results. Open DevTools' Network tab and confirm there is no upload. The same tab handles the entire pipeline. Once you have experienced unlimited local compression, the 20-per-month cap feels like an artifact from an earlier era of the web."
+      ]
+    }
+  },
+  "compare": {
+    "breadcrumbLabel": "Compare",
+    "dimensionLabel": "Dimension",
+    "faqTitle": "FAQ",
+    "smallpdfVsNeetpix": {
+      "title": "Smallpdf vs Neetpix – Best Free Smallpdf Alternative | Neetpix",
+      "description": "Comparing Smallpdf and Neetpix? See why Neetpix is the best free Smallpdf alternative — 100% browser-local, no signup, no upload, unlimited tasks, 28+ tools.",
+      "heroTitle": "Smallpdf vs Neetpix",
+      "heroSubtitle": "Smallpdf caps free users at 2 tasks per day and uploads files to its servers. Neetpix is completely free, unlimited, and processes every file locally in your browser. Compare the two side by side across features, pricing, privacy, limits, and speed to find the best free Smallpdf alternative for your workflow.",
+      "tableTitle": "Smallpdf vs Neetpix — Feature Comparison",
+      "featuresLabel": "Features",
+      "competitorFeatures": [
+        "About 20 PDF tools (merge, split, compress, convert)",
+        "Free tier limited to 2 tasks per day",
+        "Pro plan unlocks all tools and removes limits",
+        "Online tools plus a desktop app on Pro",
+        "OCR and e-signature only in higher tiers"
+      ],
+      "neetpixFeatures": [
+        "28+ tools across PDF, image, and network categories",
+        "Completely free with no daily task limits",
+        "All tools unlocked for everyone, no tiers",
+        "Browser-based, no install required",
+        "Includes AI background remover, QR tools, and chart generator"
+      ],
+      "pricingLabel": "Pricing",
+      "competitorPricing": "Free tier: 2 tasks/day. Pro plan from $12/month billed annually; team plans available.",
+      "neetpixPricing": "100% free for all 28+ tools, no tiers, no signup, no hidden fees, no watermark on most tools.",
+      "privacyLabel": "Privacy",
+      "competitorPrivacy": "Files are uploaded to Smallpdf servers for processing and deleted after 2 hours per their policy.",
+      "neetpixPrivacy": "Files never leave your device — all processing runs in your browser via WebAssembly and ONNX models.",
+      "limitsLabel": "Limits",
+      "competitorLimits": "Free: 2 tasks/day, 5MB file size, limited tool access. Pro removes task and size caps.",
+      "neetpixLimits": "No daily task limits, no file size caps beyond browser memory, every tool available to everyone.",
+      "speedLabel": "Speed",
+      "competitorSpeed": "Server-side processing is fast for small files but bottlenecked by upload and download bandwidth.",
+      "neetpixSpeed": "Local processing skips upload time entirely; very large files may be limited by your device CPU and RAM.",
+      "ctaButton": "Try PDF Merge Free",
+      "faq1": "Is Neetpix really a free Smallpdf alternative?",
+      "faq1a": "Yes. Neetpix offers all 28+ tools for free with no daily task limits, no signup, and no file size caps beyond your browser's memory. Smallpdf's free tier restricts you to 2 tasks per day and a 5MB file size limit.",
+      "faq2": "Does Neetpix upload files to a server like Smallpdf?",
+      "faq2a": "No. Neetpix processes files entirely in your browser using WebAssembly and ONNX models. Your files never leave your device, whereas Smallpdf uploads files to its servers and deletes them after 2 hours.",
+      "faq3": "Can I use Neetpix offline?",
+      "faq3a": "After the page loads, most Neetpix tools continue to work offline because processing happens locally. You only need internet access to load the page initially."
+    },
+    "ilovepdfVsNeetpix": {
+      "title": "iLovePDF vs Neetpix – Best Free iLovePDF Alternative | Neetpix",
+      "description": "Comparing iLovePDF and Neetpix? See why Neetpix is the best free iLovePDF alternative — 100% browser-local, no signup, no upload, no file size limits.",
+      "heroTitle": "iLovePDF vs Neetpix",
+      "heroSubtitle": "iLovePDF limits free users on file size and task count, and uploads every file to its servers. Neetpix is completely free with no upload, no signup, and no file size caps. Compare the two across features, pricing, privacy, limits, and speed to find the best free iLovePDF alternative for compressing, merging, and converting PDFs.",
+      "tableTitle": "iLovePDF vs Neetpix — Feature Comparison",
+      "featuresLabel": "Features",
+      "competitorFeatures": [
+        "About 25 PDF tools (compress, merge, split, convert, organize)",
+        "Free tier with file size and task count limits",
+        "Premium plan unlocks larger files and batch processing",
+        "Server-side processing with API access on business plans",
+        "OCR and watermark tools in higher tiers"
+      ],
+      "neetpixFeatures": [
+        "28+ tools across PDF, image, and network categories",
+        "Completely free with no task count limits",
+        "All tools and batch processing available to everyone",
+        "100% browser-local, no server processing at all",
+        "Includes image tools, QR tools, and AI background remover"
+      ],
+      "pricingLabel": "Pricing",
+      "competitorPricing": "Free tier with size and task limits. Premium from $7/month; Business and Enterprise plans available.",
+      "neetpixPricing": "100% free for all 28+ tools, no tiers, no signup, no hidden fees, no file size paywall.",
+      "privacyLabel": "Privacy",
+      "competitorPrivacy": "Files uploaded to iLovePDF servers for processing; stored temporarily per their retention policy.",
+      "neetpixPrivacy": "Files never leave your device — all processing runs in your browser via WebAssembly.",
+      "limitsLabel": "Limits",
+      "competitorLimits": "Free: file size cap (typically 25MB for PDFs), limited tasks per day. Premium raises size and task limits.",
+      "neetpixLimits": "No file size caps beyond browser memory, no daily task limits, no tool gating.",
+      "speedLabel": "Speed",
+      "competitorSpeed": "Server-side processing is quick for small files but depends on upload bandwidth; large free-tier files queue.",
+      "neetpixSpeed": "Local processing removes upload time; very large files may be constrained by your device CPU and RAM.",
+      "ctaButton": "Try PDF Compress Free",
+      "faq1": "Is Neetpix a free iLovePDF alternative with no file size limits?",
+      "faq1a": "Yes. Neetpix has no file size paywall — the only constraint is your browser's available memory. iLovePDF's free tier caps PDF file sizes (around 25MB) and limits daily tasks, while Neetpix imposes neither.",
+      "faq2": "Does Neetpix upload PDFs to a server like iLovePDF?",
+      "faq2a": "No. Neetpix processes PDFs entirely in your browser using WebAssembly. Files never leave your device. iLovePDF uploads files to its servers for processing and stores them temporarily.",
+      "faq3": "Can Neetpix compress PDFs as well as iLovePDF?",
+      "faq3a": "Yes. Neetpix offers both Light (lossless structural) and Strong (rasterized JPEG) compression modes that run locally. Results are comparable to iLovePDF for most documents, with the added benefit of complete privacy."
+    },
+    "removeBgVsNeetpix": {
+      "title": "Remove.bg vs Neetpix – Best Free Remove.bg Alternative | Neetpix",
+      "description": "Comparing Remove.bg and Neetpix? See why Neetpix is the best free Remove.bg alternative — 100% browser-local AI, no signup, no upload, any resolution.",
+      "heroTitle": "Remove.bg vs Neetpix",
+      "heroSubtitle": "Remove.bg charges for high-resolution downloads and uploads images to its servers. Neetpix runs AI background removal entirely in your browser, free at any resolution. Compare the two across features, pricing, privacy, limits, and speed to find the best free Remove.bg alternative for product photos, portraits, and designs.",
+      "tableTitle": "Remove.bg vs Neetpix — Feature Comparison",
+      "featuresLabel": "Features",
+      "competitorFeatures": [
+        "AI background removal for foreground subjects",
+        "Free preview at low resolution only",
+        "Full-resolution downloads require credits or subscription",
+        "Server-side processing with API access on paid plans",
+        "Additional tools for cutout and design effects"
+      ],
+      "neetpixFeatures": [
+        "AI background removal via onnxruntime-web in your browser",
+        "Free full-resolution downloads, no credit system",
+        "100% local processing, no upload at all",
+        "Batch-friendly workflow with no daily limits",
+        "Part of a 28+ tool suite covering PDF, image, and network"
+      ],
+      "pricingLabel": "Pricing",
+      "competitorPricing": "Free: low-res preview only. Full HD from $1.99/image; subscription from $9.99/month for credits.",
+      "neetpixPricing": "100% free at any resolution, no credits, no subscription, no signup required.",
+      "privacyLabel": "Privacy",
+      "competitorPrivacy": "Images uploaded to Remove.bg servers for AI inference and stored briefly per their policy.",
+      "neetpixPrivacy": "Images never leave your device — AI runs locally via ONNX models in your browser.",
+      "limitsLabel": "Limits",
+      "competitorLimits": "Free: low-resolution output only, with a small watermark. Paid plans required for HD and bulk.",
+      "neetpixLimits": "No resolution caps, no daily image limits. Free version includes a small Neetpix watermark.",
+      "speedLabel": "Speed",
+      "competitorSpeed": "Server-side GPU inference is fast but requires uploading the image first.",
+      "neetpixSpeed": "Local inference speed depends on your device GPU/CPU; first run downloads the model, subsequent runs are cached.",
+      "ctaButton": "Try Remove Background Free",
+      "faq1": "Is Neetpix really a free Remove.bg alternative for full-resolution images?",
+      "faq1a": "Yes. Neetpix removes image backgrounds for free at any resolution supported by your browser. Remove.bg only offers low-resolution previews for free and charges from $1.99 per full-HD image or $9.99/month for a subscription.",
+      "faq2": "Does Neetpix upload images to a server like Remove.bg?",
+      "faq2a": "No. Neetpix runs the AI background removal model locally in your browser using onnxruntime-web. Your images never leave your device. Remove.bg uploads images to its servers for inference.",
+      "faq3": "Does the free Neetpix version have a watermark?",
+      "faq3a": "The free Neetpix background remover includes a small Neetpix watermark. Resolution and usage are unlimited, and there are no credits or subscriptions required."
+    },
+    "tinypngVsNeetpix": {
+      "title": "TinyPNG vs Neetpix – Best Free TinyPNG Alternative | Neetpix",
+      "description": "Comparing TinyPNG and Neetpix? See why Neetpix is the best free TinyPNG alternative — 100% browser-local, no signup, no upload, unlimited images.",
+      "heroTitle": "TinyPNG vs Neetpix",
+      "heroSubtitle": "TinyPNG caps free users at 20 images per month and uploads every image to its servers. Neetpix compresses PNG, JPG, and WebP images locally in your browser with no daily or monthly limits. Compare the two across features, pricing, privacy, limits, and speed to find the best free TinyPNG alternative for batch image compression.",
+      "tableTitle": "TinyPNG vs Neetpix — Feature Comparison",
+      "featuresLabel": "Features",
+      "competitorFeatures": [
+        "PNG, JPG, and WebP compression with smart lossy encoding",
+        "Free tier limited to 20 images per month",
+        "API access on paid developer plans",
+        "Server-side processing with Photoshop and Shopify plugins",
+        "Resizing and watermarking in paid tiers"
+      ],
+      "neetpixFeatures": [
+        "PNG, JPG, and WebP compression with quality and resize control",
+        "Completely free with no monthly image limits",
+        "100% browser-local, no API key or server processing",
+        "Batch upload with ZIP download for all results",
+        "Part of a 28+ tool suite at no cost"
+      ],
+      "pricingLabel": "Pricing",
+      "competitorPricing": "Free: 20 images/month. Pro from $0.009/image after free quota; subscription tiers for higher volume.",
+      "neetpixPricing": "100% free for unlimited images, no per-image fees, no subscription, no signup.",
+      "privacyLabel": "Privacy",
+      "competitorPrivacy": "Images uploaded to TinyPNG servers for compression and stored temporarily per their policy.",
+      "neetpixPrivacy": "Images never leave your device — all compression runs in your browser.",
+      "limitsLabel": "Limits",
+      "competitorLimits": "Free: 20 images/month, 5MB per image. Paid plans raise the monthly cap and per-image size.",
+      "neetpixLimits": "No monthly image limits, no per-image size cap beyond browser memory.",
+      "speedLabel": "Speed",
+      "competitorSpeed": "Server-side compression is fast but depends on upload bandwidth for batches.",
+      "neetpixSpeed": "Local compression skips upload time; large batches are bound by your device CPU.",
+      "ctaButton": "Try Image Compress Free",
+      "faq1": "Is Neetpix a free TinyPNG alternative with no monthly image limits?",
+      "faq1a": "Yes. Neetpix lets you compress unlimited images per month for free. TinyPNG caps free users at 20 images per month and charges from $0.009 per additional image.",
+      "faq2": "Does Neetpix upload images to a server like TinyPNG?",
+      "faq2a": "No. Neetpix compresses images entirely in your browser. Images never leave your device. TinyPNG uploads images to its servers for compression.",
+      "faq3": "Can Neetpix compress WebP as well as PNG and JPG?",
+      "faq3a": "Yes. Neetpix supports PNG, JPG, and WebP for both input and output, with quality and resize controls. WebP typically gives the smallest file size at equivalent visual quality."
+    },
+    "pdf24VsNeetpix": {
+      "title": "PDF24 vs Neetpix – Best Free PDF24 Alternative | Neetpix",
+      "description": "Comparing PDF24 and Neetpix? See why Neetpix is the best free PDF24 alternative — 100% browser-local, no upload, modern UI, 28+ tools, no install.",
+      "heroTitle": "PDF24 vs Neetpix",
+      "heroSubtitle": "PDF24 is free but its online tools upload files to servers, and the desktop app needs installation. Neetpix is completely free, runs every tool locally in your browser, and ships a modern UI with no install required. Compare the two across features, pricing, privacy, limits, and speed to find the best free PDF24 alternative for PDF to Word, merge, and compress tasks.",
+      "tableTitle": "PDF24 vs Neetpix — Feature Comparison",
+      "featuresLabel": "Features",
+      "competitorFeatures": [
+        "Free online PDF tools (merge, split, compress, convert)",
+        "Online tools upload files to PDF24 servers",
+        "Desktop app available for Windows with local processing",
+        "Older UI compared to modern web apps",
+        "Includes OCR, sign, and PDF form tools"
+      ],
+      "neetpixFeatures": [
+        "28+ tools across PDF, image, and network categories",
+        "100% browser-local, no server upload at all",
+        "No desktop install required — works in any modern browser",
+        "Modern, accessible UI with dark mode and i18n",
+        "Includes AI background remover, QR tools, and chart generator"
+      ],
+      "pricingLabel": "Pricing",
+      "competitorPricing": "Free for both online tools and desktop app, with no paid tiers.",
+      "neetpixPricing": "100% free for all 28+ tools, no tiers, no signup, no install, no hidden fees.",
+      "privacyLabel": "Privacy",
+      "competitorPrivacy": "Online tools upload files to PDF24 servers; the desktop app processes locally on Windows.",
+      "neetpixPrivacy": "Files never leave your device — all tools run in your browser via WebAssembly and ONNX models.",
+      "limitsLabel": "Limits",
+      "competitorLimits": "Online: limited by server-side processing. Desktop: local processing but Windows-only and requires install.",
+      "neetpixLimits": "No daily task limits, no install, cross-platform (any modern browser), all tools available to everyone.",
+      "speedLabel": "Speed",
+      "competitorSpeed": "Online tools depend on upload bandwidth; desktop app is fast but Windows-only.",
+      "neetpixSpeed": "Local processing skips upload time; large files may be constrained by your device CPU and RAM.",
+      "ctaButton": "Try PDF to Word Free",
+      "faq1": "Is Neetpix a free PDF24 alternative that works without install?",
+      "faq1a": "Yes. Neetpix runs entirely in your browser with no install required, and all 28+ tools are free. PDF24 offers a free desktop app for Windows but it requires installation, and PDF24's online tools upload files to servers.",
+      "faq2": "Does Neetpix upload files to a server like PDF24 online tools?",
+      "faq2a": "No. Neetpix processes files entirely in your browser using WebAssembly. Files never leave your device. PDF24's online tools upload files to its servers, though the PDF24 desktop app does process locally.",
+      "faq3": "Can Neetpix convert PDF to Word like PDF24?",
+      "faq3a": "Yes. Neetpix includes a free PDF to Word converter that extracts text content and runs locally in your browser. Formatting is preserved at a basic level (headings, paragraphs, lists); complex layouts and tables may be simplified."
+    }
+  },
+  "pwaInstall": {
+    "button": "Install App",
+    "tooltip": "Install Neetpix as a desktop app",
+    "installed": "Already installed",
+    "dismiss": "Not now",
+    "banner": "Install Neetpix for instant access to all tools"
+  },
+  "errors": {
+    "notFound": {
+      "title": "Page Not Found",
+      "description": "The page you're looking for doesn't exist or has been moved.",
+      "cta": "Back to Home",
+      "popularTools": "Popular Tools"
+    },
+    "error": {
+      "title": "Something Went Wrong",
+      "description": "An unexpected error occurred. Please try again.",
+      "retry": "Try Again",
+      "home": "Back to Home"
+    }
   }
 }

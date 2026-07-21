@@ -17,6 +17,8 @@ import {
 } from "@/lib/file-transfer";
 import { generateQrPng } from "@/lib/qr-generator";
 import Logo from "@/components/ui/Logo";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 type Phase =
   | "initial"
@@ -202,6 +204,8 @@ export default function FileTransferClient() {
         },
         (blob, metadata) => {
           downloadBlob(blob, metadata.name);
+          trackEvent("tool-used", { toolKey: "fileTransfer" });
+          addRecentTool("fileTransfer");
           setProgress(null);
           setTransferRole("receiver");
           setPhase("done");
@@ -265,6 +269,8 @@ export default function FileTransferClient() {
         },
         (blob, metadata) => {
           downloadBlob(blob, metadata.name);
+          trackEvent("tool-used", { toolKey: "fileTransfer" });
+          addRecentTool("fileTransfer");
           setProgress(null);
           setTransferRole("receiver");
           setPhase("done");

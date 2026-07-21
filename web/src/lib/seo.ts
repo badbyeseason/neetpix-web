@@ -2,12 +2,20 @@ import { getTranslations } from "next-intl/server";
 import { LANDING_PAGE_MAP } from "./landing-pages";
 
 // 构建多语言 SEO metadata 的 alternates 字段（canonical + hreflang）
+// 同时返回 locale / alternateLocales，供调用方注入 openGraph.locale / openGraph.alternateLocales
 // route 形如 "/tools/pdf-merge" 或 ""（首页）
 export function buildI18nMetadata(route: string, locale: string) {
   const baseUrl = "https://neetpix.com";
   const enUrl = `${baseUrl}${route}`;
   const zhUrl = `${baseUrl}/zh${route}`;
   const canonical = locale === "en" ? enUrl : zhUrl;
+  // OG locale 用 BCP-47：en → en_US，zh → zh_CN
+  const ogLocale = locale === "zh" ? "zh_CN" : "en_US";
+  // alternateLocales：当前 locale 之外的其他语言变体
+  const alternateLocales =
+    locale === "zh"
+      ? [{ locale: "en_US", url: enUrl, href: enUrl }]
+      : [{ locale: "zh_CN", url: zhUrl, href: zhUrl }];
   return {
     canonical,
     languages: {
@@ -15,6 +23,8 @@ export function buildI18nMetadata(route: string, locale: string) {
       zh: zhUrl,
       "x-default": enUrl,
     },
+    locale: ogLocale,
+    alternateLocales,
   };
 }
 

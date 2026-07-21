@@ -6,6 +6,7 @@ import Link from "next/link";
 import LocaleSwitcher from "./LocaleSwitcher";
 import Logo from "../ui/Logo";
 import StarButton from "../ui/StarButton";
+import PwaInstallPrompt from "../PwaInstallPrompt";
 
 export default function Header() {
   const t = useTranslations("nav");
@@ -139,6 +140,7 @@ export default function Header() {
               type="button"
               aria-haspopup="menu"
               aria-expanded={toolsOpen}
+              onClick={() => setToolsOpen((v) => !v)}
               onKeyDown={handleTriggerKeyDown}
               className="flex items-center gap-1 text-sm text-text-secondary hover:text-text transition-colors py-2"
             >
@@ -219,6 +221,7 @@ export default function Header() {
             </kbd>
           </button>
           <LocaleSwitcher />
+          <PwaInstallPrompt />
           {/* 移动端汉堡按钮 */}
           <button
             className="md:hidden text-text"

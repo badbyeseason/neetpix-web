@@ -20,39 +20,52 @@ export default function ShareBar() {
     setCanShare(typeof navigator !== "undefined" && !!navigator.share);
   }, []);
 
-  // 生成微信二维码
+  // 生成带 UTM 参数的分享 URL，用于追踪 share_landed 回流
+  const buildShareUrl = useCallback(
+    (channel: string) => {
+      if (!pageUrl) return "";
+      const base = pageUrl.split("?")[0];
+      return `${base}?utm_source=neetpix-share&utm_medium=${encodeURIComponent(channel)}`;
+    },
+    [pageUrl]
+  );
+
+  // 生成微信二维码（使用带 UTM 的分享 URL）
   useEffect(() => {
     if (!showWechat || !pageUrl) return;
+    const shareUrl = buildShareUrl("wechat");
     let cancelled = false;
-    generateQrPng(pageUrl, { size: 240, color: "#000000", background: "#FFFFFF", errorCorrectionLevel: "M" })
+    generateQrPng(shareUrl, { size: 240, color: "#000000", background: "#FFFFFF", errorCorrectionLevel: "M" })
       .then((url) => {
         if (!cancelled) setQrDataUrl(url);
       })
       .catch(() => {});
     return () => { cancelled = true; };
-  }, [showWechat, pageUrl]);
+  }, [showWechat, pageUrl, buildShareUrl]);
 
   const handleCopy = useCallback(async () => {
     try {
-      await navigator.clipboard.writeText(pageUrl);
+      const shareUrl = buildShareUrl("copy");
+      await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
       trackEvent("share-clicked", { channel: "copy" });
     } catch {}
-  }, [pageUrl]);
+  }, [buildShareUrl]);
 
   const handleSystemShare = useCallback(async () => {
     try {
-      await navigator.share({ title: document.title, url: pageUrl });
+      const shareUrl = buildShareUrl("system");
+      await navigator.share({ title: document.title, url: shareUrl });
       trackEvent("share-clicked", { channel: "system" });
     } catch {}
-  }, [pageUrl]);
+  }, [buildShareUrl]);
 
   const tweetUrl = pageTitle
-    ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(pageTitle)}&url=${encodeURIComponent(pageUrl)}`
+    ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(pageTitle)}&url=${encodeURIComponent(buildShareUrl("twitter"))}`
     : "";
   const emailUrl = pageUrl
-    ? `mailto:?subject=${encodeURIComponent(t("emailSubject"))}&body=${encodeURIComponent(t("emailBody") + "\n\n" + pageUrl)}`
+    ? `mailto:?subject=${encodeURIComponent(t("emailSubject"))}&body=${encodeURIComponent(t("emailBody") + "\n\n" + buildShareUrl("email"))}`
     : "";
 
   // 按钮样式

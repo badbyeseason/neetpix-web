@@ -9,6 +9,8 @@ import {
   detectContentType,
   type QrContentInfo,
 } from "@/lib/qr-decode";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024; // 20MB
 
@@ -49,6 +51,8 @@ export default function QrDecodeClient() {
         } else {
           setResult(text);
           setContentInfo(detectContentType(text));
+          trackEvent("tool-used", { toolKey: "qrDecode" });
+          addRecentTool("qrDecode");
         }
       } catch {
         setError(t("noQrFound"));

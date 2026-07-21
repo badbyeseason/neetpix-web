@@ -21,10 +21,14 @@ export default function Feedback() {
     }
   }, [open]);
 
-  const mailtoHref = `mailto:im.badbye@gmail.com?subject=${encodeURIComponent("Neetpix Feedback")}`;
+  const email = 'im.badbye' + '@' + 'gmail.com';
+  const handleEmailClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent("Neetpix Feedback")}`;
+  };
 
   return (
-    <div ref={ref} className="fixed bottom-6 right-6 z-50">
+    <div ref={ref} className="fixed bottom-6 right-6 z-40">
       {/* 浮动按钮 */}
       <button
         onClick={() => setOpen(!open)}
@@ -43,7 +47,8 @@ export default function Feedback() {
 
           {/* 邮件反馈 */}
           <a
-            href={mailtoHref}
+            href="#"
+            onClick={handleEmailClick}
             className="block rounded-xl border border-border bg-bg-warm p-3 hover:border-teal-light transition-colors"
           >
             <p className="text-sm font-medium text-text flex items-center gap-2">

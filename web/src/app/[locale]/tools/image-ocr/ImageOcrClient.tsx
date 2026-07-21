@@ -4,6 +4,8 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Logo from "@/components/ui/Logo";
 import { recognizeText, type OcrLang } from "@/lib/image-ocr";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 // 处理状态机：idle → processing → done / error
 type Status = "idle" | "processing" | "done" | "error";
@@ -128,6 +130,8 @@ export default function ImageOcrClient() {
     try {
       await navigator.clipboard.writeText(resultText);
       setCopied(true);
+      trackEvent("tool-used", { toolKey: "imageOcr" });
+      addRecentTool("imageOcr");
       setTimeout(() => setCopied(false), 2000);
     } catch {
       // 忽略剪贴板错误

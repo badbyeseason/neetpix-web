@@ -10,6 +10,8 @@ import {
   type IdPhotoSize,
   type BgColor,
 } from "@/lib/image-id-photo";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 type Status = "idle" | "processing" | "done" | "error";
 type Stage = "removingBg" | "compositing";
@@ -329,6 +331,10 @@ export default function ImageIdPhotoClient() {
             <a
               href={result}
               download="neetpix-id-photo.jpg"
+              onClick={() => {
+                trackEvent("tool-used", { toolKey: "imageIdPhoto" });
+                addRecentTool("imageIdPhoto");
+              }}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

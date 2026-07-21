@@ -4,6 +4,8 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Logo from "@/components/ui/Logo";
 import { removeBackgroundAI } from "@/lib/remove-background";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 type Status = "idle" | "loading" | "processing" | "done" | "error";
 
@@ -206,6 +208,10 @@ export default function RemoveBackgroundClient() {
             <a
               href={result}
               download="neetpix-removed-background.png"
+              onClick={() => {
+                trackEvent("tool-used", { toolKey: "removeBackground" });
+                addRecentTool("removeBackground");
+              }}
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

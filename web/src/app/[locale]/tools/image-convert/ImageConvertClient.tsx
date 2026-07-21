@@ -12,6 +12,8 @@ import {
   isHeicFile,
   type TargetFormat,
 } from "@/lib/image-convert";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 // 单张图片最大尺寸 20MB
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
@@ -197,6 +199,8 @@ export default function ImageConvertClient() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    trackEvent("tool-used", { toolKey: "imageConvert" });
+    addRecentTool("imageConvert");
   }, []);
 
   // 批量下载（ZIP）
@@ -206,6 +210,8 @@ export default function ImageConvertClient() {
     await downloadZip(
       items.map((i) => ({ name: i.result!.name, blob: i.result!.blob }))
     );
+    trackEvent("tool-used", { toolKey: "imageConvert" });
+    addRecentTool("imageConvert");
   }, []);
 
   // 批量转换所有图片
