@@ -3,10 +3,18 @@ import type { MetadataRoute } from "next";
 // robots.txt 配置
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: "*",
-      allow: "/",
-    },
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/api/", "/_next/", "/private/"],
+      },
+      {
+        userAgent: "*",
+        disallow: ["/*?utm_*", "/*?fbclid=*"],
+      },
+    ],
     sitemap: "https://neetpix.com/sitemap.xml",
+    host: "https://neetpix.com",
   };
 }

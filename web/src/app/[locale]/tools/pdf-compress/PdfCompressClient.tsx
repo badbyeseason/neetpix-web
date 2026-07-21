@@ -8,6 +8,7 @@ import {
   detectImageOnlyPdf,
 } from "@/lib/pdf-compress";
 import Logo from "@/components/ui/Logo";
+import { trackEvent } from "@/lib/analytics";
 
 type Status = "idle" | "processing" | "done" | "error";
 type Level = "light" | "strong";
@@ -148,6 +149,7 @@ export default function PdfCompressClient() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      trackEvent("tool-used", { toolKey: "pdfCompress" });
       setStatus("done");
     } catch (err) {
       console.error("Compress error:", err);

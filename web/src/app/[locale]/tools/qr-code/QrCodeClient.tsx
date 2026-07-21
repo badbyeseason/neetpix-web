@@ -8,6 +8,7 @@ import {
   generateQrSvg,
   type QrErrorLevel,
 } from "@/lib/qr-generator";
+import { trackEvent } from "@/lib/analytics";
 
 type TabKey = "text" | "url" | "email" | "wifi" | "vcard";
 type WifiEnc = "WPA" | "WEP" | "nopass";
@@ -168,6 +169,7 @@ export default function QrCodeClient() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    trackEvent("tool-used", { toolKey: "qrCode" });
   }, [qrDataUrl]);
 
   // 下载 SVG：生成 SVG 字符串 → Blob → objectURL → 下载
@@ -189,6 +191,7 @@ export default function QrCodeClient() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      trackEvent("tool-used", { toolKey: "qrCode" });
       window.dispatchEvent(new CustomEvent("tool-download-complete"));
       // 延迟释放，确保下载已开始
       setTimeout(() => {

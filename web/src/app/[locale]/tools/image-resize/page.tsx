@@ -2,11 +2,13 @@ import { getTranslations } from "next-intl/server";
 import ImageResizeClient from "./ImageResizeClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import UseCases from "@/components/seo/UseCases";
 import RelatedTools from "@/components/seo/RelatedTools";
+import Breadcrumb from "@/components/seo/Breadcrumb";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import ShareBar from "@/components/ShareBar";
 import FeedbackBar from "@/components/FeedbackBar";
-import { buildI18nMetadata } from "@/lib/seo";
+import { buildI18nMetadata, getToolBreadcrumbItems } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -36,6 +38,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function ImageResizePage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "imageResize" });
+  const breadcrumbItems = await getToolBreadcrumbItems("imageResize", locale);
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
       <JsonLd
@@ -48,8 +51,10 @@ export default async function ImageResizePage({ params }: Props) {
         }
         locale={locale}
       />
+      <Breadcrumb items={breadcrumbItems} />
       <PrivacyBadge locale={locale} />
       <ImageResizeClient />
+      <UseCases toolKey="imageResize" locale={locale} />
       <Faq tool="imageResize" locale={locale} />
       <FeedbackBar toolNameKey="imageResize" />
       <RelatedTools

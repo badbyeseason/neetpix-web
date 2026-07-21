@@ -10,6 +10,7 @@ import {
   type CompressResult,
   type OutputFormat,
 } from "@/lib/image-compress";
+import { trackEvent } from "@/lib/analytics";
 
 // 单张图片最大尺寸 20MB
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
@@ -143,6 +144,7 @@ export default function ImageCompressClient() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      trackEvent("tool-used", { toolKey: "imageCompress" });
     },
     [format]
   );
@@ -157,6 +159,7 @@ export default function ImageCompressClient() {
         blob: i.result!.blob,
       }))
     );
+    trackEvent("tool-used", { toolKey: "imageCompress" });
   }, [images, format]);
 
   // 参数变化或图片数量变化时（debounce 300ms）自动重新压缩

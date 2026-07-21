@@ -4,6 +4,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { PDFDocument } from "pdf-lib";
 import Logo from "@/components/ui/Logo";
+import { trackEvent } from "@/lib/analytics";
 
 type Status = "idle" | "processing" | "done" | "error";
 
@@ -154,6 +155,7 @@ export default function PdfMergeClient() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      trackEvent("tool-used", { toolKey: "pdfMerge" });
       setStatus("done");
     } catch (err) {
       console.error("Merge error:", err);

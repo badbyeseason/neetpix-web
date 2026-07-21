@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { trackEvent } from "@/lib/analytics";
 
 type Props = {
   toolNameKey: string; // 如 "pdfEncrypt" / "qrCode" 等，用于 t(toolNameKey + ".name")
@@ -27,6 +28,7 @@ export default function FeedbackBar({ toolNameKey }: Props) {
         <p className="text-text-secondary">{t("title")}</p>
         <a
           href={mailtoUrl}
+          onClick={() => trackEvent("feedback-clicked", { toolKey: toolNameKey })}
           className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-border bg-bg-warm text-text hover:border-teal-light hover:text-text transition-colors"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

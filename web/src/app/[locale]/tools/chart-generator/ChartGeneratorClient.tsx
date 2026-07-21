@@ -17,6 +17,7 @@ import {
   type ChartSeries,
   type LegendPosition,
 } from "@/lib/chart-generator";
+import { trackEvent } from "@/lib/analytics";
 
 const CHART_WIDTH = 800;
 const CHART_HEIGHT = 500;
@@ -415,6 +416,7 @@ export default function ChartGeneratorClient() {
       a.download = "chart.png";
       document.body.appendChild(a);
       a.click();
+      trackEvent("tool-used", { toolKey: "chartGenerator" });
       window.dispatchEvent(new CustomEvent("tool-download-complete"));
       document.body.removeChild(a);
       // 延迟释放，确保下载已开始
@@ -440,6 +442,7 @@ export default function ChartGeneratorClient() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      trackEvent("tool-used", { toolKey: "chartGenerator" });
       window.dispatchEvent(new CustomEvent("tool-download-complete"));
       setTimeout(() => {
         URL.revokeObjectURL(url);

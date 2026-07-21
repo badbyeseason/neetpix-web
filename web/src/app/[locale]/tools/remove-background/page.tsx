@@ -2,11 +2,14 @@ import { getTranslations } from "next-intl/server";
 import RemoveBackgroundClient from "./RemoveBackgroundClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import UseCases from "@/components/seo/UseCases";
 import RelatedTools from "@/components/seo/RelatedTools";
+import LearnMore from "@/components/seo/LearnMore";
+import Breadcrumb from "@/components/seo/Breadcrumb";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import ShareBar from "@/components/ShareBar";
 import FeedbackBar from "@/components/FeedbackBar";
-import { buildI18nMetadata } from "@/lib/seo";
+import { buildI18nMetadata, getToolBreadcrumbItems } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -36,6 +39,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function RemoveBackgroundPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "removeBackground" });
+  const breadcrumbItems = await getToolBreadcrumbItems("removeBackground", locale);
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
       <JsonLd
@@ -44,10 +48,13 @@ export default async function RemoveBackgroundPage({ params }: Props) {
         url={locale === "en" ? "https://neetpix.com/tools/remove-background" : "https://neetpix.com/zh/tools/remove-background"}
         locale={locale}
       />
+      <Breadcrumb items={breadcrumbItems} />
       <PrivacyBadge locale={locale} />
       <RemoveBackgroundClient />
+      <UseCases toolKey="removeBackground" locale={locale} />
       <Faq tool="removeBackground" locale={locale} />
       <FeedbackBar toolNameKey="removeBackground" />
+      <LearnMore slug="remove-background-free" toolKey="removeBackground" locale={locale} />
       <RelatedTools tools={["imageCompress", "imageWatermark", "imageToPdf", "imageConvert", "imageExif", "imageResize", "imageIdPhoto", "imageOcr", "imageBlur", "imageGridSplit"]} locale={locale} />
       <ShareBar />
     </div>

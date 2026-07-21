@@ -4,13 +4,31 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { TOOL_LIST } from "@/lib/tools-metadata";
+import enMessages from "@/messages/en.json";
+import zhMessages from "@/messages/zh.json";
 
 const OPEN_EVENT = "open-command-palette";
 const MAX_RESULTS = 10;
 
+// 按点分路径从 messages 中取字符串，用于跨 locale 搜索匹配
+function pickMessage(
+  messages: Record<string, unknown>,
+  path: string,
+): string {
+  const value = path.split(".").reduce<unknown>((acc, key) => {
+    if (acc && typeof acc === "object" && key in (acc as Record<string, unknown>)) {
+      return (acc as Record<string, unknown>)[key];
+    }
+    return undefined;
+  }, messages);
+  return typeof value === "string" ? value : "";
+}
+
 export default function CommandPalette() {
   const t = useTranslations("commandPalette");
-  const tTools = useTranslations("tools");
+  // nameKey/descKey 在 tools-metadata.ts 中已是完整路径（如 "tools.pdfMerge.name"），
+  // 因此这里不指定 namespace，直接用完整路径解析
+  const tTools = useTranslations();
   const tBadges = useTranslations("badges");
   const router = useRouter();
 
@@ -91,8 +109,18 @@ export default function CommandPalette() {
     const matched = TOOL_LIST.filter((tool) => {
       const name = tTools(tool.nameKey);
       const desc = tTools(tool.descKey);
+      // 跨 locale 匹配：中文 locale 下输入 "compress" 也能命中 "图片压缩"
+      const enName = pickMessage(enMessages, tool.nameKey);
+      const enDesc = pickMessage(enMessages, tool.descKey);
+      const zhName = pickMessage(zhMessages, tool.nameKey);
+      const zhDesc = pickMessage(zhMessages, tool.descKey);
       return (
-        name.toLowerCase().includes(q) || desc.toLowerCase().includes(q)
+        name.toLowerCase().includes(q) ||
+        desc.toLowerCase().includes(q) ||
+        enName.toLowerCase().includes(q) ||
+        enDesc.toLowerCase().includes(q) ||
+        zhName.toLowerCase().includes(q) ||
+        zhDesc.toLowerCase().includes(q)
       );
     });
     return matched.slice(0, MAX_RESULTS);

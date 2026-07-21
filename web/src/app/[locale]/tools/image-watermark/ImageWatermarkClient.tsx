@@ -11,6 +11,7 @@ import {
   type WatermarkResult,
   type WatermarkPosition,
 } from "@/lib/image-watermark";
+import { trackEvent } from "@/lib/analytics";
 
 // 单张图片最大尺寸 20MB
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
@@ -266,6 +267,7 @@ export default function ImageWatermarkClient() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    trackEvent("tool-used", { toolKey: "imageWatermark" });
     window.dispatchEvent(new CustomEvent("tool-download-complete"));
   }, []);
 
@@ -279,6 +281,7 @@ export default function ImageWatermarkClient() {
         blob: i.result!.blob,
       }))
     );
+    trackEvent("tool-used", { toolKey: "imageWatermark" });
   }, [images]);
 
   // 处理 logo 上传（单张图片）

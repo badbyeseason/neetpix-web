@@ -2,11 +2,13 @@ import { getTranslations, getMessages } from "next-intl/server";
 import QrDecodeClient from "./QrDecodeClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import UseCases from "@/components/seo/UseCases";
 import RelatedTools from "@/components/seo/RelatedTools";
+import Breadcrumb from "@/components/seo/Breadcrumb";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
 import ShareBar from "@/components/ShareBar";
 import FeedbackBar from "@/components/FeedbackBar";
-import { buildI18nMetadata } from "@/lib/seo";
+import { buildI18nMetadata, getToolBreadcrumbItems } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -36,6 +38,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function QrDecodePage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "qrDecode" });
+  const breadcrumbItems = await getToolBreadcrumbItems("qrDecode", locale);
   const messages = await getMessages();
   const faq = (messages as Record<string, Record<string, string> | undefined>).faq;
   const hasFaq = Boolean(
@@ -60,8 +63,10 @@ export default async function QrDecodePage({ params }: Props) {
         }
         locale={locale}
       />
+      <Breadcrumb items={breadcrumbItems} />
       <PrivacyBadge locale={locale} />
       <QrDecodeClient />
+      <UseCases toolKey="qrDecode" locale={locale} />
       {hasFaq && <Faq tool="qrDecode" locale={locale} />}
       <FeedbackBar toolNameKey="qrDecode" />
       <RelatedTools

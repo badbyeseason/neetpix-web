@@ -17,17 +17,17 @@ export async function generateMetadata({ params }: Props) {
   // 使用 absolute 覆盖根 layout 的 title template，避免 "Neetpix - Neetpix" 重复
   return {
     title: { absolute: tHome("title") },
-    description: t("subtitle"),
+    description: tHome("metaDescription"),
     alternates: buildI18nMetadata("", locale),
     openGraph: {
       title: t("title"),
-      description: t("subtitle"),
+      description: tHome("metaDescription"),
       images: ["/og-image.png"],
     },
     twitter: {
       card: "summary_large_image",
       title: t("title"),
-      description: t("subtitle"),
+      description: tHome("metaDescription"),
       images: ["/og-image.png"],
     },
   };

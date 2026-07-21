@@ -4,6 +4,7 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { PDFDocument } from "pdf-lib";
 import Logo from "@/components/ui/Logo";
+import { trackEvent } from "@/lib/analytics";
 
 type Status = "idle" | "processing" | "done" | "error";
 
@@ -347,6 +348,7 @@ export default function PdfSplitClient() {
                 <a
                   href={r.url}
                   download={`neetpix-split-${r.range}.pdf`}
+                  onClick={() => trackEvent("tool-used", { toolKey: "pdfSplit" })}
                   className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors"
                 >
                   <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">

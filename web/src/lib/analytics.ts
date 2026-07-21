@@ -1,43 +1,35 @@
 /**
- * GA4 事件追踪工具
- * 在未配置 GA4 时不执行任何操作
+ * 自定义事件埋点（兼容 GA4 gtag + 百度统计 _hmt）
+ * SSR 安全：在服务端调用时静默返回
  */
 
 type GtagCommand = (...args: unknown[]) => void;
 
-interface GtagWindow extends Window {
+interface AnalyticsWindow extends Window {
   gtag?: GtagCommand;
+  _hmt?: unknown[];
 }
 
-function getGtag(): GtagCommand | undefined {
-  if (typeof window === "undefined") return undefined;
-  return (window as GtagWindow).gtag;
-}
+export function trackEvent(eventName: string, payload?: Record<string, unknown>): void {
+  if (typeof window === "undefined") return;
+  const w = window as AnalyticsWindow;
 
-export function trackPageView(url: string) {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
-  if (!gaId) return;
-  // GA4 自动追踪 page_view，此函数用于手动追踪 SPA 路由变化
-  const gtag = getGtag();
-  if (typeof gtag === "function") {
-    gtag("config", gaId, { page_path: url });
+  // GA4
+  if (typeof w.gtag === "function") {
+    try {
+      w.gtag("event", eventName, payload || {});
+    } catch {}
   }
-}
 
-export function trackEvent(
-  action: string,
-  category: string,
-  label?: string,
-  value?: number,
-) {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
-  if (!gaId) return;
-  const gtag = getGtag();
-  if (typeof gtag === "function") {
-    gtag("event", action, {
-      event_category: category,
-      event_label: label,
-      value: value,
-    });
+  // 百度统计（_hmt.push(['_trackEvent', category, action, opt_label, opt_value])）
+  if (Array.isArray(w._hmt)) {
+    try {
+      w._hmt.push(["_trackEvent", "user_action", eventName, payload ? JSON.stringify(payload) : ""]);
+    } catch {}
+  }
+
+  // 调试输出（仅开发环境）
+  if (process.env.NODE_ENV === "development") {
+    console.debug("[analytics]", eventName, payload);
   }
 }

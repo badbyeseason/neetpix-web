@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { generateQrPng } from "@/lib/qr-generator";
+import { trackEvent } from "@/lib/analytics";
 
 export default function ShareBar() {
   const t = useTranslations("share");
@@ -36,12 +37,14 @@ export default function ShareBar() {
       await navigator.clipboard.writeText(pageUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
+      trackEvent("share-clicked", { channel: "copy" });
     } catch {}
   }, [pageUrl]);
 
   const handleSystemShare = useCallback(async () => {
     try {
       await navigator.share({ title: document.title, url: pageUrl });
+      trackEvent("share-clicked", { channel: "system" });
     } catch {}
   }, [pageUrl]);
 
@@ -70,15 +73,15 @@ export default function ShareBar() {
             {t("systemShare")}
           </button>
         )}
-        <button type="button" onClick={() => setShowWechat(true)} className={btnClass}>
+        <button type="button" onClick={() => { trackEvent("share-clicked", { channel: "wechat" }); setShowWechat(true); }} className={btnClass}>
           <span className="text-base">💬</span>
           {t("wechat")}
         </button>
-        <a href={tweetUrl} target="_blank" rel="noopener" className={btnClass}>
+        <a href={tweetUrl} target="_blank" rel="noopener" onClick={() => trackEvent("share-clicked", { channel: "twitter" })} className={btnClass}>
           <span className="text-base">🐦</span>
           {t("twitter")}
         </a>
-        <a href={emailUrl} className={btnClass}>
+        <a href={emailUrl} onClick={() => trackEvent("share-clicked", { channel: "email" })} className={btnClass}>
           <span className="text-base">✉️</span>
           {t("email")}
         </a>
@@ -100,7 +103,7 @@ export default function ShareBar() {
             <h3 id="wechat-modal-title" className="text-lg font-bold text-text mb-2">{t("wechatTitle")}</h3>
             <p className="text-sm text-text-secondary mb-4">{t("wechatHint")}</p>
             {qrDataUrl ? (
-              <img src={qrDataUrl} alt="QR Code" className="mx-auto w-48 h-48" />
+              <img src={qrDataUrl} alt={t("wechatQrAlt")} className="mx-auto w-48 h-48" />
             ) : (
               <div className="mx-auto w-48 h-48 flex items-center justify-center text-text-secondary text-sm">Loading...</div>
             )}
