@@ -11,9 +11,11 @@ export default function ShareBar() {
   const [qrDataUrl, setQrDataUrl] = useState("");
   const [canShare, setCanShare] = useState(false);
   const [pageUrl, setPageUrl] = useState("");
+  const [pageTitle, setPageTitle] = useState("");
 
   useEffect(() => {
     setPageUrl(window.location.href);
+    setPageTitle(document.title);
     setCanShare(typeof navigator !== "undefined" && !!navigator.share);
   }, []);
 
@@ -43,8 +45,12 @@ export default function ShareBar() {
     } catch {}
   }, [pageUrl]);
 
-  const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(document.title)}&url=${encodeURIComponent(pageUrl)}`;
-  const emailUrl = `mailto:?subject=${encodeURIComponent(t("emailSubject"))}&body=${encodeURIComponent(t("emailBody") + "\n\n" + pageUrl)}`;
+  const tweetUrl = pageTitle
+    ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(pageTitle)}&url=${encodeURIComponent(pageUrl)}`
+    : "";
+  const emailUrl = pageUrl
+    ? `mailto:?subject=${encodeURIComponent(t("emailSubject"))}&body=${encodeURIComponent(t("emailBody") + "\n\n" + pageUrl)}`
+    : "";
 
   // 按钮样式
   const btnClass = "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium border border-border bg-bg-warm text-text-secondary hover:text-text hover:border-teal-light transition-colors";
