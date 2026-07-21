@@ -4,6 +4,8 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Logo from "@/components/ui/Logo";
 import { cropPdf, type CropMargins } from "@/lib/pdf-crop";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 type Status = "idle" | "processing" | "done" | "error";
 
@@ -140,6 +142,8 @@ export default function PdfCropClient() {
       document.body.removeChild(a);
       // 保留下载链接，便于用户手动重新下载
       setDownloadUrl(url);
+      trackEvent("tool-used", { toolKey: "pdfCrop" });
+      addRecentTool("pdfCrop");
       setStatus("done");
     } catch (err) {
       console.error("Crop error:", err);

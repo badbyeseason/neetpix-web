@@ -8,11 +8,10 @@ import {
   detectImageOnlyPdf,
 } from "@/lib/pdf-compress";
 import Logo from "@/components/ui/Logo";
+import { trackEvent } from "@/lib/analytics";
 
 type Status = "idle" | "processing" | "done" | "error";
 type Level = "light" | "strong";
-
-const MAX_SIZE = 100 * 1024 * 1024;
 
 function formatFileSize(bytes: number): string {
   if (bytes < 1024) return bytes + " B";
@@ -49,11 +48,6 @@ export default function PdfCompressClient() {
         selected.name.toLowerCase().endsWith(".pdf");
       if (!isPdf) {
         setErrorMsg(t("errorFormat"));
-        setStatus("error");
-        return;
-      }
-      if (selected.size > MAX_SIZE) {
-        setErrorMsg(t("errorSize"));
         setStatus("error");
         return;
       }
@@ -148,10 +142,17 @@ export default function PdfCompressClient() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      trackEvent("tool-used", { toolKey: "pdfCompress" });
       setStatus("done");
     } catch (err) {
       console.error("Compress error:", err);
-      setErrorMsg(t("errorParse"));
+      const errMsg = err instanceof Error ? err.message.toLowerCase() : "";
+      const isMemoryError =
+        err instanceof RangeError ||
+        errMsg.includes("memory") ||
+        errMsg.includes("allocation") ||
+        errMsg.includes("out of memory");
+      setErrorMsg(isMemoryError ? t("memoryError") : t("errorParse"));
       setStatus("error");
     } finally {
       setProgress(null);

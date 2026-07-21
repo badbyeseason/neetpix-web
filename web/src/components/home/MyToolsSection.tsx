@@ -48,6 +48,9 @@ export default function MyToolsSection() {
             );
           })}
         </div>
+        <p className="mt-4 text-center text-xs text-text-secondary">
+          {t("favorites.addHint")}
+        </p>
       </div>
     </section>
   );

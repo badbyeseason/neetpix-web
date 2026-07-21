@@ -2,13 +2,14 @@
 
 import { useRef, useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
+import { useRouter } from "next/navigation";
 import Logo from "@/components/ui/Logo";
 import { pdfToWord } from "@/lib/pdf-to-word";
+import { isScannedPdf } from "@/lib/pdf-scan-detect";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 type Status = "idle" | "processing" | "done" | "error";
-
-// 文件大小上限：50MB
-const MAX_SIZE = 50 * 1024 * 1024;
 
 // 将字节数格式化为 KB / MB 显示
 function formatFileSize(bytes: number): string {
@@ -19,12 +20,16 @@ function formatFileSize(bytes: number): string {
 
 export default function PdfToWordClient() {
   const t = useTranslations("pdfToWord");
+  const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [progress, setProgress] = useState<{ current: number; total: number } | null>(null);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
+  // 扫描件检测相关状态
+  const [showScanWarning, setShowScanWarning] = useState(false);
+  const [detecting, setDetecting] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // 校验并设置选中的文件
@@ -36,12 +41,6 @@ export default function PdfToWordClient() {
         selected.name.toLowerCase().endsWith(".pdf");
       if (!isPdf) {
         setErrorMsg(t("errorFormat"));
-        setStatus("error");
-        return;
-      }
-      // 大小校验：≤ 50MB
-      if (selected.size > MAX_SIZE) {
-        setErrorMsg(t("errorSize"));
         setStatus("error");
         return;
       }
@@ -76,11 +75,13 @@ export default function PdfToWordClient() {
     setProgress(null);
     setErrorMsg("");
     setStatus("idle");
+    setShowScanWarning(false);
+    setDetecting(false);
     if (inputRef.current) inputRef.current.value = "";
   }, []);
 
-  // 执行 PDF 转 Word 转换
-  const convert = useCallback(async () => {
+  // 执行 PDF 转 Word 转换（实际转换逻辑，跳过扫描件检测）
+  const runConversion = useCallback(async () => {
     if (!file) return;
     setStatus("processing");
     setProgress(null);
@@ -102,13 +103,52 @@ export default function PdfToWordClient() {
         if (prev) URL.revokeObjectURL(prev);
         return url;
       });
+      trackEvent("tool-used", { toolKey: "pdfToWord" });
+      addRecentTool("pdfToWord");
       setStatus("done");
     } catch (err) {
       console.error("Conversion error:", err);
-      setErrorMsg(t("errorParse"));
+      const errMsg = err instanceof Error ? err.message.toLowerCase() : "";
+      const isMemoryError =
+        err instanceof RangeError ||
+        errMsg.includes("memory") ||
+        errMsg.includes("allocation") ||
+        errMsg.includes("out of memory");
+      setErrorMsg(isMemoryError ? t("memoryError") : t("errorParse"));
       setStatus("error");
     }
   }, [file, t]);
+
+  // 转换入口：先检测是否为扫描件，如是则弹出警告；否则直接转换
+  const convert = useCallback(async () => {
+    if (!file) return;
+    // 仅在首次触发转换时检测（showScanWarning 已为 true 时不重复检测）
+    if (!showScanWarning) {
+      setDetecting(true);
+      const scanned = await isScannedPdf(file);
+      setDetecting(false);
+      if (scanned) {
+        setShowScanWarning(true);
+        return;
+      }
+    }
+    await runConversion();
+  }, [file, showScanWarning, runConversion]);
+
+  // 用户确认继续转换（跳过扫描件检测）
+  const confirmConvert = useCallback(async () => {
+    setShowScanWarning(false);
+    await runConversion();
+  }, [runConversion]);
+
+  // 跳转到 OCR 工具（按当前 locale 自动加前缀）
+  const goToOcrTool = useCallback(() => {
+    const path = window.location.pathname;
+    const base = path.startsWith("/zh")
+      ? "/zh/tools/image-ocr"
+      : "/tools/image-ocr";
+    router.push(base);
+  }, [router]);
 
   // 重置全部状态，回到初始上传界面
   const reset = useCallback(() => {
@@ -118,6 +158,8 @@ export default function PdfToWordClient() {
     setErrorMsg("");
     setDownloadUrl(null);
     setStatus("idle");
+    setShowScanWarning(false);
+    setDetecting(false);
     if (inputRef.current) inputRef.current.value = "";
   }, [downloadUrl]);
 
@@ -195,25 +237,69 @@ export default function PdfToWordClient() {
             </button>
           </div>
 
-          {/* 转换质量说明 */}
-          <div className="rounded-xl bg-bg-article border border-border px-4 py-3 flex items-start gap-3">
-            <svg className="w-5 h-5 text-coral-light flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <p className="text-sm text-text-secondary">{t("qualityNote")}</p>
-          </div>
+          {/* 扫描件警告：检测到扫描件时显示，替换质量说明 + 转换按钮 */}
+          {showScanWarning ? (
+            <div className="rounded-2xl border border-amber-200 bg-amber-50 p-5 space-y-4">
+              <div className="flex items-start gap-3">
+                <svg className="w-6 h-6 text-amber-500 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4.5c-.77-.833-2.694-.833-3.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+                <div className="flex-1">
+                  <p className="text-base font-semibold text-amber-800">{t("scanWarning.title")}</p>
+                  <p className="mt-1 text-sm text-amber-700 leading-relaxed">{t("scanWarning.description")}</p>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3 justify-end">
+                <button
+                  onClick={confirmConvert}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full border border-border bg-white text-text font-semibold text-sm hover:bg-bg-warm transition-colors"
+                >
+                  {t("scanWarning.continue")}
+                </button>
+                <button
+                  onClick={goToOcrTool}
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors"
+                >
+                  {t("scanWarning.useOcr")}
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              {/* 转换质量说明 */}
+              <div className="rounded-xl bg-bg-article border border-border px-4 py-3 flex items-start gap-3">
+                <svg className="w-5 h-5 text-coral-light flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p className="text-sm text-text-secondary">{t("qualityNote")}</p>
+              </div>
 
-          <div className="flex justify-center">
-            <button
-              onClick={convert}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-              </svg>
-              {t("convert")}
-            </button>
-          </div>
+              <div className="flex justify-center">
+                <button
+                  onClick={convert}
+                  disabled={detecting}
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                >
+                  {detecting ? (
+                    <>
+                      <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      {t("detecting")}
+                    </>
+                  ) : (
+                    <>
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                      </svg>
+                      {t("convert")}
+                    </>
+                  )}
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
 

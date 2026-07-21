@@ -8,6 +8,8 @@ import {
   type PageSize,
   type Orientation,
 } from "@/lib/image-to-pdf";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 // 单张图片最大尺寸 20MB
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
@@ -183,6 +185,8 @@ export default function ImageToPdfClient() {
       a.click();
       document.body.removeChild(a);
 
+      trackEvent("tool-used", { toolKey: "imageToPdf" });
+      addRecentTool("imageToPdf");
       setStatus("done");
     } catch (err) {
       console.error("Generate PDF error:", err);

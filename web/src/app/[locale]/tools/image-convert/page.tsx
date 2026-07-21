@@ -2,9 +2,13 @@ import { getTranslations } from "next-intl/server";
 import ImageConvertClient from "./ImageConvertClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import UseCases from "@/components/seo/UseCases";
 import RelatedTools from "@/components/seo/RelatedTools";
+import Breadcrumb from "@/components/seo/Breadcrumb";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import { buildI18nMetadata } from "@/lib/seo";
+import ShareBar from "@/components/ShareBar";
+import FeedbackBar from "@/components/FeedbackBar";
+import { buildI18nMetadata, getToolBreadcrumbItems } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -35,6 +39,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function ImageConvertPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "imageConvert" });
+  const breadcrumbItems = await getToolBreadcrumbItems("imageConvert", locale);
   return (
     <div className="mx-auto max-w-4xl px-4 py-12 sm:py-16">
       <JsonLd
@@ -47,13 +52,17 @@ export default async function ImageConvertPage({ params }: Props) {
         }
         locale={locale}
       />
+      <Breadcrumb items={breadcrumbItems} />
       <PrivacyBadge locale={locale} />
       <ImageConvertClient />
+      <UseCases toolKey="imageConvert" locale={locale} />
       <Faq tool="imageConvert" locale={locale} />
+      <FeedbackBar toolNameKey="imageConvert" />
       <RelatedTools
         tools={["imageToPdf", "imageCompress", "imageWatermark", "removeBackground", "imageIdPhoto", "imageOcr", "imageBlur", "imageGridSplit"]}
         locale={locale}
       />
+      <ShareBar />
     </div>
   );
 }

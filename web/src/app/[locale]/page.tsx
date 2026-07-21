@@ -4,6 +4,7 @@ import Link from "next/link";
 import Logo from "@/components/ui/Logo";
 import ToolCard from "@/components/home/ToolCard";
 import MyToolsSection from "@/components/home/MyToolsSection";
+import RecentTools from "@/components/RecentTools";
 import { buildI18nMetadata } from "@/lib/seo";
 
 type Props = {
@@ -17,17 +18,17 @@ export async function generateMetadata({ params }: Props) {
   // 使用 absolute 覆盖根 layout 的 title template，避免 "Neetpix - Neetpix" 重复
   return {
     title: { absolute: tHome("title") },
-    description: t("subtitle"),
+    description: tHome("metaDescription"),
     alternates: buildI18nMetadata("", locale),
     openGraph: {
       title: t("title"),
-      description: t("subtitle"),
+      description: tHome("metaDescription"),
       images: ["/og-image.png"],
     },
     twitter: {
       card: "summary_large_image",
       title: t("title"),
-      description: t("subtitle"),
+      description: tHome("metaDescription"),
       images: ["/og-image.png"],
     },
   };
@@ -81,8 +82,15 @@ export default async function HomePage({ params }: Props) {
     {
       category: t("nav.categoryGenerator"),
       tools: [
+        { key: "qrDecode", href: "/tools/qr-decode", gradient: "from-coral/10 to-bg-warm", badge: "new" },
         { key: "qrCode", href: "/tools/qr-code", gradient: "from-teal/10 to-bg-warm", badge: "new" },
         { key: "chartGenerator", href: "/tools/chart-generator", gradient: "from-coral-light/10 to-bg-warm", badge: "new" },
+      ],
+    },
+    {
+      category: t("nav.networkTools"),
+      tools: [
+        { key: "fileTransfer", href: "/tools/file-transfer", gradient: "from-teal/10 to-bg-warm", badge: "new" },
       ],
     },
   ];
@@ -102,7 +110,7 @@ export default async function HomePage({ params }: Props) {
           </p>
           <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
-              href="/tools/remove-background"
+              href="/tools/screenshot-translate"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors"
             >
               {t("hero.cta")}
@@ -113,6 +121,8 @@ export default async function HomePage({ params }: Props) {
           </div>
         </div>
       </section>
+
+      <RecentTools />
 
       <MyToolsSection />
 

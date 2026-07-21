@@ -2,9 +2,13 @@ import { getTranslations, getMessages } from "next-intl/server";
 import ImageGridSplitClient from "./ImageGridSplitClient";
 import JsonLd from "@/components/seo/JsonLd";
 import Faq from "@/components/seo/Faq";
+import UseCases from "@/components/seo/UseCases";
 import RelatedTools from "@/components/seo/RelatedTools";
+import Breadcrumb from "@/components/seo/Breadcrumb";
 import PrivacyBadge from "@/components/ui/PrivacyBadge";
-import { buildI18nMetadata } from "@/lib/seo";
+import ShareBar from "@/components/ShareBar";
+import FeedbackBar from "@/components/FeedbackBar";
+import { buildI18nMetadata, getToolBreadcrumbItems } from "@/lib/seo";
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -34,6 +38,7 @@ export async function generateMetadata({ params }: Props) {
 export default async function ImageGridSplitPage({ params }: Props) {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "imageGridSplit" });
+  const breadcrumbItems = await getToolBreadcrumbItems("imageGridSplit", locale);
   // Faq 条目由后续 Task 6 统一添加；条目就绪前条件渲染，避免 next-intl 缺失键错误
   const messages = await getMessages();
   const faq = (messages as Record<string, Record<string, string> | undefined>)
@@ -58,13 +63,17 @@ export default async function ImageGridSplitPage({ params }: Props) {
         }
         locale={locale}
       />
+      <Breadcrumb items={breadcrumbItems} />
       <PrivacyBadge locale={locale} />
       <ImageGridSplitClient />
+      <UseCases toolKey="imageGridSplit" locale={locale} />
       {hasFaq && <Faq tool="imageGridSplit" locale={locale} />}
+      <FeedbackBar toolNameKey="imageGridSplit" />
       <RelatedTools
         tools={["imageResize", "imageWatermark", "imageConvert", "imageCompress"]}
         locale={locale}
       />
+      <ShareBar />
     </div>
   );
 }

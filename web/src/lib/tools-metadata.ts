@@ -39,6 +39,9 @@ export const TOOL_LIST: ToolMetadata[] = [
   // Generators
   { key: "qrCode", href: "/tools/qr-code", nameKey: "tools.qrCode.name", descKey: "tools.qrCode.desc", badge: "new" },
   { key: "chartGenerator", href: "/tools/chart-generator", nameKey: "tools.chartGenerator.name", descKey: "tools.chartGenerator.desc", badge: "new" },
+  { key: "qrDecode", href: "/tools/qr-decode", nameKey: "tools.qrDecode.name", descKey: "tools.qrDecode.desc", badge: "new" },
+  // Network
+  { key: "fileTransfer", href: "/tools/file-transfer", nameKey: "tools.fileTransfer.name", descKey: "tools.fileTransfer.desc", badge: "new" },
 ];
 
 export const TOOL_MAP: Record<string, ToolMetadata> = TOOL_LIST.reduce(

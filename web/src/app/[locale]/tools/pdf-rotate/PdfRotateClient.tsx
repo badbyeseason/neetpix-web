@@ -4,6 +4,8 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Logo from "@/components/ui/Logo";
 import { rotatePdf } from "@/lib/pdf-rotate";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 type Status = "idle" | "processing" | "done" | "error";
 type Angle = 90 | 180 | 270;
@@ -122,6 +124,8 @@ export default function PdfRotateClient() {
       document.body.removeChild(a);
       // 保留下载链接，便于用户手动重新下载
       setDownloadUrl(url);
+      trackEvent("tool-used", { toolKey: "pdfRotate" });
+      addRecentTool("pdfRotate");
       setStatus("done");
     } catch (err) {
       console.error("Rotate error:", err);

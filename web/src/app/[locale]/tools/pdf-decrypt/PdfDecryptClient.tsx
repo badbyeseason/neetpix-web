@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import Logo from "@/components/ui/Logo";
 import { decryptPdf } from "@/lib/pdf-decrypt";
 import { isPdfEncrypted } from "@/lib/pdf-encrypt";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 type Status = "idle" | "processing" | "done" | "error";
 
@@ -105,6 +107,11 @@ export default function PdfDecryptClient() {
   // 执行 PDF 解密
   const decrypt = useCallback(async () => {
     if (!file) return;
+    // 纯空格密码视为无效
+    if (!password.trim()) {
+      setErrorMsg(t("errorEmptyPassword"));
+      return;
+    }
     setStatus("processing");
     setErrorMsg("");
     try {
@@ -118,8 +125,11 @@ export default function PdfDecryptClient() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      window.dispatchEvent(new CustomEvent("tool-download-complete"));
       // 保留下载链接，便于用户手动重新下载
       setDownloadUrl(url);
+      trackEvent("tool-used", { toolKey: "pdfDecrypt" });
+      addRecentTool("pdfDecrypt");
       setStatus("done");
     } catch (err) {
       console.error("Decrypt error:", err);
@@ -211,6 +221,7 @@ export default function PdfDecryptClient() {
             </div>
             <button
               onClick={removeFile}
+              aria-label={t("remove")}
               className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-text-secondary hover:text-coral hover:bg-coral/10 transition-colors"
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -239,8 +250,12 @@ export default function PdfDecryptClient() {
                 <input
                   type="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setErrorMsg("");
+                  }}
                   placeholder={t("passwordPlaceholder")}
+                  autoComplete="current-password"
                   className="w-full rounded-xl border border-border bg-bg-warm px-4 py-3 text-sm text-text placeholder:text-text-secondary focus:outline-none focus:border-teal focus:ring-1 focus:ring-teal"
                 />
                 <p className="mt-2 text-xs text-text-secondary">{t("passwordHint")}</p>
@@ -318,7 +333,7 @@ export default function PdfDecryptClient() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <p className="text-text font-medium">{t("success")}</p>
+          <p className="text-teal font-semibold text-lg text-center">{t("successMessage")}</p>
           {downloadUrl && (
             <a
               href={downloadUrl}
@@ -350,6 +365,9 @@ export default function PdfDecryptClient() {
         </svg>
         {t("privacy")}
       </div>
+
+      {/* 法律提示 */}
+      <p className="mt-4 text-xs text-text-secondary text-center">{t("legalNote")}</p>
     </div>
   );
 }

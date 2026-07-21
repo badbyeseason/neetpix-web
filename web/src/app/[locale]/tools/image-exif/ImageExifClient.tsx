@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import Logo from "@/components/ui/Logo";
 import { parseExif, stripExif, type ExifData } from "@/lib/image-exif";
 import { formatBytes } from "@/lib/image-watermark";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 // 单张图片最大尺寸 20MB
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
@@ -178,6 +180,8 @@ export default function ImageExifClient() {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
+    trackEvent("tool-used", { toolKey: "imageExif" });
+    addRecentTool("imageExif");
   }, [stripResult, file]);
 
   // EXIF 表格行

@@ -34,7 +34,9 @@ const TOOL_ROUTES: Record<string, string> = {
   screenshotTranslate: "screenshot-translate",
   imageGridSplit: "image-grid-split",
   qrCode: "qr-code",
+  qrDecode: "qr-decode",
   chartGenerator: "chart-generator",
+  fileTransfer: "file-transfer",
 };
 
 // 工具 key → 图标 emoji/渐变（参考首页卡片的图标配置）
@@ -63,7 +65,9 @@ const TOOL_ICONS: Record<string, { emoji: string; gradient: string }> = {
   screenshotTranslate: { emoji: "📸", gradient: "from-coral/10 to-bg-article" },
   imageGridSplit: { emoji: "🔲", gradient: "from-coral/10 to-bg-warm" },
   qrCode: { emoji: "📱", gradient: "from-teal/10 to-bg-warm" },
+  qrDecode: { emoji: "🔍", gradient: "from-coral/10 to-bg-warm" },
   chartGenerator: { emoji: "📊", gradient: "from-coral-light/10 to-bg-warm" },
+  fileTransfer: { emoji: "🌐", gradient: "from-teal/10 to-bg-warm" },
 };
 
 export default function RelatedTools({ tools, locale }: Props) {
@@ -74,7 +78,7 @@ export default function RelatedTools({ tools, locale }: Props) {
     <section className="mt-16 border-t border-border pt-12">
       <h2 className="text-2xl font-bold text-text mb-6">{t("title")}</h2>
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {tools.map((key) => {
+        {tools.slice(0, 6).map((key) => {
           const slug = TOOL_ROUTES[key];
           if (!slug) return null;
           const icon = TOOL_ICONS[key];

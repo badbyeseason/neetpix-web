@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getMessages } from "next-intl/server";
 
 interface FaqProps {
   // 工具名 key，对应 faq namespace 下的前缀，如 "removeBackground"
@@ -6,15 +6,26 @@ interface FaqProps {
   locale: string;
 }
 
-// 工具页底部常见问题区块（server 组件），每个工具渲染 3 条问答
+// 工具页底部常见问题区块（server 组件）。
+// 动态检测 1..N 条 Q&A（最多 6 条），缺失则停止；至少 1 条才渲染区块。
 export default async function Faq({ tool, locale }: FaqProps) {
   const t = await getTranslations({ locale, namespace: "faq" });
+  const messages = await getMessages();
+  const faq = (messages as Record<string, Record<string, string> | undefined>)
+    .faq;
 
-  // 每个工具 3 条 Q/A，key 形如 removeBackground1 / removeBackground1a
-  const questions = [1, 2, 3].map((n) => ({
-    q: t(`${tool}${n}`),
-    a: t(`${tool}${n}a`),
-  }));
+  const questions: { q: string; a: string }[] = [];
+  for (let n = 1; n <= 6; n++) {
+    const qKey = `${tool}${n}`;
+    const aKey = `${tool}${n}a`;
+    if (faq?.[qKey] && faq?.[aKey]) {
+      questions.push({ q: t(qKey), a: t(aKey) });
+    } else {
+      break;
+    }
+  }
+
+  if (questions.length === 0) return null;
 
   const faqLd = {
     "@context": "https://schema.org",

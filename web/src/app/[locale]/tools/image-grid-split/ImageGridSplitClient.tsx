@@ -4,6 +4,8 @@ import { useRef, useState, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Logo from "@/components/ui/Logo";
 import { splitImageToGrid } from "@/lib/image-grid-split";
+import { trackEvent } from "@/lib/analytics";
+import { addRecentTool } from "@/hooks/useRecentTools";
 
 // 单张图片最大尺寸 20MB
 const MAX_FILE_SIZE = 20 * 1024 * 1024;
@@ -172,6 +174,8 @@ export default function ImageGridSplitClient() {
       setDownloadUrl(url);
       // 自动触发下载
       triggerDownload(url, "neetpix-gridsplit.zip");
+      trackEvent("tool-used", { toolKey: "imageGridSplit" });
+      addRecentTool("imageGridSplit");
       setStatus("done");
     } catch (err) {
       console.error("Grid split error:", err);
@@ -387,6 +391,7 @@ export default function ImageGridSplitClient() {
                   {t("splitPreview", {
                     rows: previewGrid.rows,
                     cols: previewGrid.cols,
+                    count: previewGrid.rows * previewGrid.cols,
                   })}
                 </p>
 
@@ -455,10 +460,13 @@ export default function ImageGridSplitClient() {
             <div className="flex flex-col items-center gap-4">
               <button
                 type="button"
-                onClick={() =>
-                  triggerDownload(downloadUrl, "neetpix-gridsplit.zip")
-                }
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors"
+                disabled={!downloadUrl}
+                onClick={() => {
+                  if (downloadUrl) {
+                    triggerDownload(downloadUrl, "neetpix-gridsplit.zip");
+                  }
+                }}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-teal text-white font-semibold text-sm hover:bg-teal-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <svg
                   className="w-4 h-4"

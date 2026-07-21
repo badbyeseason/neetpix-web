@@ -6,13 +6,18 @@ import Logo from "@/components/ui/Logo";
 import {
   renderBarChart,
   renderLineChart,
+  renderAreaChart,
   renderPieChart,
+  renderDoughnutChart,
+  renderRadarChart,
+  parseCsvOrTsv,
   svgToPngBlob,
   COLOR_PALETTES,
   type ChartType,
   type ChartSeries,
   type LegendPosition,
 } from "@/lib/chart-generator";
+import { trackEvent } from "@/lib/analytics";
 
 const CHART_WIDTH = 800;
 const CHART_HEIGHT = 500;
@@ -50,6 +55,19 @@ export default function ChartGeneratorClient() {
   const [legendPosition, setLegendPosition] = useState<LegendPosition>("bottom");
   const [svgString, setSvgString] = useState("");
 
+  // 导入数据模态
+  const [importOpen, setImportOpen] = useState(false);
+  const [importText, setImportText] = useState("");
+  const [importHasHeader, setImportHasHeader] = useState(true);
+  const [importFile, setImportFile] = useState<File | null>(null);
+  const [importError, setImportError] = useState("");
+  const [importSuccess, setImportSuccess] = useState("");
+  const [importDragOver, setImportDragOver] = useState(false);
+
+  const importModalRef = useRef<HTMLDivElement>(null);
+  const importTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   // 下载用 object URL 生命周期管理
   const urlsRef = useRef<string[]>([]);
 
@@ -60,6 +78,58 @@ export default function ChartGeneratorClient() {
       urlsRef.current = [];
     };
   }, []);
+
+  // 导入模态：ESC 关闭 + 焦点陷阱 + 焦点归还
+  useEffect(() => {
+    if (!importOpen) return;
+    const modal = importModalRef.current;
+    if (!modal) return;
+
+    const FOCUSABLE_SELECTOR =
+      'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    const getFocusable = () =>
+      Array.from(modal.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR));
+
+    const focusTimer = setTimeout(() => {
+      const elements = getFocusable();
+      if (elements.length > 0) elements[0].focus();
+    }, 0);
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setImportOpen(false);
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const elements = getFocusable();
+      if (elements.length === 0) return;
+      const first = elements[0];
+      const last = elements[elements.length - 1];
+      const active = document.activeElement;
+      if (e.shiftKey) {
+        if (active === first || !modal.contains(active)) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (active === last || !modal.contains(active)) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleKey);
+    return () => {
+      clearTimeout(focusTimer);
+      window.removeEventListener("keydown", handleKey);
+      if (importTriggerRef.current) {
+        importTriggerRef.current.focus();
+        importTriggerRef.current = null;
+      }
+    };
+  }, [importOpen]);
 
   // 应用当前配色到系列
   const applyPalette = useCallback(
@@ -96,6 +166,12 @@ export default function ChartGeneratorClient() {
         svg = renderBarChart(data, options);
       } else if (chartType === "line") {
         svg = renderLineChart(data, options);
+      } else if (chartType === "area") {
+        svg = renderAreaChart(data, options);
+      } else if (chartType === "doughnut") {
+        svg = renderDoughnutChart(data, options);
+      } else if (chartType === "radar") {
+        svg = renderRadarChart(data, options);
       } else {
         svg = renderPieChart(data, options);
       }
@@ -201,6 +277,132 @@ export default function ChartGeneratorClient() {
     [applyPalette]
   );
 
+  // ===== 数据导入 =====
+  const MAX_IMPORT_BYTES = 1024 * 1024; // 1MB
+  const ALLOWED_EXT = [".csv", ".tsv", ".txt"];
+
+  const validateAndSetFile = useCallback(
+    (file: File | null): void => {
+      if (!file) return;
+      const ext = file.name.toLowerCase().match(/\.[^.]+$/)?.[0] ?? "";
+      if (!ALLOWED_EXT.includes(ext)) {
+        setImportError(t("importError", { error: "Unsupported file type" }));
+        return;
+      }
+      if (file.size > MAX_IMPORT_BYTES) {
+        setImportError(t("importFileTooLarge"));
+        return;
+      }
+      setImportFile(file);
+      setImportError("");
+    },
+    [t]
+  );
+
+  const handleOpenImport = useCallback(() => {
+    setImportText("");
+    setImportFile(null);
+    setImportHasHeader(true);
+    setImportError("");
+    setImportSuccess("");
+    setImportOpen(true);
+  }, []);
+
+  const handleFileInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0] ?? null;
+      validateAndSetFile(file);
+      // 重置 input value 以便重复选择同一文件
+      e.target.value = "";
+    },
+    [validateAndSetFile]
+  );
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      setImportDragOver(false);
+      const file = e.dataTransfer.files?.[0] ?? null;
+      validateAndSetFile(file);
+    },
+    [validateAndSetFile]
+  );
+
+  // 应用解析结果到 state
+  const applyImportResult = useCallback(
+    (
+      newLabels: string[],
+      newSeriesData: number[][],
+      newSeriesLabels: string[]
+    ) => {
+      // 限制为 MAX_SERIES（3）个系列
+      const seriesCount = Math.min(newSeriesData.length, MAX_SERIES);
+      const palette = COLOR_PALETTES[paletteIndex];
+      const newSeries: ChartSeries[] = [];
+      for (let i = 0; i < seriesCount; i++) {
+        newSeries.push({
+          label: newSeriesLabels[i] ?? `Series ${i + 1}`,
+          color: palette[i % palette.length],
+          values: newSeriesData[i],
+        });
+      }
+      // 限制行数为 MAX_ROWS（20）
+      const trimmedLabels = newLabels.slice(0, MAX_ROWS);
+      const trimmedSeries =
+        trimmedLabels.length === newLabels.length
+          ? newSeries
+          : newSeries.map((s) => ({
+              ...s,
+              values: s.values.slice(0, MAX_ROWS),
+            }));
+      setLabels(trimmedLabels);
+      setSeries(trimmedSeries);
+      setImportError("");
+      setImportSuccess(
+        t("importSuccess", {
+          rows: trimmedLabels.length,
+          cols: seriesCount,
+        })
+      );
+      // 关闭模态
+      setImportOpen(false);
+    },
+    [paletteIndex, t]
+  );
+
+  const handleImportConfirm = useCallback(() => {
+    // 优先使用粘贴文本，否则用上传文件内容
+    const sourceText = importText.trim() || "";
+    if (!sourceText && importFile) {
+      // 读取文件内容
+      importFile.text().then((content) => {
+        const result = parseCsvOrTsv(content, importHasHeader);
+        if ("error" in result) {
+          setImportError(t("importError", { error: result.error }));
+          setImportSuccess("");
+          return;
+        }
+        applyImportResult(
+          result.labels,
+          result.seriesData,
+          result.seriesLabels
+        );
+      });
+      return;
+    }
+    if (!sourceText) {
+      setImportError(t("importError", { error: "Empty input" }));
+      return;
+    }
+    const result = parseCsvOrTsv(sourceText, importHasHeader);
+    if ("error" in result) {
+      setImportError(t("importError", { error: result.error }));
+      setImportSuccess("");
+      return;
+    }
+    applyImportResult(result.labels, result.seriesData, result.seriesLabels);
+  }, [importText, importFile, importHasHeader, t, applyImportResult]);
+
   // ===== 导出 =====
   // PNG 导出
   const handleDownloadPng = useCallback(async () => {
@@ -214,6 +416,8 @@ export default function ChartGeneratorClient() {
       a.download = "chart.png";
       document.body.appendChild(a);
       a.click();
+      trackEvent("tool-used", { toolKey: "chartGenerator" });
+      window.dispatchEvent(new CustomEvent("tool-download-complete"));
       document.body.removeChild(a);
       // 延迟释放，确保下载已开始
       setTimeout(() => {
@@ -238,6 +442,8 @@ export default function ChartGeneratorClient() {
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
+      trackEvent("tool-used", { toolKey: "chartGenerator" });
+      window.dispatchEvent(new CustomEvent("tool-download-complete"));
       setTimeout(() => {
         URL.revokeObjectURL(url);
         urlsRef.current = urlsRef.current.filter((u) => u !== url);
@@ -265,7 +471,10 @@ export default function ChartGeneratorClient() {
   const chartTypes: { key: ChartType; label: string }[] = [
     { key: "bar", label: t("typeBar") },
     { key: "line", label: t("typeLine") },
+    { key: "area", label: t("typeArea") },
     { key: "pie", label: t("typePie") },
+    { key: "doughnut", label: t("typeDoughnut") },
+    { key: "radar", label: t("typeRadar") },
   ];
 
   const legendPositions: { key: LegendPosition; label: string }[] = [
@@ -315,7 +524,35 @@ export default function ChartGeneratorClient() {
         <div className="space-y-6">
           {/* 数据表格 */}
           <div className="rounded-2xl border border-border bg-bg-article p-5 space-y-4">
-            <p className="text-sm font-medium text-text">{t("data")}</p>
+            <div className="flex items-center justify-between gap-3 flex-wrap">
+              <p className="text-sm font-medium text-text">{t("data")}</p>
+              <button
+                type="button"
+                onClick={(e) => {
+                  importTriggerRef.current = e.currentTarget;
+                  handleOpenImport();
+                }}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-bg-warm text-text text-xs font-medium border border-border hover:border-teal-light transition-colors"
+              >
+                <svg
+                  className="w-3.5 h-3.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                  />
+                </svg>
+                {t("importData")}
+              </button>
+            </div>
+            {importSuccess && (
+              <p className="text-xs text-teal">{importSuccess}</p>
+            )}
 
             {/* 表格 */}
             <div className="overflow-x-auto">
@@ -344,6 +581,7 @@ export default function ChartGeneratorClient() {
                             }
                             className="w-full min-w-[80px] px-1.5 py-1 rounded-md border border-border bg-bg-article text-text text-xs focus:outline-none focus:border-teal"
                             aria-label={t("seriesName")}
+                            autoComplete="off"
                           />
                           {series.length > MIN_SERIES && (
                             <button
@@ -385,6 +623,7 @@ export default function ChartGeneratorClient() {
                           }
                           className={tableInputClass}
                           aria-label={t("label")}
+                          autoComplete="off"
                         />
                       </td>
                       {series.map((s, seriesIdx) => (
@@ -401,6 +640,7 @@ export default function ChartGeneratorClient() {
                             }
                             className={tableInputClass}
                             aria-label={`${s.label} ${label}`}
+                            autoComplete="off"
                           />
                         </td>
                       ))}
@@ -436,28 +676,27 @@ export default function ChartGeneratorClient() {
 
             {/* 添加系列 / 添加行 */}
             <div className="flex flex-wrap gap-3">
-              {series.length < MAX_SERIES && (
-                <button
-                  type="button"
-                  onClick={handleAddSeries}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-bg-warm text-text text-xs font-medium border border-border hover:border-teal-light transition-colors"
+              <button
+                type="button"
+                onClick={handleAddSeries}
+                disabled={series.length >= MAX_SERIES}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-bg-warm text-text text-xs font-medium border border-border hover:border-teal-light transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <svg
+                  className="w-3.5 h-3.5"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  <svg
-                    className="w-3.5 h-3.5"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M12 4v16m8-8H4"
-                    />
-                  </svg>
-                  {t("addSeries")}
-                </button>
-              )}
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                {t("addSeries")}
+              </button>
               {labels.length < MAX_ROWS && (
                 <button
                   type="button"
@@ -482,10 +721,13 @@ export default function ChartGeneratorClient() {
               )}
             </div>
 
-            {/* 饼图多系列提示 */}
-            {chartType === "pie" && series.length > 1 && (
-              <p className="text-xs text-coral">{t("pieMultiSeriesHint")}</p>
-            )}
+            {/* 饼图/环形图多系列提示 */}
+            {(chartType === "pie" || chartType === "doughnut") &&
+              series.length > 1 && (
+                <p className="text-xs text-coral">
+                  {t("pieMultiSeriesHint")}
+                </p>
+              )}
           </div>
 
           {/* 样式控制 */}
@@ -500,6 +742,8 @@ export default function ChartGeneratorClient() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 placeholder={t("chartTitlePlaceholder")}
+                maxLength={80}
+                autoComplete="off"
                 className={inputClass}
               />
             </div>
@@ -561,7 +805,7 @@ export default function ChartGeneratorClient() {
         <div className="space-y-4">
           <div className="rounded-2xl border border-border bg-bg-article p-5">
             <p className="mb-3 text-sm font-medium text-text">{t("preview")}</p>
-            <div className="flex items-center justify-center rounded-xl bg-white p-4 min-h-[280px]">
+            <div className="rounded-xl bg-white p-4 min-h-[280px] overflow-hidden">
               {svgString ? (
                 <div
                   className="w-full max-w-full"
@@ -650,6 +894,114 @@ export default function ChartGeneratorClient() {
         </svg>
         {t("privacy")}
       </div>
+
+      {/* 导入数据模态 */}
+      {importOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4"
+          onClick={() => setImportOpen(false)}
+        >
+          <div
+            ref={importModalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="chart-import-title"
+            className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl bg-bg-article border border-border p-6 shadow-xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 id="chart-import-title" className="text-lg font-semibold text-text mb-2">
+              {t("importData")}
+            </h2>
+            <p className="text-sm text-text-secondary mb-4">{t("importHint")}</p>
+
+            {/* 粘贴区 */}
+            <textarea
+              value={importText}
+              onChange={(e) => setImportText(e.target.value)}
+              rows={8}
+              placeholder={t("importPastePlaceholder")}
+              className="w-full px-3 py-2 rounded-lg border border-border bg-bg-warm text-text text-sm font-mono focus:outline-none focus:border-teal resize-y"
+              autoComplete="off"
+            />
+
+            {/* 首行包含列标题 */}
+            <label className="flex items-center gap-2 mt-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={importHasHeader}
+                onChange={(e) => setImportHasHeader(e.target.checked)}
+                className="w-4 h-4 rounded border-border accent-teal"
+              />
+              <span className="text-sm text-text">{t("importHasHeader")}</span>
+            </label>
+
+            {/* 文件上传区 */}
+            <div
+              onDragOver={(e) => {
+                e.preventDefault();
+                setImportDragOver(true);
+              }}
+              onDragLeave={() => setImportDragOver(false)}
+              onDrop={handleDrop}
+              onClick={() => fileInputRef.current?.click()}
+              className={[
+                "mt-4 px-4 py-6 rounded-lg border-2 border-dashed cursor-pointer transition-colors text-center",
+                importDragOver
+                  ? "border-teal bg-teal/5"
+                  : "border-border bg-bg-warm hover:border-teal-light",
+              ].join(" ")}
+            >
+              <svg
+                className="w-6 h-6 mx-auto mb-2 text-text-secondary"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                />
+              </svg>
+              <p className="text-sm text-text">
+                {importFile ? importFile.name : t("importFile")}
+              </p>
+              <p className="text-xs text-text-secondary mt-1">.csv / .tsv / .txt · ≤ 1MB</p>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".csv,.tsv,.txt"
+                onChange={handleFileInputChange}
+                className="hidden"
+              />
+            </div>
+
+            {/* 错误/成功提示 */}
+            {importError && (
+              <p className="mt-3 text-xs text-coral">{importError}</p>
+            )}
+
+            {/* 操作按钮 */}
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setImportOpen(false)}
+                className="px-4 py-2 rounded-full text-sm font-medium border border-border bg-bg-warm text-text hover:border-teal-light transition-colors"
+              >
+                {t("cancel")}
+              </button>
+              <button
+                type="button"
+                onClick={handleImportConfirm}
+                className="px-4 py-2 rounded-full text-sm font-semibold bg-teal text-white hover:bg-teal-dark transition-colors"
+              >
+                {t("import")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

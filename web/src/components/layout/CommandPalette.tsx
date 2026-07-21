@@ -4,13 +4,31 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { TOOL_LIST } from "@/lib/tools-metadata";
+import enMessages from "@/messages/en.json";
+import zhMessages from "@/messages/zh.json";
 
 const OPEN_EVENT = "open-command-palette";
 const MAX_RESULTS = 10;
 
+// 按点分路径从 messages 中取字符串，用于跨 locale 搜索匹配
+function pickMessage(
+  messages: Record<string, unknown>,
+  path: string,
+): string {
+  const value = path.split(".").reduce<unknown>((acc, key) => {
+    if (acc && typeof acc === "object" && key in (acc as Record<string, unknown>)) {
+      return (acc as Record<string, unknown>)[key];
+    }
+    return undefined;
+  }, messages);
+  return typeof value === "string" ? value : "";
+}
+
 export default function CommandPalette() {
   const t = useTranslations("commandPalette");
-  const tTools = useTranslations("tools");
+  // nameKey/descKey 在 tools-metadata.ts 中已是完整路径（如 "tools.pdfMerge.name"），
+  // 因此这里不指定 namespace，直接用完整路径解析
+  const tTools = useTranslations();
   const tBadges = useTranslations("badges");
   const router = useRouter();
 
@@ -18,7 +36,7 @@ export default function CommandPalette() {
   const [query, setQuery] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
-  const listRef = useRef<HTMLUListElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // 全局快捷键 + 自定义事件监听
   useEffect(() => {
@@ -48,12 +66,36 @@ export default function CommandPalette() {
     }
   }, [isOpen]);
 
+  // 焦点陷阱：模态打开时 Tab/Shift+Tab 限定在模态内循环
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleTabKey(e: KeyboardEvent) {
+      if (e.key !== "Tab") return;
+      const modal = modalRef.current;
+      if (!modal) return;
+      const focusable = modal.querySelectorAll<HTMLElement>(
+        'input, button, a, textarea, select, [tabindex]:not([tabindex="-1"])',
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+    document.addEventListener("keydown", handleTabKey);
+    return () => document.removeEventListener("keydown", handleTabKey);
+  }, [isOpen]);
+
   // 模态关闭时重置状态
   useEffect(() => {
     if (!isOpen) {
       // eslint-disable-next-line react-hooks/set-state-in-effect
       setQuery("");
-      // eslint-disable-next-line react-hooks/set-state-in-effect
       setHighlightedIndex(0);
     }
   }, [isOpen]);
@@ -67,8 +109,18 @@ export default function CommandPalette() {
     const matched = TOOL_LIST.filter((tool) => {
       const name = tTools(tool.nameKey);
       const desc = tTools(tool.descKey);
+      // 跨 locale 匹配：中文 locale 下输入 "compress" 也能命中 "图片压缩"
+      const enName = pickMessage(enMessages, tool.nameKey);
+      const enDesc = pickMessage(enMessages, tool.descKey);
+      const zhName = pickMessage(zhMessages, tool.nameKey);
+      const zhDesc = pickMessage(zhMessages, tool.descKey);
       return (
-        name.toLowerCase().includes(q) || desc.toLowerCase().includes(q)
+        name.toLowerCase().includes(q) ||
+        desc.toLowerCase().includes(q) ||
+        enName.toLowerCase().includes(q) ||
+        enDesc.toLowerCase().includes(q) ||
+        zhName.toLowerCase().includes(q) ||
+        zhDesc.toLowerCase().includes(q)
       );
     });
     return matched.slice(0, MAX_RESULTS);
@@ -124,7 +176,10 @@ export default function CommandPalette() {
       aria-modal="true"
       aria-label={t("placeholder")}
     >
-      <div className="w-full max-w-xl mt-[15vh] mx-4 rounded-2xl bg-white shadow-2xl overflow-hidden border border-border">
+      <div
+        ref={modalRef}
+        className="w-full max-w-xl mt-[15vh] mx-4 rounded-2xl bg-white shadow-2xl overflow-hidden border border-border"
+      >
         {/* 搜索框 */}
         <div className="flex items-center gap-3 px-4 border-b border-border">
           <svg
@@ -159,7 +214,6 @@ export default function CommandPalette() {
 
         {/* 结果列表 */}
         <ul
-          ref={listRef}
           className="max-h-[50vh] overflow-y-auto py-2"
         >
           {results.length === 0 ? (
@@ -211,7 +265,11 @@ export default function CommandPalette() {
 
         {/* 底部提示 */}
         <div className="px-4 py-2 border-t border-border bg-bg-warm/50 flex items-center justify-between text-[11px] text-text-secondary">
-          <span>{t("recent")}</span>
+          <span>
+            {query.trim() === ""
+              ? t("recent")
+              : t("resultsCount", { count: results.length })}
+          </span>
           <span className="hidden sm:inline">
             <kbd className="font-sans">↑</kbd> <kbd className="font-sans">↓</kbd>{" "}
             <span className="mx-1">·</span>
@@ -221,9 +279,4 @@ export default function CommandPalette() {
       </div>
     </div>
   );
-}
-
-export function openCommandPalette() {
-  if (typeof window === "undefined") return;
-  window.dispatchEvent(new CustomEvent(OPEN_EVENT));
 }

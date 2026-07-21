@@ -38,7 +38,8 @@ export default async function AboutPage({ params }: Props) {
     name: "Neetpix",
     description: t("description"),
     url: "https://neetpix.com",
-    email: t("contactEmail"),
+    // 邮箱用字符串拼接写入，避免源码中出现完整邮箱字面量被爬虫抓取
+    email: 'im.badbye' + '@' + 'gmail.com',
   };
 
   return (
@@ -74,6 +75,7 @@ export default async function AboutPage({ params }: Props) {
         <li>{t("toolsImage")}</li>
         <li>{t("toolsGenerator")}</li>
         <li>{t("toolsTranslate")}</li>
+        <li>{t("toolsNetwork")}</li>
         <li className="mt-2 font-medium text-text">{t("toolsTotal")}</li>
       </ul>
 
@@ -82,8 +84,8 @@ export default async function AboutPage({ params }: Props) {
         {t("contactTitle")}
       </h2>
       <p className="mt-4 text-text-secondary leading-relaxed">
-        <a href="mailto:im.badbye@gmail.com" className="text-teal hover:text-teal-dark">
-          im.badbye@gmail.com
+        <a href={`mailto:${'im.badbye' + '@' + 'gmail.com'}`} className="text-teal hover:text-teal-dark">
+          {'im.badbye' + '@' + 'gmail.com'}
         </a>
       </p>
     </div>
